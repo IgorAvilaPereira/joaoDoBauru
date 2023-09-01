@@ -1,0 +1,10 @@
+{
+    "nome": "Fulano de Tal",
+    "cpf": "03181562025",
+    "telefone": "987654321",
+    "endereco": {
+        "rua": "Rua Tal",
+        "bairro": "O Bairro Aqui",
+        "cep": "98733334"
+    }
+}

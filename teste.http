@@ -1,0 +1,24 @@
+## Instalar a extesão RestClient
+@host = 9dd5-200-132-11-251.ngrok-free.app
+
+POST https://9dd5-200-132-11-251.ngrok-free.app/clientes
+Content-Type: application/json
+
+{
+    "nome": "Fulano de Tal",
+    "cpf": "03181562025",
+    "telefone": "987654321",
+    "endereco": {
+        "rua": "Rua Tal",
+        "bairro": "O Bairro Aqui",
+        "cep": "98733334"
+    }
+}
+
+### Ler Clientes
+
+GET https://{{host}}/clientes
+
+### Deletar
+
+DELETE https://{{host}}/clientes/6
