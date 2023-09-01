@@ -48,6 +48,7 @@ public class ClienteRepository {
       VALUES (?, ?, ?, ?, ?, ?, ?) RETURNING id;
       """;
 
+  // aqui ta dando erro..
   public void inserir(Cliente c) {
     final Integer id = jdbcTemplate.query(INSERT_SQL,
       c.getNome(),
