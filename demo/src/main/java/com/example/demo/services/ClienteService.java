@@ -1,5 +1,6 @@
 package com.example.demo.services;
 
+import java.sql.SQLException;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +22,10 @@ public class ClienteService {
 
 	public Cliente findById(Integer id) {
 		return repository.findById(id);
+	}
+
+	public Cliente insertCliente(Cliente c) throws SQLException {
+		return repository.insertCliente(c);
 	}
 
 

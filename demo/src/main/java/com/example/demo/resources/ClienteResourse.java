@@ -4,7 +4,9 @@
  */
 package com.example.demo.resources;
 
+import java.sql.SQLException;
 import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,6 +16,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.entities.Cliente;
 import com.example.demo.services.ClienteService;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+
 
 /**
  *
@@ -33,9 +38,20 @@ public class ClienteResourse {
     }
 
     @GetMapping(value = "/{id}", produces = "application/json")
-    public ResponseEntity<Cliente> getClient(@PathVariable(value ="id") Integer id) {
+    public ResponseEntity<Cliente> getCliente(@PathVariable(value ="id") Integer id) {
         return ResponseEntity.ok().body(service.findById(id));
     }
+
+    @PostMapping
+    public ResponseEntity<Cliente> insertCliente(@RequestBody Cliente c) {
+       
+        try {
+            return ResponseEntity.ok().body(service.insertCliente(c));
+        } catch (SQLException e) {
+            return ResponseEntity.badRequest().build();
+        }
+    }
+    
 
 
 }
