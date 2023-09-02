@@ -1,24 +1,27 @@
 ## Instalar a extesão RestClient
-@host = 9dd5-200-132-11-251.ngrok-free.app
+# @host = 9dd5-200-132-11-251.ngrok-free.app
+@host = http://localhost:8080
 
-POST https://9dd5-200-132-11-251.ngrok-free.app/clientes
+# gerador de cpf: 4devs.com.br/gerador_de_cpf
+POST {{host}}/clientes
 Content-Type: application/json
 
 {
     "nome": "Fulano de Tal",
-    "cpf": "03181562025",
+    "cpf": "92961800072",
     "telefone": "987654321",
     "endereco": {
         "rua": "Rua Tal",
         "bairro": "O Bairro Aqui",
-        "cep": "98733334"
+        "cep": "98733334",
+        "numero": "101"
     }
 }
 
 ### Ler Clientes
 
-GET https://{{host}}/clientes
+GET {{host}}/clientes
 
 ### Deletar
 
-DELETE https://{{host}}/clientes/6
+DELETE {{host}}/clientes/6

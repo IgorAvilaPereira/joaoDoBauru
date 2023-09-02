@@ -36,11 +36,11 @@ public class ClienteController {
     }
 
     @PostMapping
-    public ResponseEntity<?> listar (@RequestBody Cliente cli) {
+    public ResponseEntity<Cliente> inserir (@RequestBody Cliente cli) {
 
         clienteRepository.inserir(cli);
         
-        return ResponseEntity.status(201).build();
+        return ResponseEntity.ok().body(cli);
     }
 
     // https://20a4-200-132-11-251.ngrok.io
