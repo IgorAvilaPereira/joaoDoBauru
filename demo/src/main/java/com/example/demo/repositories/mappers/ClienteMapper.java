@@ -7,7 +7,7 @@ import org.springframework.jdbc.core.RowMapper;
 
 import com.example.demo.entities.Cliente;
 
-public class ClienteMapper implements RowMapper<Cliente>{
+public class ClienteMapper implements RowMapper<Cliente> {
 
     @Override
     public Cliente mapRow(ResultSet rs, int rowNum) throws SQLException {
@@ -24,6 +24,4 @@ public class ClienteMapper implements RowMapper<Cliente>{
         return cliente;
     }
 
-    
-    
 }

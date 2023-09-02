@@ -1,12 +1,7 @@
 package com.example.demo.repositories;
 
-import java.sql.ResultSet;
-import java.sql.Types;
 import java.util.List;
-import java.util.Optional;
-
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
@@ -21,14 +16,12 @@ public class ClienteRepository {
 
     public List<Cliente> findAll() {
         String sql = "SELECT * FROM cliente;";
-        return jdbcTemplate.query(
-                sql,
-                new BeanPropertyRowMapper<Cliente>(Cliente.class));
+        return jdbcTemplate.query(sql, new ClienteMapper());
     };
 
-    public Optional<Cliente> findById(Integer id) {
+    public Cliente findById(Integer id) {
         String sql = "SELECT * FROM cliente WHERE id = ?";
-        Optional<Cliente> cliente = jdbcTemplate.query(sql, new Object[]{id}, new int[]{Types.INTEGER}, new ClienteMapper()).stream().findFirst();
+        Cliente cliente = jdbcTemplate.queryForObject(sql, new ClienteMapper(), id);
         return cliente;
     };
 
