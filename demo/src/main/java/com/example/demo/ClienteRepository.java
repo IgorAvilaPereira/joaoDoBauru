@@ -45,27 +45,7 @@ public class ClienteRepository {
     jdbcTemplate.update(DELETE_SQL, id, id, id);
   }
 
-  private final String INSERT_SQL = """
-      INSERT INTO cliente 
-        (nome, cpf, telefone, rua, bairro, complemento, cep)
-      VALUES (?, ?, ?, ?, ?, ?, ?) RETURNING id;
-      """;
-
-      /* 
-  // aqui ta dando erro..
-  public void inserir(Cliente c) {
-    final Integer id = jdbcTemplate.query(INSERT_SQL,
-      c.getNome(),
-      c.getCpf(),
-      c.getTelefone(),
-      c.getEndereco().getRua(),
-      c.getEndereco().getBairro(),
-      c.getEndereco().getComplemento(),
-      c.getEndereco().getCep(),
-      (rs, rowNum) -> rs.getInt("id")
-    );
-    c.setId(id);
-  }*/
+ 
     public Cliente inserir(Cliente c) {
         String sql = """
                 INSERT INTO cliente (nome, cpf,telefone,rua,bairro,numero,complemento,cep)
@@ -95,6 +75,46 @@ public class ClienteRepository {
         }
         return c;
     }
+
+	public void atualizar(Cliente c) {
+
+        jdbcTemplate.update("""
+          UPDATE cliente
+          SET  nome=?, cpf=?, telefone=?, 
+          rua=?, bairro=?, numero=?, complemento=?, cep=?
+        WHERE id=?;
+            
+            """, c.getNome(), c.getCpf(), c.getTelefone(),  c.getEndereco().getRua(),
+            c.getEndereco().getBairro(), c.getEndereco().getNumero(),
+            c.getEndereco().getComplemento(), c.getEndereco().getCep(),
+            c.getId()
+            );
+
+	}
+
+
+   /*
+  private final String INSERT_SQL = """
+      INSERT INTO cliente 
+        (nome, cpf, telefone, rua, bairro, complemento, cep)
+      VALUES (?, ?, ?, ?, ?, ?, ?) RETURNING id;
+      """;
+ */
+      /* 
+  // aqui ta dando erro..
+  public void inserir(Cliente c) {
+    final Integer id = jdbcTemplate.query(INSERT_SQL,
+      c.getNome(),
+      c.getCpf(),
+      c.getTelefone(),
+      c.getEndereco().getRua(),
+      c.getEndereco().getBairro(),
+      c.getEndereco().getComplemento(),
+      c.getEndereco().getCep(),
+      (rs, rowNum) -> rs.getInt("id")
+    );
+    c.setId(id);
+  }*/
 
 
   

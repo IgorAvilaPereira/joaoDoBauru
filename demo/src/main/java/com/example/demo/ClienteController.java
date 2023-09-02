@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -43,9 +44,14 @@ public class ClienteController {
         return ResponseEntity.ok().body(cli);
     }
 
-    // https://20a4-200-132-11-251.ngrok.io
+    @PutMapping
+    public ResponseEntity<Cliente> atualizar (@RequestBody Cliente cli) {
 
-    // https://8496-200-132-11-251.ngrok.io
+        clienteRepository.atualizar(cli);
+        
+        return ResponseEntity.ok().body(cli);
+    }
+
     
     @GetMapping("/teste")
     public String teste() {
