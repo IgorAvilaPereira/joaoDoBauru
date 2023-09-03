@@ -1,13 +1,7 @@
 package com.example.demo.repositories;
 
-import java.sql.Statement;
 import java.sql.PreparedStatement;
-import java.sql.SQLException;
-import java.util.Collection;
 import java.util.List;
-import java.util.Map;
-
-import org.springframework.asm.Type;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
