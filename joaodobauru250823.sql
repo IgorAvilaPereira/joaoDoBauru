@@ -149,7 +149,7 @@ CREATE TABLE item (
 );
 
 INSERT INTO item (pedido_id, produto_id, quantidade, valor_atual) VALUES
-(1, 1, 2, 10.00);
+(1, 1, 2, 10.00);z
 
 INSERT INTO item (pedido_id, produto_id, quantidade, valor_atual) VALUES
 (1, 2, 1, 20.00);
@@ -205,11 +205,13 @@ CREATE OR REPLACE FUNCTION adicionaItem(produto_id integer, qtde integer, pedido
 $$
 DECLARE
     qtde_estoque integer := 0;
+    valor_produto money := 0;
 BEGIN
     SELECT estoque FROM produto WHERE id = produto_id INTO qtde_estoque;
+    SELECT valor FROM produto WHERE id = produto_id INTO valor_produto;
     IF (qtde <= qtde_estoque) THEN
         -- BEGIN;
-            INSERT INTO item (produto_id, pedido_id, quantidade) VALUES (produto_id, pedido_id, qtde);
+            INSERT INTO item (produto_id, pedido_id, quantidade, valor_atual) VALUES (produto_id, pedido_id, qtde, valor_produto);
             UPDATE produto SET estoque = estoque - qtde WHERE id = produto_id;
         -- COMMIT;
         RETURN TRUE;
