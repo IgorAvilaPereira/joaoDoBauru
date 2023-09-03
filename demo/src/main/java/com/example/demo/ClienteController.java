@@ -6,8 +6,6 @@ package com.example.demo;
 
 import java.util.List;
 
-import javax.swing.RepaintManager;
-
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -28,34 +26,28 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 @RequestMapping("clientes")
 public class ClienteController {
-    
+
     private final ClienteRepository clienteRepository;
 
     @GetMapping
-    public ResponseEntity<List<Cliente>> listar () {
+    public ResponseEntity<List<Cliente>> listar() {
         return ResponseEntity.ok().body(clienteRepository.findAll());
     }
 
     @PostMapping
-    public ResponseEntity<Cliente> inserir (@RequestBody Cliente cli) {
+    public ResponseEntity<Cliente> inserir(@RequestBody Cliente cli) {
 
         clienteRepository.inserir(cli);
-        
+
         return ResponseEntity.ok().body(cli);
     }
 
     @PutMapping
-    public ResponseEntity<Cliente> atualizar (@RequestBody Cliente cli) {
+    public ResponseEntity<Cliente> atualizar(@RequestBody Cliente cli) {
 
         clienteRepository.atualizar(cli);
-        
-        return ResponseEntity.ok().body(cli);
-    }
 
-    
-    @GetMapping("/teste")
-    public String teste() {
-        return "hello teste";
+        return ResponseEntity.ok().body(cli);
     }
 
     @DeleteMapping("/{id}")
@@ -63,18 +55,5 @@ public class ClienteController {
         this.clienteRepository.deletar(id);
         return ResponseEntity.ok().build();
     }
-    
-    @GetMapping("/josue")
-    public String josue() {
-        return "hello josue Fernandes";
-    }
-
-    @GetMapping("/anaflavia")
-    public String ana() {
-        return "hello Ana Flavia";
-    }
-
-    
-
 
 }

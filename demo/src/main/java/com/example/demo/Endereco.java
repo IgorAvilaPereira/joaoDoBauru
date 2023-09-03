@@ -1,7 +1,5 @@
 package com.example.demo;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-
 public class Endereco {
     // @JsonProperty("logradouro")
     private String rua;
