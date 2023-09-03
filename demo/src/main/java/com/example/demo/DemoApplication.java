@@ -10,6 +10,9 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.lang.Nullable;
 
+import com.example.demo.entities.Cliente;
+import com.example.demo.entities.Endereco;
+
 @SpringBootApplication
 @Configuration
 public class DemoApplication {

@@ -1,4 +1,4 @@
-package com.example.demo;
+package com.example.demo.entities;
 
 public class Cliente {
 //     id          | integer                |           | not null | nextval('cliente_id_seq'::regclass)
