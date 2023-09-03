@@ -29,8 +29,7 @@ public class DemoApplication {
                     Cliente c = new Cliente();
                     c.setId(rs.getInt("id"));
                     c.setNome(rs.getString("nome"));
-                    // FIXME: carrega o end
-                    c.setEndereco(null);
+                    c.setEndereco(new Endereco(rs.getString("rua"), rs.getString("bairro"), rs.getString("complemento"), rs.getString("numero"), rs.getString("cep")));
                     c.setTelefone(rs.getString("telefone"));
                     return c;
                 // }

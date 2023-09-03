@@ -2,7 +2,7 @@
 # @host = 9dd5-200-132-11-251.ngrok-free.app
 @host = http://localhost:8080
 
-# Atualizar
+### Atualizar
 PUT {{host}}/clientes
 Content-Type: application/json
 
@@ -19,7 +19,7 @@ Content-Type: application/json
     }
 }
 
-# Inserir 
+### Inserir 
 # gerador de cpf: 4devs.com.br/gerador_de_cpf
 POST {{host}}/clientes
 Content-Type: application/json
