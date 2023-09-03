@@ -1,0 +1,21 @@
+
+### Create a new cliente
+POST http://localhost:8080/clientes
+Content-Type: application/json
+
+{
+    "nome": "Fulano de Tal",
+    "cpf": "46380975020",
+    "telefone": "987654321",
+    "rua": "Rua Tal",
+    "bairro": "O Bairro Aqui",
+    "numero": "123",
+    "complemento": "Casa",
+    "cep": "98733334"   
+}
+
+### Get all clientes
+GET http://localhost:8080/clientes
+
+### Get cliente by id
+GET http://localhost:8080/clientes/13
