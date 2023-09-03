@@ -21,6 +21,16 @@ public class Cliente {
         this.endereco = new Endereco();
     }
 
+
+    public Cliente(int id, String nome, String cpf, String telefone, Endereco endereco) {
+        this.id = id;
+        this.nome = nome;
+        this.cpf = cpf;
+        this.telefone = telefone;
+        this.endereco = endereco;
+    }
+    
+
     public int getId() {
         return id;
     }

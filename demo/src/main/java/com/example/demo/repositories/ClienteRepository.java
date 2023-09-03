@@ -28,6 +28,12 @@ public class ClienteRepository {
     return clientes;
   }
 
+  public Cliente findById(int id) {
+    String sql = "SELECT * FROM cliente WHERE id = ?";
+    Cliente cliente = jdbcTemplate.queryForObject(sql, clientRowMapper, id);
+    return cliente;
+  }
+
   private final String DELETE_SQL = """
       BEGIN;
       DELETE FROM item WHERE pedido_id in (

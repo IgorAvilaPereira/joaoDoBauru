@@ -42,4 +42,6 @@ GET {{host}}/clientes
 ### Deletar
 DELETE {{host}}/clientes/6
 
+### Ler Pedidos
+GET {{host}}/pedidos
 
