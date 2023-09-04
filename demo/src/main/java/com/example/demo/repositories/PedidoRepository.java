@@ -1,6 +1,5 @@
 package com.example.demo.repositories;
 
-import java.security.Timestamp;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.List;
