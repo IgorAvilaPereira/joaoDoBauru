@@ -4,12 +4,12 @@ import java.sql.PreparedStatement;
 import java.util.List;
 
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
 import com.example.demo.entities.Cliente;
+import com.example.demo.repositories.mappers.ClienteMapper;
 
 import lombok.RequiredArgsConstructor;
 
@@ -17,19 +17,45 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class ClienteRepository {
 
-  // @Autowired
   private final JdbcTemplate jdbcTemplate;
-  // @Autowired
-  private final RowMapper<Cliente> clientRowMapper;
+  private final ClienteMapper clientRowMapper;
 
   public List<Cliente> findAll() {
-    final List<Cliente> clientes = jdbcTemplate.query(
-        "SELECT * FROM cliente", clientRowMapper);
+    String sql = """
+            SELECT
+              c.id as c_id,
+              c.nome as c_nome,
+              c.cpf as c_cpf,
+              c.telefone as c_telefone,
+              c.rua as c_rua,
+              c.bairro as c_bairro,
+              c.numero as c_numero,
+              c.complemento as c_complemento,
+              c.cep as c_cep
+            FROM
+              cliente c
+        """;
+    final List<Cliente> clientes = jdbcTemplate.query(sql, clientRowMapper);
     return clientes;
   }
 
   public Cliente findById(int id) {
-    String sql = "SELECT * FROM cliente WHERE id = ?";
+    String sql = """
+        SELECT
+          c.id as c_id,
+          c.nome as c_nome,
+          c.cpf as c_cpf,
+          c.telefone as c_telefone,
+          c.rua as c_rua,
+          c.bairro as c_bairro,
+          c.numero as c_numero,
+          c.complemento as c_complemento,
+          c.cep as c_cep
+        FROM
+          cliente c
+        WHERE
+          id = ?
+          """;
     Cliente cliente = jdbcTemplate.queryForObject(sql, clientRowMapper, id);
     return cliente;
   }

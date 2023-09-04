@@ -49,7 +49,7 @@ public class PedidoRepository {
                         c.complemento as c_complemento, 
                         c.cep as c_cep 
                     FROM 
-                        relatorioDeVendas(cast('2023-08-01' as date), cast('2023-09-25' as date)) r 
+                        relatorioDeVendas(cast('1970-01-01' as date), CURRENT_DATE) r 
                     INNER JOIN 
                         funcionario f on r.funcionario_id = f.id 
                     INNER JOIN

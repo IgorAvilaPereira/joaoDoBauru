@@ -12,7 +12,7 @@ public class Pedido {
     private Funcionario funcionario;
     private BigDecimal total;
 
-    private List<Items> items;
+    private List<Item> items;
     
     public Pedido() {
     }
@@ -86,11 +86,11 @@ public class Pedido {
         this.total = total;
     }
 
-    public List<Items> getItems() {
+    public List<Item> getItems() {
         return this.items;
     }
 
-    public void setItems(List<Items> items) {
+    public void setItems(List<Item> items) {
         this.items = items;
     }
 

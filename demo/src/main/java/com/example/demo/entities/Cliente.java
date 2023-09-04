@@ -1,5 +1,7 @@
 package com.example.demo.entities;
 
+import org.springframework.beans.factory.annotation.Autowired;
+
 public class Cliente {
 //     id          | integer                |           | not null | nextval('cliente_id_seq'::regclass)
 //  nome        | character varying(100) |           | not null | 
@@ -15,6 +17,7 @@ public class Cliente {
     private String cpf;
     private String telefone;
 
+    @Autowired
     private Endereco endereco;
 
     public Cliente(){
