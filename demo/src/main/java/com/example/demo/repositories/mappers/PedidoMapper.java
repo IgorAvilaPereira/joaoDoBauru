@@ -14,9 +14,11 @@ import com.example.demo.entities.Pedido;
 public class PedidoMapper implements RowMapper<Pedido> {
 
     private final ClienteMapper clienteRowMapper;
+    private final FuncionarioMapper funcionarioMapper;
 
-    PedidoMapper(ClienteMapper clienteRowMapper) {
+    PedidoMapper(ClienteMapper clienteRowMapper, FuncionarioMapper funcionarioMapper) {
         this.clienteRowMapper = clienteRowMapper;
+        this.funcionarioMapper = funcionarioMapper;
     }
 
     @Override
@@ -28,13 +30,7 @@ public class PedidoMapper implements RowMapper<Pedido> {
         p.setData_hora(rs.getTimestamp("data_hora"));
         p.setCliente( clienteRowMapper.mapRow(rs, arg1));
         p.setTotal(rs.getBigDecimal("total"));
-        p.setFuncionario(
-                new Funcionario(
-                        rs.getInt("f_id"),
-                        rs.getString("f_nome"),
-                        rs.getString("f_cpf"),
-                        rs.getString("f_endereco"),
-                        rs.getString("f_telefone")));
+        p.setFuncionario( funcionarioMapper.mapRow(rs, arg1));
         return p;
 
     }
