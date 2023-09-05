@@ -230,8 +230,8 @@ BEGIN
             DELETE from item i WHERE i.produto_id = produto_id and i.pedido_id = pedido_id;
             UPDATE produto SET estoque = estoque - qtde WHERE id = produto_id;
         RETURN TRUE;
-
-    ELSE IF (qtde < qtde_item) THEN
+	END IF;
+	IF (qtde < qtde_item) THEN
             UPDATE item i SET quantidade = (qtde_item - qtde) WHERE i.produto_id = produto_id and i.pedido_id = pedido_id;
             UPDATE produto SET estoque = estoque + qtde WHERE id = produto_id;
         RETURN TRUE;
