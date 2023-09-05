@@ -96,9 +96,9 @@ public class ClienteRepository {
       return ps;
     }, keyHolder);
 
-    if (insertsCount == 1 && keyHolder.getKey() != null) {
-      Number key = keyHolder.getKey();
-      c.setId((Integer) key);
+    Number key = keyHolder.getKey();
+    if (insertsCount == 1) {
+      if (key != null) c.setId((Integer) key);
     }
     return c;
   }

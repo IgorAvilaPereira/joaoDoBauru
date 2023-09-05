@@ -2,6 +2,8 @@ package com.example.demo.entities;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
+
 public class Funcionario {
 
     private int id;
@@ -10,6 +12,7 @@ public class Funcionario {
     private String endereco;
     private String telefone;
 
+    @Autowired
     private List<Pedido> pedidos;
 
 
