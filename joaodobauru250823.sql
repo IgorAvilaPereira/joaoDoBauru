@@ -172,7 +172,7 @@ $$ LANGUAGE 'plpgsql';
 CREATE OR REPLACE FUNCTION historicoPedidos() RETURNS TABLE(pedido_id integer, data_hora timestamp, items text) AS
 $$
 BEGIN
-     RETURN QUERY SELECT pedido.id, pedido.data_hora, STRING_AGG(item.id , ';') items FROM pedido inner join item on(pedido.id = item.pedido_id) inner join produto on (item.produto_id = produto.id) group by pedido.id, pedido.data_hora; 
+     RETURN QUERY SELECT pedido.id, pedido.data_hora, STRING_AGG( CAST(item.id as varchar), ',') items FROM pedido inner join item on(pedido.id = item.pedido_id) inner join produto on (item.produto_id = produto.id) group by pedido.id, pedido.data_hora; 
 END;
 $$ LANGUAGE 'plpgsql';
 
