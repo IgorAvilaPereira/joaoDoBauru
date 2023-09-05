@@ -7,7 +7,6 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.lang.Nullable;
 
-import com.example.demo.entities.Funcionario;
 import com.example.demo.entities.Pedido;
 
 @Configuration
