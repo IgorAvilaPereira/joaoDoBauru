@@ -86,7 +86,7 @@ public class PedidoRepository {
             PreparedStatement ps = connection
                     .prepareStatement(sql, colunas);
             ps.setInt(1, p.getCliente().getId());
-            // ps.setInt(2, p.getFuncionario().getId());
+            ps.setInt(2, p.getFuncionario().getId());
 
             return ps;
         }, keyHolder);
