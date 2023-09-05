@@ -1,5 +1,7 @@
 package com.example.demo.entities;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 
 public class Cliente {
@@ -19,6 +21,8 @@ public class Cliente {
 
     @Autowired
     private Endereco endereco;
+    @Autowired
+    private List<Pedido> pedidos;
 
     public Cliente(){
         this.endereco = new Endereco();

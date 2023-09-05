@@ -168,6 +168,7 @@ $$ LANGUAGE 'plpgsql';
 
 -- recebe cliente_id
 --  https://www.postgresqltutorial.com/postgresql-aggregate-functions/postgresql-string_agg-function/
+-- select * from historicoPedidos(1);
 CREATE OR REPLACE FUNCTION historicoPedidos(integer) RETURNS TABLE(pedido_id integer, data_hora timestamp, items text) AS
 $$
 BEGIN

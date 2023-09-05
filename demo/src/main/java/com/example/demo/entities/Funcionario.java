@@ -1,5 +1,7 @@
 package com.example.demo.entities;
 
+import java.util.List;
+
 public class Funcionario {
 
     private int id;
@@ -7,6 +9,8 @@ public class Funcionario {
     private String cpf;
     private String endereco;
     private String telefone;
+
+    private List<Pedido> pedidos;
 
 
     public Funcionario() {
