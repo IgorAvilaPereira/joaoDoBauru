@@ -13,6 +13,17 @@ GET {{host}}/funcionarios/1
 ### Deletar
 DELETE {{host}}/funcionarios/1
 
+POST {{host}}/funcionario
+Content-Type: application/json
+
+{
+    "nome": "Fulano de Tal",
+    "cpf": "52835209000",
+    "telefone": "987654321",
+    "endereco": "sem endereco"
+    
+}
+
 
 ## Clientes
 

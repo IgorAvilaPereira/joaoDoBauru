@@ -65,40 +65,39 @@ public class FuncionarioRepository {
     jdbcTemplate.update("""
       BEGIN;
       UPDATE pedido SET funcionario_id = NULL where funcionario_id = ?;
-     DELETE FROM funcionario WHERE id = ?;
-        COMMIT;
+      DELETE FROM funcionario WHERE id = ?;
+      COMMIT;
         """, id, id);
   }
 
-//   public Funcionario inserir(Funcionario c) {
-//     String sql = """
-//         INSERT INTO Funcionario (nome, cpf,telefone,rua,bairro,numero,complemento,cep)
-//         VALUES (?, ?,?,?,?,?,?,?)
-//         """;
+  public Funcionario inserir(Funcionario c) {
+    String sql = """
+        INSERT INTO funcionario (nome, cpf,telefone,endereco)
+        VALUES (?, ?, ?, ?) RETURNING id;
+        """;
 
-//     KeyHolder keyHolder = new GeneratedKeyHolder();
+      c.setId(jdbcTemplate.queryForObject(sql, Integer.class));
 
-//     int insertsCount = jdbcTemplate.update(connection -> {
-//       PreparedStatement ps = connection
-//           .prepareStatement(sql, new String[] { "id" });
-//       ps.setString(1, c.getNome());
-//       ps.setString(2, c.getCpf());
-//       ps.setString(3, c.getTelefone());
-//       ps.setString(4, c.getEndereco().getRua());
-//       ps.setString(5, c.getEndereco().getBairro());
-//       ps.setString(6, c.getEndereco().getNumero());
-//       ps.setString(7, c.getEndereco().getComplemento());
-//       ps.setString(8, c.getEndereco().getCep());
+      return c;
+    // KeyHolder keyHolder = new GeneratedKeyHolder();
 
-//       return ps;
-//     }, keyHolder);
+    // int insertsCount = jdbcTemplate.update(connection -> {
+    //   PreparedStatement ps = connection
+    //       .prepareStatement(sql, new String[] { "id" });
+    //   ps.setString(1, c.getNome());
+    //   ps.setString(2, c.getCpf());
+    //   ps.setString(3, c.getTelefone());
+    //   ps.setString(4, c.getEndereco());
 
-//     Number key = keyHolder.getKey();
-//     if (insertsCount == 1) {
-//       if (key != null) c.setId((Integer) key);
-//     }
-//     return c;
-//   }
+    //   return ps;
+    // }, keyHolder);
+
+    // Number key = keyHolder.getKey();
+    // if (insertsCount == 1) {
+    //   if (key != null) c.setId((Integer) key);
+    // }
+    // return c;
+  }
 
 //   public void atualizar(Funcionario c) {
 

@@ -1,6 +1,6 @@
 /*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ * funcionariock nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * funcionariock nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package com.example.demo.controllers;
 
@@ -42,28 +42,25 @@ public class FuncionarioController {
         return ResponseEntity.ok().body(funcionarioRepository.findById(id));
     }
 
-     @DeleteMapping("/{id}")
+    @DeleteMapping("/{id}")
     public ResponseEntity<?> deletar(@PathVariable int id) {
         this.funcionarioRepository.deletar(id);
         return ResponseEntity.ok().build();
     }
 
-    // @PostMapping
-    // public ResponseEntity<Funcionario> inserir(@RequestBody Funcionario cli) {
-
-    //     funcionarioRepository.inserir(cli);
-
-    //     return ResponseEntity.ok().body(cli);
-    // }
+    @PostMapping
+    public ResponseEntity<Funcionario> inserir(@RequestBody Funcionario funcionario) {
+        funcionarioRepository.inserir(funcionario);
+        return ResponseEntity.ok().body(funcionario);
+    }
 
     // @PutMapping
-    // public ResponseEntity<Funcionario> atualizar(@RequestBody Funcionario cli) {
+    // public ResponseEntity<Funcionario> atualizar(@RequestBody Funcionario
+    // funcionario) {
 
-    //     funcionarioRepository.atualizar(cli);
+    // funcionarioRepository.atualizar(funcionario);
 
-    //     return ResponseEntity.ok().body(cli);
+    // return ResponseEntity.ok().body(funcionario);
     // }
-
-   
 
 }
