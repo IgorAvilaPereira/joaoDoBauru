@@ -37,6 +37,11 @@ public class FuncionarioController {
         return ResponseEntity.ok().body(funcionarioRepository.findAll());
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<?> findById(@PathVariable int id) {
+        return ResponseEntity.ok().body(funcionarioRepository.findById(id));
+    }
+
     // @PostMapping
     // public ResponseEntity<Funcionario> inserir(@RequestBody Funcionario cli) {
 

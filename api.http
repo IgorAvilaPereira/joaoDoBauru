@@ -3,6 +3,14 @@
 @host = http://localhost:8080
 
 ## Funcionarios
+### Ler funcionarios todos
+
+GET {{host}}/funcionarios/1
+
+### Ler um funcionario
+
+GET {{host}}/funcionarios/1
+
 
 ## Clientes
 

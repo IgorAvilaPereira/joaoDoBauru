@@ -35,26 +35,22 @@ public class FuncionarioRepository {
     return Funcionarios;
   }
 
-//   public Funcionario findById(int id) {
-//     String sql = """
-//         SELECT
-//           c.id as c_id,
-//           c.nome as c_nome,
-//           c.cpf as c_cpf,
-//           c.telefone as c_telefone,
-//           c.rua as c_rua,
-//           c.bairro as c_bairro,
-//           c.numero as c_numero,
-//           c.complemento as c_complemento,
-//           c.cep as c_cep
-//         FROM
-//           Funcionario c
-//         WHERE
-//           id = ?
-//           """;
-//     Funcionario Funcionario = jdbcTemplate.queryForObject(sql, funcionarioRowMapper, id);
-//     return Funcionario;
-//   }
+  public Funcionario findById(int id) {
+    String sql = """
+            SELECT
+            f.id as f_id,
+            f.nome as f_nome,
+            f.cpf as f_cpf,
+            f.endereco as f_endereco,
+            f.telefone as f_telefone           
+            FROM
+              funcionario f
+        WHERE
+          id = ?
+          """;
+    Funcionario Funcionario = jdbcTemplate.queryForObject(sql, funcionarioRowMapper, id);
+    return Funcionario;
+  }
 
 //   private final String DELETE_SQL = """
 //       BEGIN;
