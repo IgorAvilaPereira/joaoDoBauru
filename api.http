@@ -5,7 +5,7 @@
 ## Funcionarios
 ### Ler funcionarios todos
 
-GET {{host}}/funcionarios/1
+GET {{host}}/funcionarios
 
 ### Ler um funcionario
 GET {{host}}/funcionarios/1
@@ -13,17 +13,14 @@ GET {{host}}/funcionarios/1
 ### Deletar
 DELETE {{host}}/funcionarios/1
 
-POST {{host}}/funcionario
+POST {{host}}/funcionarios HTTP/1.1
 Content-Type: application/json
-
 {
     "nome": "Fulano de Tal",
     "cpf": "52835209000",
     "telefone": "987654321",
-    "endereco": "sem endereco"
-    
+    "endereco": "sem endereco"    
 }
-
 
 ## Clientes
 

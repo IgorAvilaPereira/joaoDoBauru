@@ -34,12 +34,25 @@ public class FuncionarioController {
 
     @GetMapping
     public ResponseEntity<List<Funcionario>> listar() {
-        return ResponseEntity.ok().body(funcionarioRepository.findAll());
+        List<Funcionario> vetFuncionario = funcionarioRepository.findAll();
+        if (vetFuncionario.size() > 0) {
+            return ResponseEntity.ok().body(funcionarioRepository.findAll());
+
+        } else {
+            return ResponseEntity.ok().build();
+
+        }
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<?> findById(@PathVariable int id) {
-        return ResponseEntity.ok().body(funcionarioRepository.findById(id));
+        Funcionario f = funcionarioRepository.findById(id);
+        if (f != null && f.getId() != 0) {
+            return ResponseEntity.ok().body(f);
+        } else {
+            return ResponseEntity.ok().build();
+
+        }
     }
 
     @DeleteMapping("/{id}")
