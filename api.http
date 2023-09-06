@@ -2,22 +2,7 @@
 # @host = 9dd5-200-132-11-251.ngrok-free.app
 @host = http://localhost:8080
 
-### Atualizar
-PUT {{host}}/clientes
-Content-Type: application/json
-
-{
-    "id": 7,
-    "nome": "Fernando de Tal",
-    "cpf": "92961800072",
-    "telefone": "987654321",
-    "endereco": {
-        "rua": "Rua Tal",
-        "bairro": "O Bairro Aqui",
-        "cep": "98733334",
-        "numero": "101"
-    }
-}
+## Clientes
 
 ### Inserir 
 # gerador de cpf: 4devs.com.br/gerador_de_cpf
@@ -39,8 +24,28 @@ Content-Type: application/json
 ### Ler Clientes
 GET {{host}}/clientes
 
+### Atualizar
+PUT {{host}}/clientes
+Content-Type: application/json
+
+{
+    "id": 7,
+    "nome": "Fernando de Tal",
+    "cpf": "92961800072",
+    "telefone": "987654321",
+    "endereco": {
+        "rua": "Rua Tal",
+        "bairro": "O Bairro Aqui",
+        "cep": "98733334",
+        "numero": "101"
+    }
+}
+
 ### Deletar
 DELETE {{host}}/clientes/6
+
+
+## Pedidos
 
 ### Ler Pedidos
 GET {{host}}/pedidos
