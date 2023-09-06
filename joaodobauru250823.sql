@@ -169,10 +169,10 @@ $$ LANGUAGE 'plpgsql';
 -- recebe cliente_id
 --  https://www.postgresqltutorial.com/postgresql-aggregate-functions/postgresql-string_agg-function/
 -- select * from historicoPedidos(1);
-CREATE OR REPLACE FUNCTION historicoPedidos() RETURNS TABLE(pedido_id integer, data_hora timestamp, items text) AS
+CREATE OR REPLACE FUNCTION historicoPedidos(integer) RETURNS TABLE(pedido_id integer, data_hora timestamp, items text) AS
 $$
 BEGIN
-     RETURN QUERY SELECT pedido.id, pedido.data_hora, STRING_AGG( CAST(item.id as varchar), ',') items FROM pedido inner join item on(pedido.id = item.pedido_id) inner join produto on (item.produto_id = produto.id) group by pedido.id, pedido.data_hora; 
+     RETURN QUERY SELECT pedido.id, pedido.data_hora, STRING_AGG( CAST(item.id as varchar), ',') items FROM pedido inner join item on(pedido.id = item.pedido_id) inner join produto on (item.produto_id = produto.id) where pedido.cliente_id = $1 group by pedido.id, pedido.data_hora; 
 END;
 $$ LANGUAGE 'plpgsql';
 
