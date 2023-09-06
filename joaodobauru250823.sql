@@ -149,7 +149,7 @@ CREATE TABLE item (
 );
 
 INSERT INTO item (pedido_id, produto_id, quantidade, valor_atual) VALUES
-(1, 1, 2, 10.00);z
+(1, 1, 2, 10.00);
 
 INSERT INTO item (pedido_id, produto_id, quantidade, valor_atual) VALUES
 (1, 2, 1, 20.00);
