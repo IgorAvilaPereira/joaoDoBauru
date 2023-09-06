@@ -42,6 +42,12 @@ public class FuncionarioController {
         return ResponseEntity.ok().body(funcionarioRepository.findById(id));
     }
 
+     @DeleteMapping("/{id}")
+    public ResponseEntity<?> deletar(@PathVariable int id) {
+        this.funcionarioRepository.deletar(id);
+        return ResponseEntity.ok().build();
+    }
+
     // @PostMapping
     // public ResponseEntity<Funcionario> inserir(@RequestBody Funcionario cli) {
 
@@ -58,10 +64,6 @@ public class FuncionarioController {
     //     return ResponseEntity.ok().body(cli);
     // }
 
-    // @DeleteMapping("/{id}")
-    // public ResponseEntity<?> deletar(@PathVariable int id) {
-    //     this.funcionarioRepository.deletar(id);
-    //     return ResponseEntity.ok().build();
-    // }
+   
 
 }

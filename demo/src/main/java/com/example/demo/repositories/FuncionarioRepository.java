@@ -61,9 +61,14 @@ public class FuncionarioRepository {
 //       DELETE FROM Funcionario WHERE id = ?; COMMIT;
 //       """;
 
-//   public void deletar(int id) {
-//     jdbcTemplate.update(DELETE_SQL, id, id, id);
-//   }
+  public void deletar(int id) {
+    jdbcTemplate.update("""
+      BEGIN;
+      UPDATE pedido SET funcionario_id = NULL where funcionario_id = ?;
+     DELETE FROM funcionario WHERE id = ?
+        COMMIT;
+        """, id, id);
+  }
 
 //   public Funcionario inserir(Funcionario c) {
 //     String sql = """

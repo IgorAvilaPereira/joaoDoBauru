@@ -11,6 +11,9 @@ GET {{host}}/funcionarios/1
 
 GET {{host}}/funcionarios/1
 
+## DELETAR funcionario
+DELETE {{host}}/funcionarios/1
+
 
 ## Clientes
 
