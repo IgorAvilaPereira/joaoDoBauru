@@ -1,5 +1,8 @@
 package com.example.demo.entities;
 
+import org.springframework.stereotype.Component;
+
+@Component
 public class Endereco {
     // @JsonProperty("logradouro")
     private String rua;

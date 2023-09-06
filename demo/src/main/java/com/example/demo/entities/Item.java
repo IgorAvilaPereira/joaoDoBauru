@@ -1,24 +1,23 @@
 package com.example.demo.entities;
 
-import java.math.BigDecimal;
+import org.springframework.stereotype.Component;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
+@Component
 public class Item {
 
     private int id;
-    private BigDecimal valor_atual;
+    private Double valor_atual;
     private int quantidade;
-
-    @Autowired
+    @JsonIgnore
     private Pedido pedido;
-    @Autowired
     private Produto produto;
 
     public Item() {
     }
 
-    public Item(int id, BigDecimal valor_atual, int quantidade, Pedido pedido, Produto produto) {
+    public Item(int id, Double valor_atual, int quantidade, Pedido pedido, Produto produto) {
         this.id = id;
         this.valor_atual = valor_atual;
         this.quantidade = quantidade;
@@ -34,11 +33,11 @@ public class Item {
         this.id = id;
     }
 
-    public BigDecimal getValor_atual() {
+    public Double getValor_atual() {
         return this.valor_atual;
     }
 
-    public void setValor_atual(BigDecimal valor_atual) {
+    public void setValor_atual(Double valor_atual) {
         this.valor_atual = valor_atual;
     }
 
@@ -71,7 +70,7 @@ public class Item {
         return this;
     }
 
-    public Item valor_atual(BigDecimal valor_atual) {
+    public Item valor_atual(Double valor_atual) {
         setValor_atual(valor_atual);
         return this;
     }

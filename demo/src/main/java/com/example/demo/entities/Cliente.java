@@ -1,19 +1,11 @@
 package com.example.demo.entities;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
+@Component
 public class Cliente {
-//     id          | integer                |           | not null | nextval('cliente_id_seq'::regclass)
-//  nome        | character varying(100) |           | not null | 
-//  cpf         | character(11)          |           |          | 
-//  telefone    | character varying(12)  |           |          | 
-//  rua         | text                   |           |          | 
-//  bairro      | text                   |           |          | 
-//  numero      | text                   |           |          | 
-//  complemento | text                   |           |          | 
-//  cep  
+
     private int id;
     private String nome;
     private String cpf;
@@ -21,13 +13,10 @@ public class Cliente {
 
     @Autowired
     private Endereco endereco;
-    @Autowired
-    private List<Pedido> pedidos;
 
     public Cliente(){
-        this.endereco = new Endereco();
-    }
 
+    }
 
     public Cliente(int id, String nome, String cpf, String telefone, Endereco endereco) {
         this.id = id;
