@@ -45,12 +45,13 @@ public class FuncionarioController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<?> findById(@PathVariable int id) {
-        Funcionario f = funcionarioRepository.findById(id);
-        if (f != null && f.getId() != 0) {
+    public ResponseEntity<Funcionario> findById(@PathVariable int id) {
+        try {
+            Funcionario f = funcionarioRepository.findById(id);
+            // if (/*f != null &&*/ f.getId() != 0) {
             return ResponseEntity.ok().body(f);
-        } else {
-            return ResponseEntity.ok().build();
+        } catch (Exception e) {
+            return ResponseEntity.ok().body(new Funcionario());
 
         }
     }
@@ -67,13 +68,13 @@ public class FuncionarioController {
         return ResponseEntity.ok().body(funcionario);
     }
 
-    // @PutMapping
-    // public ResponseEntity<Funcionario> atualizar(@RequestBody Funcionario
-    // funcionario) {
+    @PutMapping
+    public ResponseEntity<Funcionario> atualizar(@RequestBody Funcionario
+    funcionario) {
 
-    // funcionarioRepository.atualizar(funcionario);
+    funcionarioRepository.atualizar(funcionario);
 
-    // return ResponseEntity.ok().body(funcionario);
-    // }
+    return ResponseEntity.ok().body(funcionario);
+    }
 
 }

@@ -12,7 +12,6 @@ import com.example.demo.entities.Funcionario;
 public class FuncionarioRowMapper implements RowMapper<Funcionario> {
 
     @Override
-    @Nullable
     public Funcionario mapRow(ResultSet rs, int arg1) throws SQLException {
         Funcionario f = new Funcionario();
         f.setId(rs.getInt("f_id"));

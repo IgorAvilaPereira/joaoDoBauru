@@ -46,10 +46,13 @@ public class FuncionarioRepository {
             FROM
               funcionario f
         WHERE
-          id = ?
+          f.id = ?
           """;
-    Funcionario Funcionario = jdbcTemplate.queryForObject(sql, funcionarioRowMapper, id);
-    return Funcionario;
+    Funcionario funcionario = jdbcTemplate.queryForObject(sql, funcionarioRowMapper, id);
+    if (funcionario == null){ 
+      return new Funcionario();
+    }
+    return funcionario;
   }
 
 //   private final String DELETE_SQL = """
