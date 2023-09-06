@@ -65,7 +65,7 @@ public class FuncionarioRepository {
     jdbcTemplate.update("""
       BEGIN;
       UPDATE pedido SET funcionario_id = NULL where funcionario_id = ?;
-     DELETE FROM funcionario WHERE id = ?
+     DELETE FROM funcionario WHERE id = ?;
         COMMIT;
         """, id, id);
   }
