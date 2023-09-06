@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.entities.Pedido;
 import com.example.demo.repositories.PedidoRepository;
+import com.example.demo.services.PedidoService;
 
 import lombok.RequiredArgsConstructor;
 
@@ -28,10 +29,15 @@ import lombok.RequiredArgsConstructor;
 public class PedidoController {
 
     private final PedidoRepository pedidoRepository;
+    private final PedidoService pedidoService;
 
     @GetMapping
     public ResponseEntity<List<Pedido>> listar() {
-        return ResponseEntity.ok().body(pedidoRepository.findAll());
+        return ResponseEntity.ok().body(pedidoService.findAll());
+    }
+
+    public Pedido findById(int id) throws SQLException {
+        return pedidoService.findById(id);
     }
 
     @PostMapping

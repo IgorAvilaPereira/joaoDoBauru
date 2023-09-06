@@ -9,7 +9,7 @@ import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
 import com.example.demo.entities.Cliente;
-import com.example.demo.repositories.mappers.ClienteMapper;
+import com.example.demo.repositories.mappers.ClienteRowMapper;
 
 import lombok.RequiredArgsConstructor;
 
@@ -18,7 +18,7 @@ import lombok.RequiredArgsConstructor;
 public class ClienteRepository {
 
   private final JdbcTemplate jdbcTemplate;
-  private final ClienteMapper clientRowMapper;
+  private final ClienteRowMapper clientRowMapper;
 
   public List<Cliente> findAll() {
     String sql = """

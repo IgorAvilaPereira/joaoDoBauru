@@ -19,44 +19,86 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class PedidoRepository {
 
-    // @Autowired
     private final JdbcTemplate jdbcTemplate;
-    // @Autowired
     private final RowMapper<Pedido> pedidoRowMapper;
 
     public List<Pedido> findAll() {
         final List<Pedido> pedidos = jdbcTemplate.query(
                 """
-                    SELECT 
-                        r.id, 
-                        r.data_hora, 
-                        r.total, 
+                        SELECT
+                            r.*,
 
-                        f.id as f_id,
-                        f.nome as f_nome, 
-                        f.cpf as f_cpf, 
-                        f.endereco as f_endereco, 
-                        f.telefone as f_telefone, 
+                            f.id as f_id,
+                            f.nome as f_nome,
+                            f.cpf as f_cpf,
+                            f.endereco as f_endereco,
+                            f.telefone as f_telefone,
 
-                        c.id as c_id,
-                        c.nome as c_nome, 
-                        c.cpf as c_cpf, 
-                        c.telefone as c_telefone, 
-                        c.rua as c_rua, 
-                        c.bairro as c_bairro, 
-                        c.numero as c_numero, 
-                        c.complemento as c_complemento, 
-                        c.cep as c_cep 
-                    FROM 
-                        relatorioDeVendas(cast('1970-01-01' as date), CURRENT_DATE) r 
-                    INNER JOIN 
-                        funcionario f on r.funcionario_id = f.id 
-                    INNER JOIN
-                        cliente c on r.cliente_id = c.id;
-                """
-                    , pedidoRowMapper);
+                            c.id as c_id,
+                            c.nome as c_nome,
+                            c.cpf as c_cpf,
+                            c.telefone as c_telefone,
+                            c.rua as c_rua,
+                            c.bairro as c_bairro,
+                            c.numero as c_numero,
+                            c.complemento as c_complemento,
+                            c.cep as c_cep,
+
+                            h.items
+
+                        FROM
+                            historicoPedidos() h
+                        inner join
+                            relatorioDeVendas(cast('1970-01-01' as date), CURRENT_DATE) r on r.id = h.pedido_id
+                        INNER JOIN
+                            funcionario f on r.funcionario_id = f.id
+                        INNER JOIN
+                            cliente c on r.cliente_id = c.id;
+
+                            """,
+                pedidoRowMapper);
 
         return pedidos;
+    }
+
+    public Pedido findById(int id) {
+        String sql = """
+                        SELECT
+                            r.*,
+
+                            f.id as f_id,
+                            f.nome as f_nome,
+                            f.cpf as f_cpf,
+                            f.endereco as f_endereco,
+                            f.telefone as f_telefone,
+
+                            c.id as c_id,
+                            c.nome as c_nome,
+                            c.cpf as c_cpf,
+                            c.telefone as c_telefone,
+                            c.rua as c_rua,
+                            c.bairro as c_bairro,
+                            c.numero as c_numero,
+                            c.complemento as c_complemento,
+                            c.cep as c_cep,
+
+                            h.items
+
+                        FROM
+                            historicoPedidos() h
+                        inner join
+                            relatorioDeVendas(cast('1970-01-01' as date), CURRENT_DATE) r on r.id = h.pedido_id
+                        INNER JOIN
+                            funcionario f on r.funcionario_id = f.id
+                        INNER JOIN
+                            cliente c on r.cliente_id = c.id;
+                        WHERE 
+                            r.id = ?
+
+                            """;
+        Pedido pedido = jdbcTemplate.queryForObject(sql, pedidoRowMapper, id);
+        
+        return pedido;
     }
 
     private final String DELETE_SQL = """
@@ -94,11 +136,14 @@ public class PedidoRepository {
         if (insertsCount == 1) {
             Map<String, Object> keys = keyHolder.getKeys();
 
-            if (keys != null) keys.forEach((key, value) -> {
-                if (key == "id") p.setId((int) value);
-                if (key == "data_hora") p.setData_hora((java.sql.Timestamp) value);
+            if (keys != null)
+                keys.forEach((key, value) -> {
+                    if (key == "id")
+                        p.setId((int) value);
+                    if (key == "data_hora")
+                        p.setData_hora((java.sql.Timestamp) value);
 
-            });
+                });
             return p;
         } else {
             throw new SQLException("Não retornou nenhum id");
@@ -108,15 +153,15 @@ public class PedidoRepository {
     public void atualizar(Pedido p) {
 
         // jdbcTemplate.update("""
-        //           UPDATE cliente
-        //           SET  nome=?, cpf=?, telefone=?,
-        //           rua=?, bairro=?, numero=?, complemento=?, cep=?
-        //         WHERE id=?;
+        // UPDATE cliente
+        // SET nome=?, cpf=?, telefone=?,
+        // rua=?, bairro=?, numero=?, complemento=?, cep=?
+        // WHERE id=?;
 
-        //             """, p.getNome(), p.getCpf(), p.getTelefone(), p.getEndereco().getRua(),
-        //         p.getEndereco().getBairro(), p.getEndereco().getNumero(),
-        //         p.getEndereco().getComplemento(), p.getEndereco().getCep(),
-        //         p.getId());
+        // """, p.getNome(), p.getCpf(), p.getTelefone(), p.getEndereco().getRua(),
+        // p.getEndereco().getBairro(), p.getEndereco().getNumero(),
+        // p.getEndereco().getComplemento(), p.getEndereco().getCep(),
+        // p.getId());
     }
 
 }
