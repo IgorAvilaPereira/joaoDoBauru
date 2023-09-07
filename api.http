@@ -101,22 +101,16 @@ Content-Type: application/json
 DELETE {{host}}/clientes/6
 
 ## Pedidos
-### Deletar Pedido => ok
-DELETE {{host}}/pedidos/1
+### Deletar Pedido
+DELETE {{host}}/pedidos/2
 ### Ler Pedidos => erro
 GET {{host}}/pedidos
-### Inserir  => ainda n testado
-# gerador de cpf: 4devs.com.br/gerador_de_cpf
+
+
+# ### Inserir => bug
 # POST {{host}}/pedidos
 # Content-Type: application/json
 # {
-#     "nome": "Fulano de Tal",
-#     "cpf": "92961800072",
-#     "telefone": "987654321",
-#     "endereco": {
-#         "rua": "Rua Tal",
-#         "bairro": "O Bairro Aqui",
-#         "cep": "98733334",
-#         "numero": "101"
-#     }
+#     "cliente_id": 1,
+#     "funcionario_id": 2
 # }
