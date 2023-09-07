@@ -69,29 +69,12 @@ public class FuncionarioRepository {
         INSERT INTO funcionario (nome, cpf,telefone,endereco)
         VALUES (?, ?, ?, ?) RETURNING id;
         """;
-      Integer id = jdbcTemplate.queryForObject(sql, Integer.class);
+      Integer id = jdbcTemplate.queryForObject(sql, Integer.class, new Object[] { c.getNome(), c.getCpf(), c.getTelefone(), c.getEndereco() });
       if (id != null)
         c.setId(id.intValue());
 
       return c;
-    // KeyHolder keyHolder = new GeneratedKeyHolder();
-
-    // int insertsCount = jdbcTemplate.update(connection -> {
-    //   PreparedStatement ps = connection
-    //       .prepareStatement(sql, new String[] { "id" });
-    //   ps.setString(1, c.getNome());
-    //   ps.setString(2, c.getCpf());
-    //   ps.setString(3, c.getTelefone());
-    //   ps.setString(4, c.getEndereco());
-
-    //   return ps;
-    // }, keyHolder);
-
-    // Number key = keyHolder.getKey();
-    // if (insertsCount == 1) {
-    //   if (key != null) c.setId((Integer) key);
-    // }
-    // return c;
+ 
   }
 
   public void atualizar(Funcionario c) {
@@ -111,28 +94,6 @@ public class FuncionarioRepository {
 
   }
 
-  /*
-   * private final String INSERT_SQL = """
-   * INSERT INTO Funcionario
-   * (nome, cpf, telefone, rua, bairro, complemento, cep)
-   * VALUES (?, ?, ?, ?, ?, ?, ?) RETURNING id;
-   * """;
-   */
-  /*
-   * // aqui ta dando erro..
-   * public void inserir(Funcionario c) {
-   * final Integer id = jdbcTemplate.query(INSERT_SQL,
-   * c.getNome(),
-   * c.getCpf(),
-   * c.getTelefone(),
-   * c.getEndereco().getRua(),
-   * c.getEndereco().getBairro(),
-   * c.getEndereco().getComplemento(),
-   * c.getEndereco().getCep(),
-   * (rs, rowNum) -> rs.getInt("id")
-   * );
-   * c.setId(id);
-   * }
-   */
+ 
 
 }
