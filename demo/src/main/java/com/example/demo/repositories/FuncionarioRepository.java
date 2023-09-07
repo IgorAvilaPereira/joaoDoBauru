@@ -102,20 +102,22 @@ public class FuncionarioRepository {
     // return c;
   }
 
-//   public void atualizar(Funcionario c) {
+  public void atualizar(Funcionario c) {
 
-//     jdbcTemplate.update("""
-//           UPDATE Funcionario
-//           SET  nome=?, cpf=?, telefone=?,
-//           rua=?, bairro=?, numero=?, complemento=?, cep=?
-//         WHERE id=?;
+    jdbcTemplate.update("""
+        UPDATE 
+          Funcionario
+        SET  
+          nome=?, 
+          cpf=?,
+          telefone=?,
+          endereco=? 
+        WHERE 
+          id=?;
 
-//             """, c.getNome(), c.getCpf(), c.getTelefone(), c.getEndereco().getRua(),
-//         c.getEndereco().getBairro(), c.getEndereco().getNumero(),
-//         c.getEndereco().getComplemento(), c.getEndereco().getCep(),
-//         c.getId());
+            """, c.getNome(), c.getCpf(), c.getTelefone(),c.getEndereco(),c.getId());
 
-//   }
+  }
 
   /*
    * private final String INSERT_SQL = """
