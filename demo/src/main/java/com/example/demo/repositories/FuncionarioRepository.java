@@ -55,16 +55,7 @@ public class FuncionarioRepository {
     return funcionario;
   }
 
-//   private final String DELETE_SQL = """
-//       BEGIN;
-//       DELETE FROM item WHERE pedido_id in (
-//         SELECT id FROM pedido WHERE Funcionario_id = ?
-//       );
-//       DELETE FROM pedido WHERE Funcionario_id = ?;
-//       DELETE FROM Funcionario WHERE id = ?; COMMIT;
-//       """;
-
-  public void deletar(int id) {
+ public void deletar(int id) {
     jdbcTemplate.update("""
       BEGIN;
       UPDATE pedido SET funcionario_id = NULL where funcionario_id = ?;
@@ -78,8 +69,9 @@ public class FuncionarioRepository {
         INSERT INTO funcionario (nome, cpf,telefone,endereco)
         VALUES (?, ?, ?, ?) RETURNING id;
         """;
-
-      c.setId(jdbcTemplate.queryForObject(sql, Integer.class));
+      Integer id = jdbcTemplate.queryForObject(sql, Integer.class);
+      if (id != null)
+        c.setId(id.intValue());
 
       return c;
     // KeyHolder keyHolder = new GeneratedKeyHolder();
@@ -106,7 +98,7 @@ public class FuncionarioRepository {
 
     jdbcTemplate.update("""
         UPDATE 
-          Funcionario
+          funcionario
         SET  
           nome=?, 
           cpf=?,

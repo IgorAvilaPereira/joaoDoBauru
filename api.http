@@ -13,7 +13,8 @@ GET {{host}}/funcionarios/1
 ### Deletar
 DELETE {{host}}/funcionarios/1
 
-POST {{host}}/funcionarios HTTP/1.1
+POST {{host}}/funcionarios
+
 Content-Type: application/json
 {
     "nome": "Fulano de Tal",

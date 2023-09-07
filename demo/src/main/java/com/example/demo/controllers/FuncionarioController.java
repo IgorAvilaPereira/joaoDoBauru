@@ -70,9 +70,7 @@ public class FuncionarioController {
 
     @PutMapping
     public ResponseEntity<Funcionario> atualizar(@RequestBody Funcionario funcionario) {
-
         funcionarioRepository.atualizar(funcionario);
-
         return ResponseEntity.ok().body(funcionario);
     }
 
