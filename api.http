@@ -25,15 +25,16 @@ Content-Type: application/json
     "estoque": 100
 }
 
-### ADICIONAR
-POST {{host}}/produtos
-
+### adicionar
+POST  {{host}}/produtos
 Content-Type: application/json
+
 {
-    "descricao": "produto",
-    "valor": 2,
-    "estoque": 100  
+    "descricao": "produsdfdsfto",
+    "valor": 1.99,
+    "estoque": 100
 }
+
 
 
 ## Funcionarios
