@@ -36,8 +36,9 @@ public class PedidoController {
         return ResponseEntity.ok().body(pedidoService.findAll());
     }
 
-    public Pedido findById(int id) throws SQLException {
-        return pedidoService.findById(id);
+    @GetMapping("/{id}")
+    public ResponseEntity<Pedido> findById(@PathVariable Integer id) throws SQLException {
+        return ResponseEntity.ok().body(pedidoService.findById(id));
     }
 
     @PostMapping

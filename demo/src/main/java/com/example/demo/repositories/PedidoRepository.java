@@ -2,6 +2,7 @@ package com.example.demo.repositories;
 
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -11,7 +12,9 @@ import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
+import com.example.demo.entities.Item;
 import com.example.demo.entities.Pedido;
+import com.example.demo.entities.Produto;
 
 import lombok.RequiredArgsConstructor;
 
@@ -21,83 +24,65 @@ public class PedidoRepository {
 
     private final JdbcTemplate jdbcTemplate;
     private final RowMapper<Pedido> pedidoRowMapper;
+    private final RowMapper<Item> itemRowMapper;
+    private final RowMapper<Produto> produtoRowMapper;
 
     public List<Pedido> findAll() {
-        final List<Pedido> pedidos = jdbcTemplate.query(
-                """
-                        SELECT
-                            r.*,
+        String sql = "SELECT * FROM historicoPedidos()";
+        final List<Pedido> pedidos = jdbcTemplate.query(sql, pedidoRowMapper);
 
-                            f.id as f_id,
-                            f.nome as f_nome,
-                            f.cpf as f_cpf,
-                            f.endereco as f_endereco,
-                            f.telefone as f_telefone,
+        if(pedidos != null){
 
-                            c.id as c_id,
-                            c.nome as c_nome,
-                            c.cpf as c_cpf,
-                            c.telefone as c_telefone,
-                            c.rua as c_rua,
-                            c.bairro as c_bairro,
-                            c.numero as c_numero,
-                            c.complemento as c_complemento,
-                            c.cep as c_cep,
+            pedidos.forEach( p -> {
+                List<Item> items = p.getItems();
+                List<Item> itemsFinal = new ArrayList<>();
 
-                            h.items
-
-                        FROM
-                            historicoPedidos() h
-                        inner join
-                            relatorioDeVendas(cast('1970-01-01' as date), CURRENT_DATE) r on r.id = h.pedido_id
-                        INNER JOIN
-                            funcionario f on r.funcionario_id = f.id
-                        INNER JOIN
-                            cliente c on r.cliente_id = c.id;
-
-                            """,
-                pedidoRowMapper);
+                items.forEach(i -> {
+                    String sqlItem = "select * from item inner join produto on produto.id = item.produto_id where item.id = ?;";
+                    Item item = jdbcTemplate.queryForObject(sqlItem, itemRowMapper, i.getId());
+    
+                    String sqlProduto = "select * from produto where id = ?";
+                    if (item != null) {
+                        Produto produto = jdbcTemplate.queryForObject(sqlProduto, produtoRowMapper,
+                                item.getProduto().getId());
+                        item.setProduto(produto);
+                    }
+    
+                    itemsFinal.add(item);
+                });
+    
+                p.setItems(itemsFinal);
+            });
+        }
 
         return pedidos;
     }
 
     public Pedido findById(int id) {
-        String sql = """
-                        SELECT
-                            r.*,
-
-                            f.id as f_id,
-                            f.nome as f_nome,
-                            f.cpf as f_cpf,
-                            f.endereco as f_endereco,
-                            f.telefone as f_telefone,
-
-                            c.id as c_id,
-                            c.nome as c_nome,
-                            c.cpf as c_cpf,
-                            c.telefone as c_telefone,
-                            c.rua as c_rua,
-                            c.bairro as c_bairro,
-                            c.numero as c_numero,
-                            c.complemento as c_complemento,
-                            c.cep as c_cep,
-
-                            h.items
-
-                        FROM
-                            historicoPedidos() h
-                        inner join
-                            relatorioDeVendas(cast('1970-01-01' as date), CURRENT_DATE) r on r.id = h.pedido_id
-                        INNER JOIN
-                            funcionario f on r.funcionario_id = f.id
-                        INNER JOIN
-                            cliente c on r.cliente_id = c.id;
-                        WHERE 
-                            r.id = ?
-
-                            """;
+        String sql = "SELECT * FROM historicoPedidos() WHERE id = ?";
         Pedido pedido = jdbcTemplate.queryForObject(sql, pedidoRowMapper, id);
-        
+
+        if (pedido != null) {
+            List<Item> items = pedido.getItems();
+            List<Item> itemsFinal = new ArrayList<>();
+
+            items.forEach(i -> {
+                String sqlItem = "select * from item inner join produto on produto.id = item.produto_id where item.id = ?;";
+                Item item = jdbcTemplate.queryForObject(sqlItem, itemRowMapper, i.getId());
+
+                String sqlProduto = "select * from produto where id = ?";
+                if (item != null) {
+                    Produto produto = jdbcTemplate.queryForObject(sqlProduto, produtoRowMapper,
+                            item.getProduto().getId());
+                    item.setProduto(produto);
+                }
+
+                itemsFinal.add(item);
+            });
+
+            pedido.setItems(itemsFinal);
+        }
+
         return pedido;
     }
 

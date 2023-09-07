@@ -169,10 +169,59 @@ $$ LANGUAGE 'plpgsql';
 -- recebe cliente_id
 --  https://www.postgresqltutorial.com/postgresql-aggregate-functions/postgresql-string_agg-function/
 -- select * from historicoPedidos(1);
-CREATE OR REPLACE FUNCTION historicoPedidos(integer) RETURNS TABLE(pedido_id integer, data_hora timestamp, items text) AS
+CREATE OR REPLACE FUNCTION historicoPedidos() RETURNS TABLE(
+        id integer,
+		data_hora timestamp,
+		f_id integer,
+		f_nome character varying(100),
+		f_cpf character(11),
+		f_endereco  text,
+		f_telefone  character varying(11),
+		c_id integer,
+		c_nome  character varying(100),
+		c_cpf character(11),
+		c_telefone character varying(11),
+		c_rua text,
+		c_bairro text,
+		c_numero text,
+		c_complemento text,
+		c_cep character(11), 
+        items text,
+        total money) AS
 $$
 BEGIN
-     RETURN QUERY SELECT pedido.id, pedido.data_hora, STRING_AGG( CAST(item.id as varchar), ',') items FROM pedido inner join item on(pedido.id = item.pedido_id) inner join produto on (item.produto_id = produto.id) where pedido.cliente_id = $1 group by pedido.id, pedido.data_hora; 
+     RETURN QUERY 
+     SELECT 	
+        pedido.id,
+		pedido.data_hora,
+		f.id as f_id,
+		f.nome as f_nome,
+		f.cpf as f_cpf,
+		f.endereco as f_endereco,
+		f.telefone as f_telefone,
+		c.id as c_id,
+		c.nome as c_nome,
+		c.cpf as c_cpf,
+		c.telefone as c_telefone,
+		c.rua as c_rua,
+		c.bairro as c_bairro,
+		c.numero as c_numero,
+		c.complemento as c_complemento,
+		c.cep as c_cep,
+        STRING_AGG( CAST(item.id as varchar),';') items,
+        sum(item.quantidade*item.valor_atual) as total
+        FROM 
+            pedido 
+        inner join 
+            item on(pedido.id = item.pedido_id) 
+        inner join 
+            produto on (item.produto_id = produto.id) 
+		inner join
+			cliente c on (pedido.cliente_id = c.id)
+		inner join
+			funcionario f on (pedido.funcionario_id = f.id)
+        group by 
+            pedido.id, pedido.data_hora, c.id, f.id; 
 END;
 $$ LANGUAGE 'plpgsql';
 

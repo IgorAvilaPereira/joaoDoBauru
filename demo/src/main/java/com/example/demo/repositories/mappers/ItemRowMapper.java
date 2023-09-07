@@ -29,7 +29,9 @@ public class ItemRowMapper implements RowMapper<Item>{
         item.setId(rs.getInt("id"));
     	item.setQuantidade(rs.getInt("quantidade"));
         item.setValor_atual(rs.getDouble("valor_atual"));
+        pedido.setId(rs.getInt("pedido_id"));
         item.setPedido(pedido);
+        produto.setId(rs.getInt("produto_id"));
         item.setProduto(produto);
 
         return item;
