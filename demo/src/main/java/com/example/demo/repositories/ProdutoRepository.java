@@ -1,11 +1,8 @@
 package com.example.demo.repositories;
 
-import java.sql.PreparedStatement;
 import java.util.List;
 
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.support.GeneratedKeyHolder;
-import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
 import com.example.demo.entities.Produto;
@@ -17,79 +14,70 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class ProdutoRepository {
 
-  private final JdbcTemplate jdbcTemplate;
-  private final ProdutoRowMapper produtoRowMapper;
+    private final JdbcTemplate jdbcTemplate;
+    private final ProdutoRowMapper produtoRowMapper;
 
-  public List<Produto> findAll() {
-    String sql = """
-            SELECT
-            id,
-            descricao,
-            valor    
-            FROM
-              produto
-        """;
-    final List<Produto> Produtos = jdbcTemplate.query(sql, produtoRowMapper);
-    return Produtos;
-  }
-
-  public Produto findById(int id) {
-    String sql = """
-            SELECT
-            *      
-            FROM
-              produto f
-        WHERE
-          f.id = ?
-          """;
-    Produto produto = jdbcTemplate.queryForObject(sql, produtoRowMapper, id);
-    if (produto == null){ 
-      return new Produto();
+    public List<Produto> findAll() {
+        String sql = "SELECT * FROM produto";
+        final List<Produto> Produtos = jdbcTemplate.query(sql, produtoRowMapper);
+        return Produtos;
     }
-    return produto;
-  }
 
-//  vamos deletar produto??
-//  public void deletar(int id) {
-//     jdbcTemplate.update("""
-//       BEGIN;
-//       UPDATE pedido SET produto_id = NULL where produto_id = ?;
-//       DELETE FROM produto WHERE id = ?;
-//       COMMIT;
-//         """, id, id);
-//   }
+    public Produto findById(int id) {
+        String sql = """
+                    SELECT
+                    *
+                    FROM
+                      produto
+                WHERE
+                  id = ?
+                  """;
+        Produto produto = jdbcTemplate.queryForObject(sql, produtoRowMapper, id);
+        if (produto == null) {
+            return new Produto();
+        }
+        return produto;
+    }
 
-// nao tem estoque??
-  public Produto inserir(Produto c) {
-    String sql = """
-        INSERT INTO produto (descricao, valor)
-        VALUES (?, ?) RETURNING id;
-        """;
-      Integer id = jdbcTemplate.queryForObject(sql, Integer.class);
-      if (id != null)
-        c.setId(id.intValue());
+    // vamos deletar produto??
+    // public void deletar(int id) {
+    // jdbcTemplate.update("""
+    // BEGIN;
+    // UPDATE pedido SET produto_id = NULL where produto_id = ?;
+    // DELETE FROM produto WHERE id = ?;
+    // COMMIT;
+    // """, id, id);
+    // }
 
-      return c;
- 
-  }
 
-  public void atualizar(Produto c) {
+    public Produto inserir(Produto c) {
+        String sql = """
+                INSERT INTO produto (descricao, valor, estoque)
+                VALUES (?, ?, ?) RETURNING id;
+                """;
+        Integer id = jdbcTemplate.queryForObject(sql, Integer.class,
+                new Object[] { c.getDescricao(), c.getValor(), c.getEstoque() });
+        if (id != null)
+            c.setId(id.intValue());
 
-    jdbcTemplate.update("""
-        UPDATE 
-          produto
-        SET  
-          nome=?, 
-          cpf=?,
-          telefone=?,
-          endereco=? 
-        WHERE 
-          id=?;
+        return c;
 
-            """, c.getNome(), c.getCpf(), c.getTelefone(),c.getEndereco(),c.getId());
+    }
 
-  }
+    public void atualizar(Produto c) {
 
- 
+        jdbcTemplate.update("""
+                UPDATE
+                  produto
+                SET
+                  descricao=?,
+                  valor=?,
+                  estoque=?
+                WHERE
+                  id=?;
+
+                    """, c.getDescricao(), c.getValor(), c.getEstoque(), c.getId());
+
+    }
 
 }

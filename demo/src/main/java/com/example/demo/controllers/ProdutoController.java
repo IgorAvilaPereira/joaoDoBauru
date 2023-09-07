@@ -36,7 +36,7 @@ public class ProdutoController {
     public ResponseEntity<List<Produto>> listar() {
         List<Produto> vetProduto = produtoRepository.findAll();
         if (vetProduto.size() > 0) {
-            return ResponseEntity.ok().body(produtoRepository.findAll());
+            return ResponseEntity.ok().body(vetProduto);
 
         } else {
             return ResponseEntity.ok().build();
@@ -56,11 +56,11 @@ public class ProdutoController {
         }
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<?> deletar(@PathVariable int id) {
-        this.produtoRepository.deletar(id);
-        return ResponseEntity.ok().build();
-    }
+    // @DeleteMapping("/{id}")
+    // public ResponseEntity<?> deletar(@PathVariable int id) {
+    //     this.produtoRepository.deletar(id);
+    //     return ResponseEntity.ok().build();
+    // }
 
     @PostMapping
     public ResponseEntity<Produto> inserir(@RequestBody Produto produto) {

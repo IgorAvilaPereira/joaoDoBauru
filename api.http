@@ -2,20 +2,50 @@
 # @host = 9dd5-200-132-11-251.ngrok-free.app
 @host = http://localhost:8080
 
+
+### Ler todos produtos
+GET {{host}}/produtos
+
+
+### Ler um Produto
+GET {{host}}/produtos/2
+
+# vale a pena o deletar produto??
+# ### Deletar
+# DELETE {{host}}/produtos/1
+
+### ATUALIZAR
+PUT {{host}}/produtos
+Content-Type: application/json
+
+{
+    "id": 1, 
+    "descricao": "produsdfdsfto",
+    "valor": 1.99,
+    "estoque": 100
+}
+
+### ADICIONAR
+POST {{host}}/produtos
+
+Content-Type: application/json
+{
+    "descricao": "produto",
+    "valor": 2,
+    "estoque": 100  
+}
+
+
 ## Funcionarios
 ### Ler funcionarios todos
-
 GET {{host}}/funcionarios
-
 ### Ler um funcionario
 GET {{host}}/funcionarios/1
-
 ### Deletar
 DELETE {{host}}/funcionarios/1
 ### ATUALIZAR
 PUT {{host}}/funcionarios
 Content-Type: application/json
-
 {
     "id": 1, 
     "nome": "Fulano de Tal",
@@ -23,38 +53,21 @@ Content-Type: application/json
     "telefone": "987654321",
     "endereco": "sem endereco"  
 }
-
 ### ADICIONAR
 POST {{host}}/funcionarios
 Content-Type: application/json
-
 {
-    
     "nome": "Fulano de Tal",
     "cpf": "01763917037",
     "telefone": "11111111111",
     "endereco": "sem endereco"  
 }
 
-# gerador de cpf: 4devs.com.br/gerador_de_cpf
-POST {{host}}/funcionarios
-Content-Type: application/json
-{
-    "id": 1,
-    "nome": "Fulano de Tal",
-    "cpf": "52835209000",
-    "telefone": "987654321",
-    "endereco": "sem endereco"  
-}
-
-
 ## Clientes
-
 ### Inserir 
 # gerador de cpf: 4devs.com.br/gerador_de_cpf
 POST {{host}}/clientes
 Content-Type: application/json
-
 {
     "nome": "Fulano de Tal",
     "cpf": "92961800072",
@@ -66,14 +79,11 @@ Content-Type: application/json
         "numero": "101"
     }
 }
-
 ### Ler Clientes
 GET {{host}}/clientes
-
 ### Atualizar
 PUT {{host}}/clientes
 Content-Type: application/json
-
 {
     "id": 7,
     "nome": "Fernando de Tal",
@@ -86,26 +96,18 @@ Content-Type: application/json
         "numero": "101"
     }
 }
-
 ### Deletar
 DELETE {{host}}/clientes/6
 
-
 ## Pedidos
-
-
 ### Deletar Pedido => ok
 DELETE {{host}}/pedidos/1
-
 ### Ler Pedidos => erro
 GET {{host}}/pedidos
-
-
 ### Inserir  => ainda n testado
 # gerador de cpf: 4devs.com.br/gerador_de_cpf
 # POST {{host}}/pedidos
 # Content-Type: application/json
-
 # {
 #     "nome": "Fulano de Tal",
 #     "cpf": "92961800072",
@@ -117,5 +119,3 @@ GET {{host}}/pedidos
 #         "numero": "101"
 #     }
 # }
-
-
