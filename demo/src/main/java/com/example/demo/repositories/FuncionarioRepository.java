@@ -1,11 +1,8 @@
 package com.example.demo.repositories;
 
-import java.sql.PreparedStatement;
 import java.util.List;
 
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.support.GeneratedKeyHolder;
-import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
 import com.example.demo.entities.Funcionario;

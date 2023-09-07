@@ -5,8 +5,6 @@ import java.sql.SQLException;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.jdbc.core.RowMapper;
-import org.springframework.lang.Nullable;
-
 import com.example.demo.entities.Funcionario;
 @Configuration
 public class FuncionarioRowMapper implements RowMapper<Funcionario> {
