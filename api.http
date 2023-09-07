@@ -13,15 +13,30 @@ GET {{host}}/funcionarios/1
 ### Deletar
 DELETE {{host}}/funcionarios/1
 
-POST {{host}}/funcionarios
 
+### Atualizar
+PUT {{host}}/funcionarios
 Content-Type: application/json
+
 {
+    "id": 1,
     "nome": "Fulano de Tal",
     "cpf": "52835209000",
     "telefone": "987654321",
-    "endereco": "sem endereco"    
+    "endereco": "sem endereco"  
 }
+
+# gerador de cpf: 4devs.com.br/gerador_de_cpf
+POST {{host}}/funcionarios
+Content-Type: application/json
+{
+    "id": 1,
+    "nome": "Fulano de Tal",
+    "cpf": "52835209000",
+    "telefone": "987654321",
+    "endereco": "sem endereco"  
+}
+
 
 ## Clientes
 
