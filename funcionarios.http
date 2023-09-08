@@ -11,6 +11,7 @@ DELETE {{host}}/funcionarios/1
 ### ATUALIZAR
 PUT {{host}}/funcionarios
 Content-Type: application/json
+
 {
     "id": 1, 
     "nome": "Fulano de Tal",
@@ -21,9 +22,10 @@ Content-Type: application/json
 ### ADICIONAR
 POST {{host}}/funcionarios
 Content-Type: application/json
+
 {
     "nome": "Fulano de Tal",
-    "cpf": "01763917037",
-    "telefone": "11111111111",
+    "cpf": "17658586072",
+    "telefone": "5317658586",
     "endereco": "sem endereco"  
 }

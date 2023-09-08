@@ -8,13 +8,16 @@ GET {{host}}/pedidos
 ### Ler por Id
 GET {{host}}/pedidos/25
 
+
+// TODO: acho que o inserir pedido deveria receber somente o id de funcionario e id cliente. ou o cpf de ambos
+
 ### Inserir 
 POST {{host}}/pedidos
 Content-Type: application/json
 
 {
   "cliente": {
-    "id": 10,
+    "id": 3,
     "nome": "fernando barbosa",
     "cpf": null,
     "telefone": "987654321",
@@ -27,7 +30,7 @@ Content-Type: application/json
     }
   },
   "funcionario": {
-    "id": 1,
+    "id": 2,
     "nome": "JOÃO",
     "cpf": "98339518054",
     "endereco": "RUA QUE DÁ BUG",

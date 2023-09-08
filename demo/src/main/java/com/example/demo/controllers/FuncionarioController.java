@@ -63,9 +63,10 @@ public class FuncionarioController {
     }
 
     @PostMapping
-    public ResponseEntity<Funcionario> inserir(@RequestBody Funcionario funcionario) {
-        funcionarioRepository.inserir(funcionario);
-        return ResponseEntity.ok().body(funcionario);
+    public ResponseEntity<?> inserir(@RequestBody Funcionario funcionario) {
+        boolean resultado = funcionarioRepository.inserir(funcionario);
+        if (resultado) return ResponseEntity.ok().body(funcionario);
+        return ResponseEntity.ok().body("Não foi possível adicionar o funcionário");
     }
 
     @PutMapping

@@ -24,7 +24,7 @@ public class FuncionarioRepository {
             f.nome as f_nome,
             f.cpf as f_cpf,
             f.endereco as f_endereco,
-            f.telefone as f_telefone           
+            f.telefone as f_telefone
             FROM
               funcionario f
         """;
@@ -39,58 +39,63 @@ public class FuncionarioRepository {
             f.nome as f_nome,
             f.cpf as f_cpf,
             f.endereco as f_endereco,
-            f.telefone as f_telefone           
+            f.telefone as f_telefone
             FROM
               funcionario f
         WHERE
           f.id = ?
           """;
     Funcionario funcionario = jdbcTemplate.queryForObject(sql, funcionarioRowMapper, id);
-    if (funcionario == null){ 
+    if (funcionario == null) {
       return new Funcionario();
     }
     return funcionario;
   }
 
- public void deletar(int id) {
+  public void deletar(int id) {
     jdbcTemplate.update("""
-      BEGIN;
-      UPDATE pedido SET funcionario_id = NULL where funcionario_id = ?;
-      DELETE FROM funcionario WHERE id = ?;
-      COMMIT;
-        """, id, id);
+        BEGIN;
+        UPDATE pedido SET funcionario_id = NULL where funcionario_id = ?;
+        DELETE FROM funcionario WHERE id = ?;
+        COMMIT;
+          """, id, id);
   }
 
-  public Funcionario inserir(Funcionario c) {
-    String sql = """
-        INSERT INTO funcionario (nome, cpf,telefone,endereco)
-        VALUES (?, ?, ?, ?) RETURNING id;
-        """;
-      Integer id = jdbcTemplate.queryForObject(sql, Integer.class, new Object[] { c.getNome(), c.getCpf(), c.getTelefone(), c.getEndereco() });
+  public boolean inserir(Funcionario c) {
+    try {
+      String sql = """
+          INSERT INTO funcionario (nome, cpf,telefone,endereco)
+          VALUES (?, ?, ?, ?) RETURNING id;
+          """;
+      Integer id = jdbcTemplate.queryForObject(sql, Integer.class,
+          new Object[] { c.getNome(), c.getCpf(), c.getTelefone(), c.getEndereco() });
       if (id != null)
         c.setId(id.intValue());
+      return true;
+    } catch (Exception ex) {
+      System.out.println(ex.getMessage());
+      System.out.println("Provavelmente cpf incorreto ou duplicado");
+      // return false;
+    }
 
-      return c;
- 
+    return false;
   }
 
   public void atualizar(Funcionario c) {
 
     jdbcTemplate.update("""
-        UPDATE 
+        UPDATE
           funcionario
-        SET  
-          nome=?, 
+        SET
+          nome=?,
           cpf=?,
           telefone=?,
-          endereco=? 
-        WHERE 
+          endereco=?
+        WHERE
           id=?;
 
-            """, c.getNome(), c.getCpf(), c.getTelefone(),c.getEndereco(),c.getId());
+            """, c.getNome(), c.getCpf(), c.getTelefone(), c.getEndereco(), c.getId());
 
   }
-
- 
 
 }

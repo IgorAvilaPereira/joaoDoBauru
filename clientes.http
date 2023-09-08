@@ -6,6 +6,7 @@
 # gerador de cpf: 4devs.com.br/gerador_de_cpf
 POST {{host}}/clientes
 Content-Type: application/json
+
 {
     "nome": "Fulano de Tal",
     "cpf": "92961800072",
@@ -28,6 +29,7 @@ GET {{host}}/clientes/10
 ### Atualizar
 PUT {{host}}/clientes
 Content-Type: application/json
+
 {
     "id": 7,
     "nome": "Fernando de Tal",

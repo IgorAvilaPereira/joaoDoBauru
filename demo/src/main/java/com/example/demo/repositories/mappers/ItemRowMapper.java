@@ -22,6 +22,7 @@ public class ItemRowMapper implements RowMapper<Item>{
         this.pedido = pedido;
     }
 
+    // TODO: Seria legal se colocassemos no item todo o objeto de pedido e todo o objeto de produto
     @Override
     @Nullable
     public Item mapRow(ResultSet rs, int rowNum) throws SQLException {
@@ -33,7 +34,6 @@ public class ItemRowMapper implements RowMapper<Item>{
         item.setPedido(pedido);
         produto.setId(rs.getInt("produto_id"));
         item.setProduto(produto);
-
         return item;
 
     }

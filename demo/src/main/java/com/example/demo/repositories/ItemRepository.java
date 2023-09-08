@@ -21,6 +21,15 @@ public class ItemRepository {
     private final JdbcTemplate jdbcTemplate;
     private final ItemRowMapper itemRowMapper;
 
+    public List<Item> findByPedidoId(int pedido_id) {
+        String sql = """
+                    SELECT * from item where pedido_id = ?
+
+                """;
+        final List<Item> items = jdbcTemplate.query(sql, itemRowMapper, pedido_id);
+        return items;
+    }
+
     public Item findOne(int id) {
         String sql = """
                 SELECT * FROM item where id = ?
@@ -52,22 +61,25 @@ public class ItemRepository {
         itemsMaped.forEach(map -> {
             Item item = new Item();
             map.forEach((col, val) -> {
-                System.out.println(col + " " +  val.toString());
-                if (col.equals("id")) item.setId((Integer) val);
-                if (col.equals("valor_atual")) item.setValor_atual((Double) val);
-                if (col.equals("quantidade")) item.setQuantidade((Integer) val);
+                System.out.println(col + " " + val.toString());
+                if (col.equals("id"))
+                    item.setId((Integer) val);
+                if (col.equals("valor_atual"))
+                    item.setValor_atual((Double) val);
+                if (col.equals("quantidade"))
+                    item.setQuantidade((Integer) val);
                 if (col.equals("pedido_id")) {
                     Pedido p = new Pedido();
                     p.setId((Integer) val);
                     item.setPedido(p);
                 }
-                if (col.equals("produto_id")){
+                if (col.equals("produto_id")) {
                     Produto p = new Produto();
                     p.setId((Integer) val);
                     item.setProduto(p);
                 }
             });
-            
+
             items.add(item);
         }
 
