@@ -1,5 +1,6 @@
 package com.example.demo.repositories.mappers;
 
+import java.math.BigDecimal;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
@@ -29,10 +30,14 @@ public class ItemRowMapper implements RowMapper<Item>{
         Item item = new Item();
         item.setId(rs.getInt("id"));
     	item.setQuantidade(rs.getInt("quantidade"));
-        item.setValor_atual(rs.getDouble("valor_atual"));
+        item.setValor_atual(rs.getDouble("valor_atual_numerico"));                
         pedido.setId(rs.getInt("pedido_id"));
         item.setPedido(pedido);
         produto.setId(rs.getInt("produto_id"));
+        produto.setDescricao(rs.getString("descricao"));
+        produto.setEstoque(rs.getInt("estoque"));
+        // produto.setValor(BigDecimal.valueOf(rs.getDouble("valor_numerico")));
+        produto.setValor(rs.getBigDecimal("valor_numerico"));
         item.setProduto(produto);
         return item;
 

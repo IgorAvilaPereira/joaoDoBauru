@@ -23,7 +23,11 @@ public class ItemRepository {
 
     public List<Item> findByPedidoId(int pedido_id) {
         String sql = """
-                    SELECT * from item where pedido_id = ?
+                    SELECT *, 
+                    cast(valor_atual as numeric(8,2)) as valor_atual_numerico,
+                    cast(valor as numeric(8,2)) as valor_numerico                    
+                    
+                    from item inner join produto on (produto.id = item.produto_id) where pedido_id = ?
 
                 """;
         final List<Item> items = jdbcTemplate.query(sql, itemRowMapper, pedido_id);
