@@ -62,11 +62,11 @@ public class ItemController {
         return ResponseEntity.ok().build();
     }
 
-    // @PostMapping
-    // public ResponseEntity<Item> inserir(@RequestBody Item item) {
-    //     itemRepository.inserir(item);
-    //     return ResponseEntity.ok().body(item);
-    // }
+    @PostMapping
+    public ResponseEntity<Item> inserir(@RequestBody Item item) {
+        itemRepository.inserir(item);
+        return ResponseEntity.ok().body(item);
+    }
 
     // @PutMapping
     // public ResponseEntity<Item> atualizar(@RequestBody Item item) {

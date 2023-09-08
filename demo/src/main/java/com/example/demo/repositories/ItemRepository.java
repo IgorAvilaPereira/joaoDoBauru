@@ -8,6 +8,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import com.example.demo.entities.Item;
+import com.example.demo.entities.Item;
 import com.example.demo.entities.Pedido;
 import com.example.demo.entities.Produto;
 import com.example.demo.repositories.mappers.ItemRowMapper;
@@ -54,6 +55,27 @@ public class ItemRepository {
             DELETE FROM item WHERE id = ?;            
               """, id);
       }
+
+
+        public boolean inserir(Item c) {
+    try {
+      String sql = """
+          INSERT INTO item (pedido_id, produto_id, quantidade, valor_atual)
+          VALUES (?, ?, ?, ?) RETURNING id;
+          """;
+      Integer id = jdbcTemplate.queryForObject(sql, Integer.class,
+          new Object[] { c.getPedido().getId(), c.getProduto().getId(), c.getQuantidade(), c.getValor_atual().doubleValue()});
+      if (id != null)
+        c.setId(id.intValue());
+      return true;
+    } catch (Exception ex) {
+      System.out.println(ex.getMessage());
+      System.out.println("Provavelmente cpf incorreto ou duplicado");
+      // return false;
+    }
+
+    return false;
+  }
 
     public List<Item> findAllByIds(String ids) {
         String sql = """
