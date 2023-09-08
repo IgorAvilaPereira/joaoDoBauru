@@ -38,16 +38,23 @@ public class ClienteController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Cliente> listarUm(@PathVariable Integer id) {
-        return ResponseEntity.ok().body(clienteRepository.findById(id));
+    public ResponseEntity<?> listarUm(@PathVariable Integer id) {
+        try {
+            return ResponseEntity.ok().body(clienteRepository.findById(id));
+        } catch(Exception e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        } 
     }
 
     @PostMapping
-    public ResponseEntity<Cliente> inserir(@RequestBody Cliente cli) {
+    public ResponseEntity<?> inserir(@RequestBody Cliente cli) {
+        try {
+            clienteRepository.inserir(cli);
+            return ResponseEntity.ok().body(cli);
+        } catch(Exception e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
 
-        clienteRepository.inserir(cli);
-
-        return ResponseEntity.ok().body(cli);
     }
 
     @PutMapping

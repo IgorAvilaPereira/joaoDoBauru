@@ -22,6 +22,7 @@ public class ProdutoRowMapper implements RowMapper<Produto> {
         p.setEstoque(rs.getInt("estoque"));
         // TODO: ACERTAR CONVERSÃO MONEY PARA VALOR na classe produto!
         p.setValor(rs.getBigDecimal("valor_numerico"));
+        p.setAtivo(rs.getBoolean("ativo"));
 
         return p;
     

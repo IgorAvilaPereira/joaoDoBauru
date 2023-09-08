@@ -17,6 +17,7 @@ public class FuncionarioRowMapper implements RowMapper<Funcionario> {
         f.setCpf(rs.getString("f_cpf"));
         f.setEndereco(rs.getString("f_endereco"));
         f.setTelefone(rs.getString("f_telefone"));
+        f.setAtivo(rs.getBoolean("ativo"));
         
         return f;
     }

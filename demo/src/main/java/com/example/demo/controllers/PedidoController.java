@@ -19,7 +19,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.entities.Pedido;
 import com.example.demo.repositories.PedidoRepository;
-import com.example.demo.services.PedidoService;
 
 import lombok.RequiredArgsConstructor;
 
@@ -29,16 +28,15 @@ import lombok.RequiredArgsConstructor;
 public class PedidoController {
 
     private final PedidoRepository pedidoRepository;
-    private final PedidoService pedidoService;
 
     @GetMapping
     public ResponseEntity<List<Pedido>> listar() {
-        return ResponseEntity.ok().body(pedidoService.findAll());
+        return ResponseEntity.ok().body(pedidoRepository.listar());
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Pedido> findById(@PathVariable Integer id) throws SQLException {
-        return ResponseEntity.ok().body(pedidoService.findById(id));
+    public ResponseEntity<Pedido> listarUm(@PathVariable Integer id) throws SQLException {
+        return ResponseEntity.ok().body(pedidoRepository.listarUm(id));
     }
 
     @PostMapping

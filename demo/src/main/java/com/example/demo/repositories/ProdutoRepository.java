@@ -18,18 +18,18 @@ public class ProdutoRepository {
     private final ProdutoRowMapper produtoRowMapper;
 
     public List<Produto> findAll() {
-        String sql = "SELECT *, cast(valor as numeric(8,2)) as valor_numerico FROM produto";
+        String sql = "SELECT *, cast(valor as numeric(8,2)) as valor_numerico FROM produto where ativo is true;";
         final List<Produto> Produtos = jdbcTemplate.query(sql, produtoRowMapper);
         return Produtos;
     }
 
     public Produto findById(int id) {
         String sql = """
-                    SELECT *, cast(valor as numeric(8,2)) as valor_numerico
+                    SELECT *,  cast(valor as numeric(8,2)) as valor_numerico
                     FROM
                       produto
                 WHERE
-                  id = ?
+                  id = ? and ativo is true;
                   """;
         Produto produto = jdbcTemplate.queryForObject(sql, produtoRowMapper, id);
         if (produto == null) {
@@ -39,14 +39,11 @@ public class ProdutoRepository {
     }
 
     // vamos deletar produto??
-    // public void deletar(int id) {
-    // jdbcTemplate.update("""
-    // BEGIN;
-    // UPDATE pedido SET produto_id = NULL where produto_id = ?;
-    // DELETE FROM produto WHERE id = ?;
-    // COMMIT;
-    // """, id, id);
-    // }
+    public void deletar(int id) {
+    jdbcTemplate.update("""
+    update produto set ativo = false where id = ?
+    """, id);
+    }
 
 
     public Produto inserir(Produto c) {

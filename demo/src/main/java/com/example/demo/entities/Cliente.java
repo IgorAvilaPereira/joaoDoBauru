@@ -12,6 +12,15 @@ public class Cliente {
     private String nome;
     private String cpf;
     private String telefone;
+    private boolean ativo;
+
+    public boolean isAtivo() {
+        return ativo;
+    }
+
+    public void setAtivo(boolean ativo) {
+        this.ativo = ativo;
+    }
 
     @Autowired
     private Endereco endereco;

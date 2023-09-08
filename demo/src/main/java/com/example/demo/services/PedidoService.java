@@ -15,11 +15,11 @@ public class PedidoService {
     private PedidoRepository repository;
 
     public List<Pedido> findAll() {
-        return repository.findAll();
+        return repository.listar();
     }
 
     public Pedido findById(int id) throws SQLException {
-        Pedido p = repository.findById(id);
+        Pedido p = repository.listarUm(id);
         if ( p == null) {
             throw new SQLException("Pedido não encontrado");
         };

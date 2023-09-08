@@ -2,4 +2,10 @@
 
 @host = http://localhost:8080
 
+
+GET {{host}}/itens/pedido/1
+
+###
+
 GET {{host}}/itens/1
+

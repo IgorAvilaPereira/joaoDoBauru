@@ -27,7 +27,7 @@ public class PedidoRepository {
     private final RowMapper<Item> itemRowMapper;
     private final RowMapper<Produto> produtoRowMapper;
 
-    public List<Pedido> findAll() {
+    public List<Pedido> listar() {
         String sql = "SELECT * FROM historicoPedidos()";
         final List<Pedido> pedidos = jdbcTemplate.query(sql, pedidoRowMapper);
 
@@ -58,7 +58,7 @@ public class PedidoRepository {
         return pedidos;
     }
 
-    public Pedido findById(int id) {
+    public Pedido listarUm(int id) {
         String sql = "SELECT * FROM historicoPedidos() WHERE id = ?";
         Pedido pedido = jdbcTemplate.queryForObject(sql, pedidoRowMapper, id);
 

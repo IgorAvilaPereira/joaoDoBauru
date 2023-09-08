@@ -96,7 +96,8 @@ CREATE TABLE cliente (
     bairro text,
     numero text,
     complemento text,
-    cep character(8)
+    cep character(8),
+    ativo boolean default true
 );
 INSERT INTO cliente (nome, cpf) VALUES 
 ('IGOR AVILA PEREIRA', '01763917037'),
@@ -107,7 +108,8 @@ CREATE TABLE funcionario (
     nome character varying (100) not null,
     cpf character(11) unique check (validaCPF(cpf)),
     endereco text,
-    telefone character varying(11)
+    telefone character varying(11),
+    ativo boolean default true
 );
 
 INSERT INTO funcionario (nome, cpf, endereco, telefone) VALUES 
@@ -132,7 +134,8 @@ CREATE TABLE produto (
     id serial primary key,
     descricao text not null,
     valor money,
-    estoque integer
+    estoque integer,
+    ativo boolean default true
 );
 INSERT INTO produto (descricao, valor, estoque) VALUES
 ('TORRADA AMERICANA', 10.00, 10);

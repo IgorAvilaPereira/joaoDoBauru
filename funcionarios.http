@@ -1,6 +1,7 @@
 ## Funcionarios
 
-@host = http://localhost:8080
+# @host = http://localhost:8080
+@host = https://5c9c-200-132-11-251.ngrok-free.app
 
 ### Ler funcionarios todos
 GET {{host}}/funcionarios

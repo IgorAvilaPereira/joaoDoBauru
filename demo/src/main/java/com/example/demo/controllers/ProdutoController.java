@@ -7,6 +7,7 @@ package com.example.demo.controllers;
 import java.util.List;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -19,6 +20,8 @@ import com.example.demo.entities.Produto;
 import com.example.demo.repositories.ProdutoRepository;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.web.bind.annotation.RequestParam;
+
 
 /**
  *
@@ -55,11 +58,11 @@ public class ProdutoController {
         }
     }
 
-    // @DeleteMapping("/{id}")
-    // public ResponseEntity<?> deletar(@PathVariable int id) {
-    //     this.produtoRepository.deletar(id);
-    //     return ResponseEntity.ok().build();
-    // }
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> deletar(@PathVariable int id) {
+        this.produtoRepository.deletar(id);
+        return ResponseEntity.ok().build();
+    }
 
     @PostMapping
     public ResponseEntity<Produto> inserir(@RequestBody Produto produto) {
@@ -72,5 +75,11 @@ public class ProdutoController {
         produtoRepository.atualizar(produto);
         return ResponseEntity.ok().body(produto);
     }
+
+    @GetMapping("/manuella")
+    public String manuella() {
+        return "manuella";
+    }
+    
 
 }

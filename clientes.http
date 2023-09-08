@@ -1,6 +1,10 @@
 ## Clientes
 
-@host = http://localhost:8080
+# @host = http://localhost:8080
+@host = https://5c9c-200-132-11-251.ngrok-free.app
+
+### Ler Clientes
+GET {{host}}/clientes
 
 ### Inserir 
 # gerador de cpf: 4devs.com.br/gerador_de_cpf
@@ -18,13 +22,11 @@ Content-Type: application/json
         "numero": "101"
     }
 }
-### Ler Clientes
-GET {{host}}/clientes
+
 
 ### Ler Clientes por Id
-GET {{host}}/clientes/10
+GET {{host}}/clientes/5
 
-@host = http://localhost:8080
 
 ### Atualizar
 PUT {{host}}/clientes

@@ -9,6 +9,15 @@ public class Funcionario {
     private String cpf;
     private String endereco;
     private String telefone;
+    private boolean ativo;
+
+    public boolean isAtivo() {
+        return ativo;
+    }
+
+    public void setAtivo(boolean ativo) {
+        this.ativo = ativo;
+    }
 
     public Funcionario() {
     }

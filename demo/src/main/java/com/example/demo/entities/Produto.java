@@ -12,6 +12,15 @@ public class Produto {
     private String descricao;
     private BigDecimal valor;
     private int estoque;
+    private boolean ativo;
+
+    public boolean isAtivo() {
+        return ativo;
+    }
+
+    public void setAtivo(boolean ativo) {
+        this.ativo = ativo;
+    }
 
     public Produto() {
     }

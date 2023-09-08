@@ -23,83 +23,91 @@ public class ClienteRepository {
   public List<Cliente> findAll() {
     String sql = """
             SELECT
-              c.id as c_id, c.nome as c_nome, c.cpf as c_cpf, c.telefone as c_telefone, c.rua as c_rua, c.bairro as c_bairro, c.numero as c_numero, c.complemento as c_complemento, c.cep as c_cep
+              ativo, c.id as c_id, c.nome as c_nome, c.cpf as c_cpf, c.telefone as c_telefone, c.rua as c_rua, c.bairro as c_bairro, c.numero as c_numero, c.complemento as c_complemento, c.cep as c_cep
             FROM
-              cliente c
+              cliente c where ativo is true;
         """;
     final List<Cliente> clientes = jdbcTemplate.query(sql, clientRowMapper);
     return clientes;
   }
 
-  public Cliente findById(int id) {
-    String sql = """
-        SELECT
-          c.id as c_id, c.nome as c_nome, c.cpf as c_cpf, c.telefone as c_telefone, c.rua as c_rua, c.bairro as c_bairro, c.numero as c_numero, c.complemento as c_complemento, c.cep as c_cep
-        FROM
-          cliente c
-        WHERE
-          id = ?
-          """;
-    Cliente cliente = jdbcTemplate.queryForObject(sql, clientRowMapper, id);
-    return cliente;
+  public Cliente findById(int id) throws IllegalArgumentException{
+    try {
+      String sql = """
+          SELECT
+            ativo, c.id as c_id, c.nome as c_nome, c.cpf as c_cpf, c.telefone as c_telefone, c.rua as c_rua, c.bairro as c_bairro, c.numero as c_numero, c.complemento as c_complemento, c.cep as c_cep
+          FROM
+            cliente c
+          WHERE
+            id = ? and ativo is true;
+            """;
+      Cliente cliente = jdbcTemplate.queryForObject(sql, clientRowMapper, id);
+      return cliente;
+    } catch (Exception e) {
+      throw new IllegalArgumentException("Argumento Invalido");
+    }
   }
 
-  private final String DELETE_SQL = """
-      BEGIN;
-      DELETE FROM item WHERE pedido_id in (
-        SELECT id FROM pedido WHERE cliente_id = ?
-      );
-      DELETE FROM pedido WHERE cliente_id = ?;
-      DELETE FROM cliente WHERE id = ?; COMMIT;
-      """;
+  // private final String DELETE_SQL = """
+  //     BEGIN;
+  //     DELETE FROM item WHERE pedido_id in (
+  //       SELECT id FROM pedido WHERE cliente_id = ?
+  //     );
+  //     DELETE FROM pedido WHERE cliente_id = ?;
+  //     DELETE FROM cliente WHERE id = ?; COMMIT;
+  //     """;
 
   public void deletar(int id) {
-    jdbcTemplate.update(DELETE_SQL, id, id, id);
+    jdbcTemplate.update("update cliente set ativo = false where id = ?;", id);
   }
 
-  public Cliente inserir(Cliente c) {
-    String sql = """
-        INSERT INTO 
-          cliente (nome, cpf,telefone,rua,bairro,numero,complemento,cep)
-        VALUES 
-          (?,?,?,?,?,?,?,?)
-        """;
+  public Cliente inserir(Cliente c) throws IllegalArgumentException{
+    try {
+      String sql = """
+          INSERT INTO
+            cliente (nome, cpf,telefone,rua,bairro,numero,complemento,cep)
+          VALUES
+            (?,?,?,?,?,?,?,?)
+          """;
 
-    KeyHolder keyHolder = new GeneratedKeyHolder();
+      KeyHolder keyHolder = new GeneratedKeyHolder();
 
-    int insertsCount = jdbcTemplate.update(connection -> {
-      PreparedStatement ps = connection
-          .prepareStatement(sql, new String[] { "id" });
-      ps.setString(1, c.getNome());
-      ps.setString(2, c.getCpf());
-      ps.setString(3, c.getTelefone());
-      ps.setString(4, c.getEndereco().getRua());
-      ps.setString(5, c.getEndereco().getBairro());
-      ps.setString(6, c.getEndereco().getNumero());
-      ps.setString(7, c.getEndereco().getComplemento());
-      ps.setString(8, c.getEndereco().getCep());
+      int insertsCount = jdbcTemplate.update(connection -> {
+        PreparedStatement ps = connection
+            .prepareStatement(sql, new String[] { "id" });
+        ps.setString(1, c.getNome());
+        ps.setString(2, c.getCpf());
+        ps.setString(3, c.getTelefone());
+        ps.setString(4, c.getEndereco().getRua());
+        ps.setString(5, c.getEndereco().getBairro());
+        ps.setString(6, c.getEndereco().getNumero());
+        ps.setString(7, c.getEndereco().getComplemento());
+        ps.setString(8, c.getEndereco().getCep());
 
-      return ps;
-    }, keyHolder);
+        return ps;
+      }, keyHolder);
 
-    Number key = keyHolder.getKey();
-    if (insertsCount == 1) {
-      if (key != null) c.setId((Integer) key);
+      Number key = keyHolder.getKey();
+      if (insertsCount == 1) {
+        if (key != null)
+          c.setId((Integer) key);
+      }
+      return c;
+    } catch (Exception e) {
+      throw new IllegalArgumentException("Cpf ja cadastrado");
     }
-    return c;
   }
 
   public void atualizar(Cliente c) {
-    String sql = 
-        """
-        UPDATE 
+    String sql = """
+        UPDATE
           cliente
-        SET  
+        SET
           nome=?, cpf=?, telefone=?, rua=?, bairro=?, numero=?, complemento=?, cep=?
-        WHERE 
+        WHERE
           id=?;
         """;
-    jdbcTemplate.update( sql, c.getNome(), c.getCpf(), c.getTelefone(), c.getEndereco().getRua(),
+    jdbcTemplate.update(sql, c.getNome(), c.getCpf(), c.getTelefone(), c.getEndereco().getRua(),
         c.getEndereco().getBairro(), c.getEndereco().getNumero(),
         c.getEndereco().getComplemento(), c.getEndereco().getCep(),
         c.getId());
