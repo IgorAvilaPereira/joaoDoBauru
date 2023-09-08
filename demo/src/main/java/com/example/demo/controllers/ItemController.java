@@ -32,7 +32,7 @@ public class ItemController {
 
     private final ItemRepository itemRepository;
 
-    @GetMapping("/{pedido_id}")
+    @GetMapping("/pedido/{pedido_id}")
     public ResponseEntity<List<Item>> listar(@PathVariable int pedido_id) {
         List<Item> vetItem = itemRepository.findByPedidoId(pedido_id);
         if (vetItem.size() > 0) {
@@ -44,17 +44,17 @@ public class ItemController {
         }
     }
 
-    // @GetMapping("/{id}")
-    // public ResponseEntity<Item> findById(@PathVariable int id) {
-    //     try {
-    //         Item f = itemRepository.findById(id);
-    //         // if (/*f != null &&*/ f.getId() != 0) {
-    //         return ResponseEntity.ok().body(f);
-    //     } catch (Exception e) {
-    //         return ResponseEntity.ok().body(new Item());
+    @GetMapping("/{id}")
+    public ResponseEntity<Item> findById(@PathVariable int id) {
+        try {
+            Item f = itemRepository.findOne(id);
+            // if (/*f != null &&*/ f.getId() != 0) {
+            return ResponseEntity.ok().body(f);
+        } catch (Exception e) {
+            return ResponseEntity.ok().body(new Item());
 
-    //     }
-    // }
+        }
+    }
 
     // @DeleteMapping("/{id}")
     // public ResponseEntity<?> deletar(@PathVariable int id) {

@@ -36,7 +36,8 @@ public class ItemRepository {
 
     public Item findOne(int id) {
         String sql = """
-                SELECT * FROM item where id = ?
+                SELECT *, 
+                    cast(valor_atual as numeric(8,2)) as valor_atual_numerico FROM item where id = ?
                 """;
 
         Item item = jdbcTemplate.queryForObject(sql, itemRowMapper, id);
