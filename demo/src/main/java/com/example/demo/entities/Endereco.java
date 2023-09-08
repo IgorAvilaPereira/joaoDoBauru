@@ -53,4 +53,12 @@ public class Endereco {
     public void setNumero(String numero) {
         this.numero = numero;
     }
+
+    @Override
+    public String toString() {
+        return "Endereco [rua=" + rua + ", bairro=" + bairro + ", complemento=" + complemento + ", numero=" + numero
+                + ", cep=" + cep + "]";
+    }
+
+    
 }

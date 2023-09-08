@@ -6,12 +6,14 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
+import com.example.demo.entities.Cliente;
 import com.example.demo.entities.Item;
 import com.example.demo.entities.Pedido;
 import com.example.demo.entities.Produto;
@@ -26,6 +28,12 @@ public class PedidoRepository {
     private final RowMapper<Pedido> pedidoRowMapper;
     private final RowMapper<Item> itemRowMapper;
     private final RowMapper<Produto> produtoRowMapper;
+    // @Autowired
+    // private ClienteRepository clienteRepository;
+    // @Autowired
+    // private FuncionarioRepository funcionarioRepository;
+
+    // public Pedido
 
     public List<Pedido> listar() {
         String sql = "SELECT * FROM historicoPedidos()";
@@ -86,13 +94,11 @@ public class PedidoRepository {
         return pedido;
     }
 
-    
     public void deletar(int id) {
 
-
-        //TODO: FALTA DEVOLVER ESTOQUE PARA O PRODUTO: retornar os items de um pedido
+        // TODO: FALTA DEVOLVER ESTOQUE PARA O PRODUTO: retornar os items de um pedido
         String DELETE_SQL = """
-                BEGIN;                
+                BEGIN;
                 DELETE FROM item WHERE pedido_id = ?;
                 DELETE FROM pedido WHERE id = ?;
                 COMMIT;
@@ -100,57 +106,64 @@ public class PedidoRepository {
         jdbcTemplate.update(DELETE_SQL, id, id);
     }
 
-    public Pedido inserir(Pedido p) throws SQLException {
-        String sqlPedido = """
-                INSERT INTO
-                    pedido (cliente_id, funcionario_id)
-                VALUES
-                    (?, ?)
-                """;
+    public Pedido inserir(Pedido p) throws Exception {
+        // Cliente c = clienteRepository.findById(p.getCliente().getId());
+        // System.out.println(c);
 
-        KeyHolder keyHolder = new GeneratedKeyHolder();
+        try {
 
-        String[] colunas = new String[] { "id", "data_hora" };
+            String sqlPedido = """
+                    INSERT INTO
+                        pedido (cliente_id, funcionario_id)
+                    VALUES
+                        (?, ?)
+                    """;
 
-        int insertsCount = jdbcTemplate.update(connection -> {
-            PreparedStatement ps = connection.prepareStatement(sqlPedido, colunas);
-            ps.setInt(1, p.getCliente().getId());
-            ps.setInt(2, p.getFuncionario().getId());
+            KeyHolder keyHolder = new GeneratedKeyHolder();
 
-            return ps;
-        }, keyHolder);
+            String[] colunas = new String[] { "id", "data_hora" };
 
-        if (insertsCount == 1) {
-            Map<String, Object> keys = keyHolder.getKeys();
+            int insertsCount = jdbcTemplate.update(connection -> {
+                PreparedStatement ps = connection.prepareStatement(sqlPedido, colunas);
+                ps.setInt(1, p.getCliente().getId());
+                ps.setInt(2, p.getFuncionario().getId());
 
-            if (keys != null) {
-                keys.forEach((key, value) -> {
-                    if (key.equals("id"))
-                        p.setId((int) value);
-                    if (key.equals("data_hora"))
-                        p.setData_hora((java.sql.Timestamp) value);
+                return ps;
+            }, keyHolder);
+
+            if (insertsCount == 1) {
+                Map<String, Object> keys = keyHolder.getKeys();
+
+                if (keys != null) {
+                    keys.forEach((key, value) -> {
+                        if (key.equals("id"))
+                            p.setId((int) value);
+                        if (key.equals("data_hora"))
+                            p.setData_hora((java.sql.Timestamp) value);
+                    });
+                }
+
+                List<Item> items = p.getItems();
+
+                String sqlItem = "SELECT adicionaItem(?,?,?)";
+
+                items.forEach(item -> {
+
+                    jdbcTemplate.queryForObject(
+                            sqlItem,
+                            Boolean.class,
+                            item.getProduto().getId(),
+                            item.getQuantidade(),
+                            p.getId());
+
                 });
+
+                return p;
             }
-
-            List<Item> items = p.getItems();
-
-            String sqlItem = "SELECT adicionaItem(?,?,?)";
-
-            items.forEach(item -> {
-
-                jdbcTemplate.queryForObject(
-                        sqlItem,
-                        Boolean.class,
-                        item.getProduto().getId(),
-                        item.getQuantidade(),
-                        p.getId());
-                
-            });
-
-            return p;
+        } catch (Exception e) {
+            throw new Exception("Cliente ou Funcionário invalido");
         }
-
-        throw new SQLException("Pedido não inserido");
+        return null;
     }
 
     public void atualizar(Pedido p) {
@@ -166,7 +179,7 @@ public class PedidoRepository {
 
         List<Item> oldItems = jdbcTemplate.query("select * from item", itemRowMapper);
 
-        if(oldItems.size() > 0){
+        if (oldItems.size() > 0) {
             oldItems.forEach(item -> {
                 jdbcTemplate.update("""
                         DELETE FROM
@@ -175,24 +188,22 @@ public class PedidoRepository {
                             id=?;
                         """,
                         item.getId());
-    
+
             });
         }
 
         List<Item> items = p.getItems();
         String sqlItem = "SELECT adicionaItem(?,?,?)";
 
-            items.forEach(item -> {
+        items.forEach(item -> {
 
-                jdbcTemplate.queryForObject(
-                        sqlItem,
-                        Boolean.class,
-                        item.getProduto().getId(),
-                        item.getQuantidade(),
-                        p.getId());
-            });
-
-        
+            jdbcTemplate.queryForObject(
+                    sqlItem,
+                    Boolean.class,
+                    item.getProduto().getId(),
+                    item.getQuantidade(),
+                    p.getId());
+        });
 
     }
 

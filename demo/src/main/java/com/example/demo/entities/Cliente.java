@@ -94,6 +94,12 @@ public class Cliente {
         return Objects.hashCode(id);
     }
 
+    @Override
+    public String toString() {
+        return "Cliente [id=" + id + ", nome=" + nome + ", cpf=" + cpf + ", telefone=" + telefone + ", ativo=" + ativo
+                + ", endereco=" + endereco + "]";
+    }
+
     
 
 }

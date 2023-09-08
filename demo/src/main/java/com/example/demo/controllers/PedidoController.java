@@ -40,13 +40,16 @@ public class PedidoController {
     }
 
     @PostMapping
-    public ResponseEntity<Pedido> inserir(@RequestBody Pedido obj) {
+    public ResponseEntity<?> inserir(@RequestBody Pedido obj) {
 
         try {
             pedidoRepository.inserir(obj);
             return ResponseEntity.ok().body(obj);
         } catch (SQLException e) {  
             return ResponseEntity.badRequest().build();
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+
         }
 
     }
