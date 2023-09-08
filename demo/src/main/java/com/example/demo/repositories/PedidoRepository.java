@@ -89,9 +89,10 @@ public class PedidoRepository {
     
     public void deletar(int id) {
 
-        //TODO: FALTA DEVOLVER ESTOQUE PARA O PRODUTO
+
+        //TODO: FALTA DEVOLVER ESTOQUE PARA O PRODUTO: retornar os items de um pedido
         String DELETE_SQL = """
-                BEGIN;
+                BEGIN;                
                 DELETE FROM item WHERE pedido_id = ?;
                 DELETE FROM pedido WHERE id = ?;
                 COMMIT;
