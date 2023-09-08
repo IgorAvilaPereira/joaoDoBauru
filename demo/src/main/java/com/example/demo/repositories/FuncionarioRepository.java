@@ -94,11 +94,12 @@ public class FuncionarioRepository {
             nome=?,
             cpf=?,
             telefone=?,
-            endereco=?
+            endereco=?,
+            ativo = ?
           WHERE
             id=?;
 
-              """, c.getNome(), c.getCpf(), c.getTelefone(), c.getEndereco(), c.getId());
+              """, c.getNome(), c.getCpf(), c.getTelefone(), c.getEndereco(), c.isAtivo(),  c.getId());
 
     } catch (Exception e) {
       throw new DataIntegrityViolationException("CPF inválido!"); 

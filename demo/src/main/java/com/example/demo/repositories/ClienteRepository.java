@@ -94,7 +94,7 @@ public class ClienteRepository {
       }
       return c;
     } catch (Exception e) {
-      throw new IllegalArgumentException("Cpf ja cadastrado");
+      throw new IllegalArgumentException("Cpf ja cadastrado e/ou Cpf inválido");
     }
   }
 
@@ -103,13 +103,13 @@ public class ClienteRepository {
         UPDATE
           cliente
         SET
-          nome=?, cpf=?, telefone=?, rua=?, bairro=?, numero=?, complemento=?, cep=?
+          nome=?, cpf=?, telefone=?, rua=?, bairro=?, numero=?, complemento=?, cep=?, ativo = ? 
         WHERE
           id=?;
         """;
     jdbcTemplate.update(sql, c.getNome(), c.getCpf(), c.getTelefone(), c.getEndereco().getRua(),
         c.getEndereco().getBairro(), c.getEndereco().getNumero(),
-        c.getEndereco().getComplemento(), c.getEndereco().getCep(),
+        c.getEndereco().getComplemento(), c.getEndereco().getCep(), c.isAtivo(), 
         c.getId());
 
   }

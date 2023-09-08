@@ -68,11 +68,12 @@ public class ProdutoRepository {
                 SET
                   descricao=?,
                   valor=?,
-                  estoque=?
+                  estoque=?,
+                  ativo = ?
                 WHERE
                   id=?;
 
-                    """, c.getDescricao(), c.getValor(), c.getEstoque(), c.getId());
+                    """, c.getDescricao(), c.getValor(), c.getEstoque(), c.isAtivo(), c.getId());
 
     }
 

@@ -23,7 +23,8 @@ Content-Type: application/json
     "id": 1, 
     "descricao": "produsdfdsfto",
     "valor": 2,
-    "estoque": 100
+    "estoque": 100,
+    "ativo": true
 }
 
 ### adicionar

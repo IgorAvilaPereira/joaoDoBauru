@@ -18,7 +18,8 @@ Content-Type: application/json
     "nome": "Fulano de Tal",
     "cpf": "52835209000",
     "telefone": "987654321",
-    "endereco": "sem endereco"  
+    "endereco": "sem endereco",
+    "ativo": true
 }
 ### ADICIONAR
 POST {{host}}/funcionarios

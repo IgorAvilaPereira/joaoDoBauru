@@ -37,6 +37,7 @@ Content-Type: application/json
     "nome": "Fernando de Tal",
     "cpf": "92961800072",
     "telefone": "987654321",
+    "ativo": true,
     "endereco": {
         "rua": "Rua Tal",
         "bairro": "O Bairro Aqui",
