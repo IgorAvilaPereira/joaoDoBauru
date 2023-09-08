@@ -1,5 +1,7 @@
 package com.example.demo.entities;
 
+import java.util.Objects;
+
 public class Funcionario {
 
     private int id;
@@ -84,8 +86,6 @@ public class Funcionario {
         return this;
     }
 
- 
-
     @Override
     public boolean equals(Object o) {
         if (o == this)
@@ -99,7 +99,7 @@ public class Funcionario {
 
     @Override
     public int hashCode() {
-        return super.hashCode();
+        return Objects.hash(id);
     }
-    
+
 }

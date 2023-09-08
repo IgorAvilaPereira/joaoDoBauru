@@ -1,8 +1,10 @@
 package com.example.demo.entities;
 
 import java.math.BigDecimal;
+import java.util.Objects;
 
 import org.springframework.stereotype.Component;
+
 @Component
 public class Produto {
 
@@ -73,8 +75,6 @@ public class Produto {
         return this;
     }
 
-    
-
     @Override
     public boolean equals(Object o) {
         if (o == this)
@@ -88,8 +88,7 @@ public class Produto {
 
     @Override
     public int hashCode() {
-        return super.hashCode();
+        return Objects.hash(id);
     }
-    
-    
+
 }

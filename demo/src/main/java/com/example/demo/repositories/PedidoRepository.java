@@ -31,26 +31,26 @@ public class PedidoRepository {
         String sql = "SELECT * FROM historicoPedidos()";
         final List<Pedido> pedidos = jdbcTemplate.query(sql, pedidoRowMapper);
 
-        if(pedidos != null){
+        if (pedidos != null) {
 
-            pedidos.forEach( p -> {
+            pedidos.forEach(p -> {
                 List<Item> items = p.getItems();
                 List<Item> itemsFinal = new ArrayList<>();
 
                 items.forEach(i -> {
                     String sqlItem = "select * from item inner join produto on produto.id = item.produto_id where item.id = ?;";
                     Item item = jdbcTemplate.queryForObject(sqlItem, itemRowMapper, i.getId());
-    
+
                     String sqlProduto = "select * from produto where id = ?";
                     if (item != null) {
                         Produto produto = jdbcTemplate.queryForObject(sqlProduto, produtoRowMapper,
                                 item.getProduto().getId());
                         item.setProduto(produto);
                     }
-    
+
                     itemsFinal.add(item);
                 });
-    
+
                 p.setItems(itemsFinal);
             });
         }
@@ -86,23 +86,25 @@ public class PedidoRepository {
         return pedido;
     }
 
-    private final String DELETE_SQL = """
-            BEGIN;
-            DELETE FROM item WHERE pedido_id in (
-              SELECT id FROM pedido WHERE cliente_id = ?
-            );
-            DELETE FROM pedido WHERE cliente_id = ?;
-            DELETE FROM cliente WHERE id = ?; COMMIT;
-            """;
-
+    
     public void deletar(int id) {
-        jdbcTemplate.update(DELETE_SQL, id, id, id);
+
+        //TODO: FALTA DEVOLVER ESTOQUE PARA O PRODUTO
+        String DELETE_SQL = """
+                BEGIN;
+                DELETE FROM item WHERE pedido_id = ?;
+                DELETE FROM pedido WHERE id = ?;
+                COMMIT;
+                """;
+        jdbcTemplate.update(DELETE_SQL, id, id);
     }
 
     public Pedido inserir(Pedido p) throws SQLException {
-        String sql = """
-                INSERT INTO pedido (cliente_id, funcionario_id)
-                VALUES (?, ?)
+        String sqlPedido = """
+                INSERT INTO
+                    pedido (cliente_id, funcionario_id)
+                VALUES
+                    (?, ?)
                 """;
 
         KeyHolder keyHolder = new GeneratedKeyHolder();
@@ -110,8 +112,7 @@ public class PedidoRepository {
         String[] colunas = new String[] { "id", "data_hora" };
 
         int insertsCount = jdbcTemplate.update(connection -> {
-            PreparedStatement ps = connection
-                    .prepareStatement(sql, colunas);
+            PreparedStatement ps = connection.prepareStatement(sqlPedido, colunas);
             ps.setInt(1, p.getCliente().getId());
             ps.setInt(2, p.getFuncionario().getId());
 
@@ -121,32 +122,77 @@ public class PedidoRepository {
         if (insertsCount == 1) {
             Map<String, Object> keys = keyHolder.getKeys();
 
-            if (keys != null)
+            if (keys != null) {
                 keys.forEach((key, value) -> {
-                    if (key == "id")
+                    if (key.equals("id"))
                         p.setId((int) value);
-                    if (key == "data_hora")
+                    if (key.equals("data_hora"))
                         p.setData_hora((java.sql.Timestamp) value);
-
                 });
+            }
+
+            List<Item> items = p.getItems();
+
+            String sqlItem = "SELECT adicionaItem(?,?,?)";
+
+            items.forEach(item -> {
+
+                jdbcTemplate.queryForObject(
+                        sqlItem,
+                        Boolean.class,
+                        item.getProduto().getId(),
+                        item.getQuantidade(),
+                        p.getId());
+                
+            });
+
             return p;
-        } else {
-            throw new SQLException("Não retornou nenhum id");
         }
+
+        throw new SQLException("Pedido não inserido");
     }
 
     public void atualizar(Pedido p) {
 
-        // jdbcTemplate.update("""
-        // UPDATE cliente
-        // SET nome=?, cpf=?, telefone=?,
-        // rua=?, bairro=?, numero=?, complemento=?, cep=?
-        // WHERE id=?;
+        jdbcTemplate.update("""
+                UPDATE
+                    pedido
+                SET
+                    cliente_id=?, funcionario_id=?
+                WHERE
+                    id=?;
+                """, p.getCliente().getId(), p.getFuncionario().getId(), p.getId());
 
-        // """, p.getNome(), p.getCpf(), p.getTelefone(), p.getEndereco().getRua(),
-        // p.getEndereco().getBairro(), p.getEndereco().getNumero(),
-        // p.getEndereco().getComplemento(), p.getEndereco().getCep(),
-        // p.getId());
+        List<Item> oldItems = jdbcTemplate.query("select * from item", itemRowMapper);
+
+        if(oldItems.size() > 0){
+            oldItems.forEach(item -> {
+                jdbcTemplate.update("""
+                        DELETE FROM
+                            item
+                        WHERE
+                            id=?;
+                        """,
+                        item.getId());
+    
+            });
+        }
+
+        List<Item> items = p.getItems();
+        String sqlItem = "SELECT adicionaItem(?,?,?)";
+
+            items.forEach(item -> {
+
+                jdbcTemplate.queryForObject(
+                        sqlItem,
+                        Boolean.class,
+                        item.getProduto().getId(),
+                        item.getQuantidade(),
+                        p.getId());
+            });
+
+        
+
     }
 
 }

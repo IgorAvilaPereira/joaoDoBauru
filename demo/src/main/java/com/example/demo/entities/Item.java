@@ -3,6 +3,7 @@ package com.example.demo.entities;
 import org.springframework.stereotype.Component;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import java.util.Objects;
 
 @Component
 public class Item {
@@ -89,5 +90,23 @@ public class Item {
         setProduto(produto);
         return this;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == this)
+            return true;
+        if (!(o instanceof Item)) {
+            return false;
+        }
+        Item item = (Item) o;
+        return id == item.id;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
+    }
+   
+    
 
 }

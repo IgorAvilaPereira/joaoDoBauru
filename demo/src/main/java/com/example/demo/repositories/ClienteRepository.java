@@ -23,15 +23,7 @@ public class ClienteRepository {
   public List<Cliente> findAll() {
     String sql = """
             SELECT
-              c.id as c_id,
-              c.nome as c_nome,
-              c.cpf as c_cpf,
-              c.telefone as c_telefone,
-              c.rua as c_rua,
-              c.bairro as c_bairro,
-              c.numero as c_numero,
-              c.complemento as c_complemento,
-              c.cep as c_cep
+              c.id as c_id, c.nome as c_nome, c.cpf as c_cpf, c.telefone as c_telefone, c.rua as c_rua, c.bairro as c_bairro, c.numero as c_numero, c.complemento as c_complemento, c.cep as c_cep
             FROM
               cliente c
         """;
@@ -42,15 +34,7 @@ public class ClienteRepository {
   public Cliente findById(int id) {
     String sql = """
         SELECT
-          c.id as c_id,
-          c.nome as c_nome,
-          c.cpf as c_cpf,
-          c.telefone as c_telefone,
-          c.rua as c_rua,
-          c.bairro as c_bairro,
-          c.numero as c_numero,
-          c.complemento as c_complemento,
-          c.cep as c_cep
+          c.id as c_id, c.nome as c_nome, c.cpf as c_cpf, c.telefone as c_telefone, c.rua as c_rua, c.bairro as c_bairro, c.numero as c_numero, c.complemento as c_complemento, c.cep as c_cep
         FROM
           cliente c
         WHERE
@@ -75,8 +59,10 @@ public class ClienteRepository {
 
   public Cliente inserir(Cliente c) {
     String sql = """
-        INSERT INTO cliente (nome, cpf,telefone,rua,bairro,numero,complemento,cep)
-        VALUES (?, ?,?,?,?,?,?,?)
+        INSERT INTO 
+          cliente (nome, cpf,telefone,rua,bairro,numero,complemento,cep)
+        VALUES 
+          (?,?,?,?,?,?,?,?)
         """;
 
     KeyHolder keyHolder = new GeneratedKeyHolder();
@@ -104,14 +90,16 @@ public class ClienteRepository {
   }
 
   public void atualizar(Cliente c) {
-
-    jdbcTemplate.update("""
-          UPDATE cliente
-          SET  nome=?, cpf=?, telefone=?,
-          rua=?, bairro=?, numero=?, complemento=?, cep=?
-        WHERE id=?;
-
-            """, c.getNome(), c.getCpf(), c.getTelefone(), c.getEndereco().getRua(),
+    String sql = 
+        """
+        UPDATE 
+          cliente
+        SET  
+          nome=?, cpf=?, telefone=?, rua=?, bairro=?, numero=?, complemento=?, cep=?
+        WHERE 
+          id=?;
+        """;
+    jdbcTemplate.update( sql, c.getNome(), c.getCpf(), c.getTelefone(), c.getEndereco().getRua(),
         c.getEndereco().getBairro(), c.getEndereco().getNumero(),
         c.getEndereco().getComplemento(), c.getEndereco().getCep(),
         c.getId());

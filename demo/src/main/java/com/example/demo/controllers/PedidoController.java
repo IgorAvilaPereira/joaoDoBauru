@@ -47,7 +47,7 @@ public class PedidoController {
         try {
             pedidoRepository.inserir(obj);
             return ResponseEntity.ok().body(obj);
-        } catch (SQLException e) {
+        } catch (SQLException e) {  
             return ResponseEntity.badRequest().build();
         }
 

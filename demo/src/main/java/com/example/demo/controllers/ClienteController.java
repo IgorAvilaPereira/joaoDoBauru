@@ -37,6 +37,11 @@ public class ClienteController {
         return ResponseEntity.ok().body(clienteRepository.findAll());
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<Cliente> listarUm(@PathVariable Integer id) {
+        return ResponseEntity.ok().body(clienteRepository.findById(id));
+    }
+
     @PostMapping
     public ResponseEntity<Cliente> inserir(@RequestBody Cliente cli) {
 

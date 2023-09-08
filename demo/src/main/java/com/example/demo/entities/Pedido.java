@@ -3,6 +3,7 @@ package com.example.demo.entities;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.util.List;
+import java.util.Objects;
 
 import org.springframework.stereotype.Component;
 
@@ -16,7 +17,7 @@ public class Pedido {
     private BigDecimal total;
 
     private List<Item> items;
-    
+
     public Pedido() {
     }
 
@@ -27,7 +28,6 @@ public class Pedido {
         this.funcionario = funcionario;
         this.total = total;
     }
-
 
     public int getId() {
         return this.id;
@@ -97,7 +97,6 @@ public class Pedido {
         this.items = items;
     }
 
-
     @Override
     public boolean equals(Object o) {
         if (o == this)
@@ -111,10 +110,7 @@ public class Pedido {
 
     @Override
     public int hashCode() {
-        return super.hashCode();
+        return Objects.hash(id);
     }
-
-
-
 
 }
