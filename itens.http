@@ -4,4 +4,7 @@
 
 GET {{host}}/itens/pedido/5
 
-GET {{{host}}}/itens/3
+
+
+
+GET {{host}}/itens/3 HTTP/1.1

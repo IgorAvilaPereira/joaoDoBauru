@@ -35,9 +35,13 @@ public class ItemRepository {
     }
 
     public Item findOne(int id) {
-        String sql = """
-                SELECT *, 
-                    cast(valor_atual as numeric(8,2)) as valor_atual_numerico FROM item where id = ?
+      String sql = """
+                    SELECT *, 
+                    cast(valor_atual as numeric(8,2)) as valor_atual_numerico,
+                    cast(valor as numeric(8,2)) as valor_numerico                    
+                    
+                    from item inner join produto on (produto.id = item.produto_id) where item.id = ?
+
                 """;
 
         Item item = jdbcTemplate.queryForObject(sql, itemRowMapper, id);
