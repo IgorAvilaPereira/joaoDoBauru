@@ -20,7 +20,7 @@ public class ProdutoRowMapper implements RowMapper<Produto> {
         p.setId(rs.getInt("id"));
         p.setDescricao(rs.getString("descricao"));
         p.setEstoque(rs.getInt("estoque"));
-        p.setValor(rs.getBigDecimal("valor"));
+        // p.setValor(rs.getBigDecimal("valor"));
 
         return p;
     

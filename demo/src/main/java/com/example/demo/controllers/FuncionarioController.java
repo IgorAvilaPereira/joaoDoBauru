@@ -36,7 +36,7 @@ public class FuncionarioController {
     public ResponseEntity<List<Funcionario>> listar() {
         List<Funcionario> vetFuncionario = funcionarioRepository.findAll();
         if (vetFuncionario.size() > 0) {
-            return ResponseEntity.ok().body(funcionarioRepository.findAll());
+            return ResponseEntity.ok().body(vetFuncionario);
 
         } else {
             return ResponseEntity.ok().build();
@@ -70,9 +70,7 @@ public class FuncionarioController {
 
     @PutMapping
     public ResponseEntity<Funcionario> atualizar(@RequestBody Funcionario funcionario) {
-
         funcionarioRepository.atualizar(funcionario);
-
         return ResponseEntity.ok().body(funcionario);
     }
 
