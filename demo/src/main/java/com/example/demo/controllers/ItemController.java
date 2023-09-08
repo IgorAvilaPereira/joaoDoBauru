@@ -56,11 +56,11 @@ public class ItemController {
         }
     }
 
-    // @DeleteMapping("/{id}")
-    // public ResponseEntity<?> deletar(@PathVariable int id) {
-    //     this.itemRepository.deletar(id);
-    //     return ResponseEntity.ok().build();
-    // }
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> deletar(@PathVariable int id) {
+        this.itemRepository.deletar(id);
+        return ResponseEntity.ok().build();
+    }
 
     // @PostMapping
     // public ResponseEntity<Item> inserir(@RequestBody Item item) {

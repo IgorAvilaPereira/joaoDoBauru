@@ -49,6 +49,12 @@ public class ItemRepository {
         return item;
     }
 
+    public void deletar(int id) {
+        jdbcTemplate.update("""            
+            DELETE FROM item WHERE id = ?;            
+              """, id);
+      }
+
     public List<Item> findAllByIds(String ids) {
         String sql = """
                 SELECT * FROM item where
