@@ -1,0 +1,36 @@
+## Produtos
+
+@host = http://localhost:8080
+
+### Ler todos produtos
+GET {{host}}/produtos
+
+
+### Ler um Produto
+GET {{host}}/produtos/2
+
+# vale a pena o deletar produto??
+# ### Deletar
+# DELETE {{host}}/produtos/1
+
+### ATUALIZAR
+PUT {{host}}/produtos
+Content-Type: application/json
+
+{
+    "id": 1, 
+    "descricao": "produsdfdsfto",
+    "valor": 1.99,
+    "estoque": 100
+}
+
+### adicionar
+POST  {{host}}/produtos
+Content-Type: application/json
+
+{
+    "descricao": "produsdfdsfto",
+    "valor": 1.99,
+    "estoque": 100
+}
+

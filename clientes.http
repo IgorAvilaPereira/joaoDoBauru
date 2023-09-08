@@ -1,0 +1,44 @@
+## Clientes
+
+@host = http://localhost:8080
+
+### Inserir 
+# gerador de cpf: 4devs.com.br/gerador_de_cpf
+POST {{host}}/clientes
+Content-Type: application/json
+{
+    "nome": "Fulano de Tal",
+    "cpf": "92961800072",
+    "telefone": "987654321",
+    "endereco": {
+        "rua": "Rua Tal",
+        "bairro": "O Bairro Aqui",
+        "cep": "98733334",
+        "numero": "101"
+    }
+}
+### Ler Clientes
+GET {{host}}/clientes
+
+### Ler Clientes por Id
+GET {{host}}/clientes/10
+
+@host = http://localhost:8080
+
+### Atualizar
+PUT {{host}}/clientes
+Content-Type: application/json
+{
+    "id": 7,
+    "nome": "Fernando de Tal",
+    "cpf": "92961800072",
+    "telefone": "987654321",
+    "endereco": {
+        "rua": "Rua Tal",
+        "bairro": "O Bairro Aqui",
+        "cep": "98733334",
+        "numero": "101"
+    }
+}
+### Deletar
+DELETE {{host}}/clientes/6
