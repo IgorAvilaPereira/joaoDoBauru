@@ -18,15 +18,14 @@ public class ProdutoRepository {
     private final ProdutoRowMapper produtoRowMapper;
 
     public List<Produto> findAll() {
-        String sql = "SELECT * FROM produto";
+        String sql = "SELECT *, cast(valor as numeric(8,2)) as valor_numerico FROM produto";
         final List<Produto> Produtos = jdbcTemplate.query(sql, produtoRowMapper);
         return Produtos;
     }
 
     public Produto findById(int id) {
         String sql = """
-                    SELECT
-                    *
+                    SELECT *, cast(valor as numeric(8,2)) as valor_numerico
                     FROM
                       produto
                 WHERE
