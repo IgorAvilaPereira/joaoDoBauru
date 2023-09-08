@@ -44,6 +44,9 @@ Content-Type: application/json
 ### Ler Clientes
 GET {{host}}/clientes
 
+### Ler Clientes por Id
+GET {{host}}/clientes/10
+
 ### Atualizar
 PUT {{host}}/clientes
 Content-Type: application/json
@@ -91,5 +94,107 @@ GET {{host}}/pedidos
 #         "numero": "101"
 #     }
 # }
+
+### Ler Pedidos
+GET {{host}}/pedidos
+
+### Ler Pedidos por Id
+GET {{host}}/pedidos/25
+
+### Inserir Pedido
+POST {{host}}/pedidos
+Content-Type: application/json
+
+{
+  "cliente": {
+    "id": 10,
+    "nome": "fernando barbosa",
+    "cpf": null,
+    "telefone": "987654321",
+    "endereco": {
+      "rua": "Rua Tal",
+      "bairro": "O Bairro Aqui",
+      "complemento": "Casa",
+      "numero": "123",
+      "cep": "98733334"
+    }
+  },
+  "funcionario": {
+    "id": 1,
+    "nome": "JOÃO",
+    "cpf": "98339518054",
+    "endereco": "RUA QUE DÁ BUG",
+    "telefone": "53999999999"
+  },
+  "total": 40.00,
+  "items": [
+    {
+      "id": 1,
+      "valor_atual": 10.0,
+      "quantidade": 2,
+      "produto": {
+        "id": 1,
+        "descricao": "TORRADA AMERICANA",
+        "valor": 10.00,
+        "estoque": 6
+      }
+    },
+    {
+      "id": 2,
+      "valor_atual": 20.0,
+      "quantidade": 1,
+      "produto": {
+        "id": 2,
+        "descricao": "BAURU DE FILÉ",
+        "valor": 20.00,
+        "estoque": 10
+      }
+    }
+  ]
+}
+
+### Atualizar Pedido
+PUT {{host}}/pedidos
+Content-Type: application/json
+
+{
+  "id": 25,
+  "cliente": {
+    "id": 10,
+    "nome": "fernando barbosa",
+    "cpf": null,
+    "telefone": "987654321",
+    "endereco": {
+      "rua": "Rua Tal",
+      "bairro": "O Bairro Aqui",
+      "complemento": "Casa",
+      "numero": "123",
+      "cep": "98733334"
+    }
+  },
+  "funcionario": {
+    "id": 1,
+    "nome": "JOÃO",
+    "cpf": "98339518054",
+    "endereco": "RUA QUE DÁ BUG",
+    "telefone": "53999999999"
+  },
+  "total": 40.00,
+  "items": [
+    {
+      "valor_atual": 20.0,
+      "quantidade": 10,
+      "produto": {
+        "id": 2,
+        "descricao": "BAURU DE FILÉ",
+        "valor": 20.00,
+        "estoque": 10
+      }
+    }
+  ]
+}
+
+### Deletar Pedido
+DELETE {{host}}/pedidos/20
 
 
