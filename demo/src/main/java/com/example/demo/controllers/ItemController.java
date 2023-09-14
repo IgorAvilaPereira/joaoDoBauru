@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.entities.Item;
-import com.example.demo.repositories.ItemRepository;
+import com.example.demo.repositories.ItemRepositoryImpl;
 
 import lombok.RequiredArgsConstructor;
 
@@ -30,11 +30,11 @@ import lombok.RequiredArgsConstructor;
 @RequestMapping("itens")
 public class ItemController {
 
-    private final ItemRepository itemRepository;
+    private final ItemRepositoryImpl itemRepository;
 
     @GetMapping("/pedido/{pedido_id}")
     public ResponseEntity<List<Item>> listar(@PathVariable int pedido_id) {
-        List<Item> vetItem = itemRepository.findByPedidoId(pedido_id);
+        List<Item> vetItem = itemRepository.listarPorPedidoId(pedido_id);
         if (vetItem.size() > 0) {
             return ResponseEntity.ok().body(vetItem);
 
@@ -47,8 +47,7 @@ public class ItemController {
     @GetMapping("/{id}")
     public ResponseEntity<Item> findById(@PathVariable int id) {
         try {
-            Item f = itemRepository.findOne(id);
-            // if (/*f != null &&*/ f.getId() != 0) {
+            Item f = itemRepository.listarUm(id);
             return ResponseEntity.ok().body(f);
         } catch (Exception e) {
             return ResponseEntity.ok().body(new Item());
@@ -68,10 +67,10 @@ public class ItemController {
         return ResponseEntity.ok().body(item);
     }
 
-    // @PutMapping
-    // public ResponseEntity<Item> atualizar(@RequestBody Item item) {
-    //     itemRepository.atualizar(item);
-    //     return ResponseEntity.ok().body(item);
-    // }
+    @PutMapping
+    public ResponseEntity<Item> atualizar(@RequestBody Item item) {
+        itemRepository.atualizar(item);
+        return ResponseEntity.ok().body(item);
+    }
 
 }

@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.entities.Cliente;
-import com.example.demo.repositories.ClienteRepository;
+import com.example.demo.repositories.ClienteRepositoryImpl;
 
 import lombok.RequiredArgsConstructor;
 
@@ -30,17 +30,17 @@ import lombok.RequiredArgsConstructor;
 @RequestMapping("clientes")
 public class ClienteController {
 
-    private final ClienteRepository clienteRepository;
+    private final ClienteRepositoryImpl clienteRepository;
 
     @GetMapping
     public ResponseEntity<List<Cliente>> listar() {
-        return ResponseEntity.ok().body(clienteRepository.findAll());
+        return ResponseEntity.ok().body(clienteRepository.listar());
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<?> listarUm(@PathVariable Integer id) {
         try {
-            return ResponseEntity.ok().body(clienteRepository.findById(id));
+            return ResponseEntity.ok().body(clienteRepository.listarUm(id));
         } catch(Exception e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         } 

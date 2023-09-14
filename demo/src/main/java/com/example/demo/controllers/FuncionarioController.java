@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.entities.Funcionario;
-import com.example.demo.repositories.FuncionarioRepository;
+import com.example.demo.repositories.FuncionarioRepositoryImpl;
 
 import lombok.RequiredArgsConstructor;
 
@@ -30,11 +30,11 @@ import lombok.RequiredArgsConstructor;
 @RequestMapping("funcionarios")
 public class FuncionarioController {
 
-    private final FuncionarioRepository funcionarioRepository;
+    private final FuncionarioRepositoryImpl funcionarioRepository;
 
     @GetMapping
     public ResponseEntity<List<Funcionario>> listar() {
-        List<Funcionario> vetFuncionario = funcionarioRepository.findAll();
+        List<Funcionario> vetFuncionario = funcionarioRepository.listar();
         if (vetFuncionario.size() > 0) {
             return ResponseEntity.ok().body(vetFuncionario);
 
@@ -47,7 +47,7 @@ public class FuncionarioController {
     @GetMapping("/{id}")
     public ResponseEntity<Funcionario> findById(@PathVariable int id) {
         try {
-            Funcionario f = funcionarioRepository.findById(id);
+            Funcionario f = funcionarioRepository.listarUm(id);
             // if (/*f != null &&*/ f.getId() != 0) {
             return ResponseEntity.ok().body(f);
         } catch (Exception e) {

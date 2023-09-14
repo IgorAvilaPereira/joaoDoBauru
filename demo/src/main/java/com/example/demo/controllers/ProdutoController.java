@@ -17,10 +17,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.entities.Produto;
-import com.example.demo.repositories.ProdutoRepository;
+import com.example.demo.repositories.ProdutoRepositoryImpl;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.RequestParam;
 
 
 /**
@@ -32,11 +31,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 @RequestMapping("produtos")
 public class ProdutoController {
 
-    private final ProdutoRepository produtoRepository;
+    private final ProdutoRepositoryImpl produtoRepository;
 
     @GetMapping
     public ResponseEntity<List<Produto>> listar() {
-        List<Produto> vetProduto = produtoRepository.findAll();
+        List<Produto> vetProduto = produtoRepository.listar();
         if (vetProduto.size() > 0) {
             return ResponseEntity.ok().body(vetProduto);
 
@@ -49,7 +48,7 @@ public class ProdutoController {
     @GetMapping("/{id}")
     public ResponseEntity<Produto> findById(@PathVariable int id) {
         try {
-            Produto f = produtoRepository.findById(id);
+            Produto f = produtoRepository.listarUm(id);
             // if (/*f != null &&*/ f.getId() != 0) {
             return ResponseEntity.ok().body(f);
         } catch (Exception e) {

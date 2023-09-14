@@ -7,12 +7,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.example.demo.entities.Pedido;
-import com.example.demo.repositories.PedidoRepository;
+import com.example.demo.repositories.PedidoRepositoryImpl;
 
 @Service
 public class PedidoService {
     @Autowired
-    private PedidoRepository repository;
+    private PedidoRepositoryImpl repository;
 
     public List<Pedido> findAll() {
         return repository.listar();

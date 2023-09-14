@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.entities.Pedido;
-import com.example.demo.repositories.PedidoRepository;
+import com.example.demo.repositories.PedidoRepositoryImpl;
 
 import lombok.RequiredArgsConstructor;
 
@@ -27,7 +27,7 @@ import lombok.RequiredArgsConstructor;
 @RequestMapping("pedidos")
 public class PedidoController {
 
-    private final PedidoRepository pedidoRepository;
+    private final PedidoRepositoryImpl pedidoRepository;
 
     @GetMapping
     public ResponseEntity<List<Pedido>> listar() {
@@ -45,8 +45,6 @@ public class PedidoController {
         try {
             pedidoRepository.inserir(obj);
             return ResponseEntity.ok().body(obj);
-        } catch (SQLException e) {  
-            return ResponseEntity.badRequest().build();
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(e.getMessage());
 
