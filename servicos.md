@@ -7,21 +7,21 @@ Clientes (Josué)
 =================
 Funcionários (Fernando)
 - listar
-- findbyId
+- listarUm
 - deletar
 - inserir
 - atualizar
 =================
 Produtos (Manuella)
-- listar 
-- findbyId
+- listar
+- listarUm
 - deletar => precisa??
-- inserir 
-- atualizar 
+- inserir
+- atualizar
 =================
 Pedido
 - listar
-- findById
+- listarUm
 - inserir
 - atualizar
 - deletar -> tá repondo a qtde no estoque de cada produto?
@@ -31,4 +31,3 @@ Itens
 - deletar -> volta o estoque no produto?
 - inserir
 - ???
-
