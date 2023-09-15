@@ -7,6 +7,7 @@ package com.example.demo.controllers;
 import java.util.List;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -32,6 +33,7 @@ public class ClienteController {
 
     private final ClienteRepositoryImpl clienteRepository;
 
+    @CrossOrigin(origins = "https://9842-200-132-11-251.ngrok-free.app")
     @GetMapping
     public ResponseEntity<List<Cliente>> listar() {
         return ResponseEntity.ok().body(clienteRepository.listar());

@@ -68,9 +68,15 @@ public class ItemController {
     }
 
     @PutMapping
-    public ResponseEntity<Item> atualizar(@RequestBody Item item) {
-        itemRepository.atualizar(item);
-        return ResponseEntity.ok().body(item);
+    public ResponseEntity<?> atualizar(@PathVariable int pedidoId, @RequestBody Item item) {
+        try {            
+            return ResponseEntity.ok().body(itemRepository.atualizar(item));
+        } catch (Exception e) {
+            // System.out.println(e.getMessage());
+            return ResponseEntity.badRequest().body("Não foi possível atualizar o item");
+
+        }
+        
     }
 
 }

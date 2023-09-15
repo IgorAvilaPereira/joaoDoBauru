@@ -133,7 +133,7 @@ INSERT INTO pedido (cliente_id, funcionario_id) VALUES
 CREATE TABLE produto (
     id serial primary key,
     descricao text not null,
-    valor money,
+    valor numeric(8,2),
     estoque integer,
     ativo boolean default true
 );
@@ -148,20 +148,18 @@ CREATE TABLE item (
     pedido_id integer references pedido (id),
     produto_id integer references produto (id),
     quantidade integer check (quantidade >= 1) DEFAULT 1,
-    valor_atual money
+    valor_atual numeric(8,2)
 );
 
-INSERT INTO item (pedido_id, produto_id, quantidade, valor_atual) VALUES
-(1, 1, 2, 10.00);
-
-INSERT INTO item (pedido_id, produto_id, quantidade, valor_atual) VALUES
-(1, 2, 1, 20.00);
 
 
-CREATE OR REPLACE FUNCTION totalPedido(integer) RETURNS money AS
+
+--DROP FUNCTION totalPedido;
+
+CREATE OR REPLACE FUNCTION totalPedido(integer) RETURNS numeric(8,2) AS
 $$
 DECLARE
-    total money := 0.0;
+    total numeric(8,2) := 0.0;
 BEGIN
     SELECT INTO total sum(item.valor_atual * item.quantidade) FROM item where item.pedido_id = $1;
     RETURN total;
@@ -172,6 +170,8 @@ $$ LANGUAGE 'plpgsql';
 -- recebe cliente_id
 --  https://www.postgresqltutorial.com/postgresql-aggregate-functions/postgresql-string_agg-function/
 -- select * from historicoPedidos(1);
+DROP FUNCTION historicoPedidos;
+
 CREATE OR REPLACE FUNCTION historicoPedidos() RETURNS TABLE(
         id integer,
 		data_hora timestamp,
@@ -192,7 +192,7 @@ CREATE OR REPLACE FUNCTION historicoPedidos() RETURNS TABLE(
 		c_cep character(11), 
         c_ativo boolean,
         items text,
-        total money) AS
+        total numeric(8,2)) AS
 $$
 BEGIN
      RETURN QUERY 
@@ -232,6 +232,8 @@ BEGIN
 END;
 $$ LANGUAGE 'plpgsql';
 
+--DROP FUNCTION clientesComMaisPedidos;
+
 CREATE OR REPLACE FUNCTION clientesComMaisPedidos() RETURNS TABLE (cliente_id int) AS
 $$
 BEGIN
@@ -239,6 +241,8 @@ BEGIN
 END;
 $$ LANGUAGE 'plpgsql';
 
+
+--DROP FUNCTION funcionariosComMaisPedidos;
 
 CREATE OR REPLACE FUNCTION funcionariosComMaisPedidos() RETURNS TABLE (funcionario_id int) AS
 $$
@@ -248,7 +252,9 @@ END;
 $$ LANGUAGE 'plpgsql';
 
 -- joaodobauru=# SELECT * FROM relatorioDeVendas(cast('2023-08-01' as date), cast('2023-08-25' as date));
-CREATE OR REPLACE FUNCTION relatorioDeVendas(date, date) RETURNS TABLE(id integer, data_hora timestamp, cliente_id integer, funcionario_id integer, total money) AS
+DROP FUNCTION relatorioDeVendas;
+
+CREATE OR REPLACE FUNCTION relatorioDeVendas(date, date) RETURNS TABLE(id integer, data_hora timestamp, cliente_id integer, funcionario_id integer, total numeric(8,2)) AS
 $$
 BEGIN
      RETURN QUERY Select pedido.id, pedido.data_hora, pedido.cliente_id, pedido.funcionario_id, sum(item.quantidade*item.valor_atual) as total FROM pedido inner join item on (pedido.id = item.pedido_id) 
@@ -258,11 +264,12 @@ END;
 $$ LANGUAGE 'plpgsql';
 
 
+--DROP FUNCTION adicionaItem;
 CREATE OR REPLACE FUNCTION adicionaItem(produto_id integer, qtde integer, pedido_id integer) RETURNS BOOLEAN AS
 $$
 DECLARE
     qtde_estoque integer := 0;
-    valor_produto money := 0;
+    valor_produto numeric(8,2) := 0;
 BEGIN
     SELECT estoque FROM produto WHERE id = produto_id INTO qtde_estoque;
     SELECT valor FROM produto WHERE id = produto_id INTO valor_produto;
@@ -277,6 +284,32 @@ BEGIN
 END;
 $$ LANGUAGE 'plpgsql';
 
+--DROP FUNCTION atualizaItem;
+CREATE OR REPLACE FUNCTION atualizaItem(item_id integer, qtde_nova  integer) RETURNS BOOLEAN AS
+$$
+DECLARE
+    qtde_item integer := 0;
+    prod_id integer := 0;
+    estoque_atual integer := 0;
+BEGIN
+
+ SELECT item.quantidade, item.produto_id, produto.estoque FROM item INNER JOIN produto ON item.produto_id = produto.id where item.id = item_id INTO qtde_item, prod_id, estoque_atual;
+
+    IF (estoque_atual + qtde_item >= qtde_nova) THEN
+        IF (qtde_nova < qtde_item) THEN
+            UPDATE produto SET estoque = estoque_atual + (qtde_item - qtde_nova) WHERE id = prod_id;
+        ELSE
+            UPDATE produto SET estoque = estoque_atual - (qtde_nova - qtde_item) WHERE id = prod_id;       
+        END IF;
+        UPDATE item SET quantidade = qtde_nova WHERE id = item_id;
+        RETURN TRUE;
+    END IF;    
+    RETURN FALSE;
+END;
+$$ LANGUAGE 'plpgsql';
+
+
+--DROP FUNCTION removeItem;
 CREATE OR REPLACE FUNCTION removeItem(item_id integer) RETURNS BOOLEAN AS
 $$
 DECLARE
@@ -286,7 +319,7 @@ DECLARE
 BEGIN
     SELECT item.quantidade, item.produto_id, produto.estoque FROM item INNER JOIN produto ON item.produto_id = produto.id where item.id = item_id INTO qtde_item, prod_id, estoque_atual;
 
-    IF (qtde_item > 0 AND qtde_item < estoque_atual) THEN
+    IF (qtde_item > 0 /*AND qtde_item < estoque_atual*/) THEN
             DELETE from item WHERE id = item_id;
             UPDATE produto SET estoque = estoque_atual + qtde_item WHERE id = prod_id;
         RETURN TRUE;
@@ -294,6 +327,17 @@ BEGIN
     RETURN FALSE;
 END;
 $$ LANGUAGE 'plpgsql';
+
+
+-- prod_id, qtde, pedido_id
+SELECT adicionaItem(1, 2, 1);
+SELECT adicionaItem(2, 1, 1);
+
+--INSERT INTO item (pedido_id, produto_id, quantidade, valor_atual) VALUES
+--(1, 1, 2, 10.00);
+--
+--INSERT INTO item (pedido_id, produto_id, quantidade, valor_atual) VALUES
+--(1, 2, 1, 20.00);
 
 
 

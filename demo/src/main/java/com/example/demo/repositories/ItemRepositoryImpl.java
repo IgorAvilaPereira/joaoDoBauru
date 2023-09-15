@@ -115,9 +115,19 @@ public class ItemRepositoryImpl implements ItemRepository {
     }
 
     @Override
-    public Item atualizar(Item c) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'atualizar'");
+    public Item atualizar(Item c) throws Exception {
+        if (c.getQuantidade() == 0){
+            this.deletar(c.getId());
+            return null;
+        } else {
+
+           boolean resultado = jdbcTemplate.queryForObject("SELECT atualizaItem(?,?)", Boolean.class, new Object[] {c.getId(), c.getQuantidade()});
+           if (!resultado) {
+                // System.out.println(e.get);
+                throw new Exception("Não foi possível atualizar");
+           }
+        }
+        return this.listarUm(c.getId());
     }
 
 }

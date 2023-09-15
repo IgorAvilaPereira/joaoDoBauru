@@ -11,5 +11,5 @@ public interface ItemRepository {
     public boolean inserir(Item i, int pedidoId);
     public List<Item> listarPorIds(String ids);
     public void deletar(int id);
-    public Item atualizar(Item c);
+    public Item atualizar(Item c) throws Exception;
 }
