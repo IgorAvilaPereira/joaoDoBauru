@@ -108,29 +108,3 @@ Content-Type: application/json
 
 ### Deletar por ID
 DELETE {{host}}/pedidos/5
-
-
-
-
-
-## Pedidos
-### Deletar Pedido
-DELETE {{host}}/pedidos/2
-### Ler Pedidos => erro
-GET {{host}}/pedidos
-
-
-# ### Inserir => bug
-# POST {{host}}/pedidos
-# Content-Type: application/json
-# {
-#     "nome": "Fulano de Tal",
-#     "cpf": "92961800072",
-#     "telefone": "987654321",
-#     "endereco": {
-#         "rua": "Rua Tal",
-#         "bairro": "O Bairro Aqui",
-#         "cep": "98733334",
-#         "numero": "101"
-#     }
-# }
