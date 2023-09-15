@@ -273,15 +273,18 @@ BEGIN
 END;
 $$ LANGUAGE 'plpgsql';
 
-CREATE OR REPLACE FUNCTION removeItem(prod_id integer, qtde integer, ped_id integer) RETURNS BOOLEAN AS
+CREATE OR REPLACE FUNCTION removeItem(item_id integer) RETURNS BOOLEAN AS
 $$
 DECLARE
     qtde_item integer := 0;
+    prod_id integer := 0;
+    estoque_atual integer := 0;
 BEGIN
-    SELECT quantidade FROM item WHERE id = prod_id INTO qtde_item;
-    IF (qtde = qtde_item) THEN
-            DELETE from item WHERE item.produto_id = prod_id and item.pedido_id = ped_id;
-            UPDATE produto SET estoque = estoque + qtde WHERE id = prod_id;
+    SELECT item.quantidade, item.produto_id, produto.estoque FROM item INNER JOIN produto ON item.produto_id = produto.id where item.id = item_id INTO qtde_item, prod_id, estoque_atual;
+
+    IF (qtde_item > 0 AND qtde_item < estoque_atual) THEN
+            DELETE from item WHERE id = item_id;
+            UPDATE produto SET estoque = estoque_atual + qtde_item WHERE id = prod_id;
         RETURN TRUE;
 	END IF;
     RETURN FALSE;

@@ -6,14 +6,14 @@
 GET {{host}}/pedidos/1/itens
 
 ### Ler um item de um pedido
-GET {{host}}/pedidos/1/itens/1
+GET {{host}}/pedidos/1/itens/5
 
 ### Inserir um item em um pedido
 POST {{host}}/pedidos/1/itens
 Content-Type: application/json
 
 {
-    "quantidade": 2,
+    "quantidade": 1,
     "produto": {
         "id": 2
     }
@@ -31,4 +31,4 @@ Content-Type: application/json
 }
 
 ### Deletar um item de um pedido
-DELETE {{host}}/pedidos/1/itens/3
+DELETE {{host}}/pedidos/1/itens/4

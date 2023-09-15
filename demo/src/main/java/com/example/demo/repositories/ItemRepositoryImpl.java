@@ -52,16 +52,10 @@ public class ItemRepositoryImpl implements ItemRepository {
 
         Item i = listarUm(id);
 
-        String sql = "SELECT removeItem(?,?,?);";
+        String sql = "SELECT removeItem(?);";
 
         if (i != null) {
-            jdbcTemplate.queryForObject(
-                    sql,
-                    Boolean.class,
-                    new Object[] {
-                            i.getProduto().getId(),
-                            i.getQuantidade(),
-                            i.getPedido().getId() });
+            jdbcTemplate.queryForObject(sql,Boolean.class,id);
         } else {
             throw new IllegalArgumentException(sql);
         }
@@ -75,8 +69,8 @@ public class ItemRepositoryImpl implements ItemRepository {
                     sql,
                     Boolean.class,
                     new Object[] {
-                            i.getProduto().getId(), 
-                            i.getQuantidade(), 
+                            i.getProduto().getId(),
+                            i.getQuantidade(),
                             pedidoId
                     });
 
