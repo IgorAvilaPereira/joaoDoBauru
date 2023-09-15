@@ -27,14 +27,14 @@ import lombok.RequiredArgsConstructor;
  */
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("itens")
+@RequestMapping("/pedidos/{pedidoId}/itens")
 public class ItemController {
 
     private final ItemRepositoryImpl itemRepository;
 
-    @GetMapping("/pedido/{pedido_id}")
-    public ResponseEntity<List<Item>> listar(@PathVariable int pedido_id) {
-        List<Item> vetItem = itemRepository.listarPorPedidoId(pedido_id);
+    @GetMapping
+    public ResponseEntity<List<Item>> listar(@PathVariable int pedidoId) {
+        List<Item> vetItem = itemRepository.listarPorPedidoId(pedidoId);
         if (vetItem.size() > 0) {
             return ResponseEntity.ok().body(vetItem);
 
@@ -57,13 +57,13 @@ public class ItemController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deletar(@PathVariable int id) {
-        this.itemRepository.deletar(id);
+        itemRepository.deletar(id);
         return ResponseEntity.ok().build();
     }
 
     @PostMapping
-    public ResponseEntity<Item> inserir(@RequestBody Item item) {
-        itemRepository.inserir(item);
+    public ResponseEntity<Item> inserir(@RequestBody Item item, @PathVariable int pedidoId) {
+        itemRepository.inserir(item, pedidoId);
         return ResponseEntity.ok().body(item);
     }
 

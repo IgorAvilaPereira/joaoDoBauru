@@ -8,7 +8,7 @@ public interface ItemRepository {
 
     public List<Item> listarPorPedidoId(int pedido_id);
     public Item listarUm(int id);
-    public boolean inserir(Item c);
+    public boolean inserir(Item i, int pedidoId);
     public List<Item> listarPorIds(String ids);
     public void deletar(int id);
     public Item atualizar(Item c);

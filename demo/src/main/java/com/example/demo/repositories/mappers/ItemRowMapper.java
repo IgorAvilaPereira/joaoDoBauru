@@ -12,7 +12,7 @@ import com.example.demo.entities.Pedido;
 import com.example.demo.entities.Produto;
 
 @Configuration
-public class ItemRowMapper implements RowMapper<Item>{
+public class ItemRowMapper implements RowMapper<Item> {
 
     private final Produto produto;
     private final Pedido pedido;
@@ -22,14 +22,15 @@ public class ItemRowMapper implements RowMapper<Item>{
         this.pedido = pedido;
     }
 
-    // TODO: Seria legal se colocassemos no item todo o objeto de pedido e todo o objeto de produto
+    // TODO: Seria legal se colocassemos no item todo o objeto de pedido e todo o
+    // objeto de produto
     @Override
     @Nullable
     public Item mapRow(ResultSet rs, int rowNum) throws SQLException {
         Item item = new Item();
         item.setId(rs.getInt("id"));
-    	item.setQuantidade(rs.getInt("quantidade"));
-        item.setValor_atual(rs.getDouble("valor_atual_numerico"));                
+        item.setQuantidade(rs.getInt("quantidade"));
+        item.setValor(rs.getDouble("valor_atual_numerico"));
         pedido.setId(rs.getInt("pedido_id"));
         item.setPedido(pedido);
         produto.setId(rs.getInt("produto_id"));

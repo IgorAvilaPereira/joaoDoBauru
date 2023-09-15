@@ -9,7 +9,7 @@ import java.util.Objects;
 public class Item {
 
     private int id;
-    private Double valor_atual;
+    private Double valor;
     private int quantidade;
     @JsonIgnore
     private Pedido pedido;
@@ -20,7 +20,7 @@ public class Item {
 
     public Item(int id, Double valor_atual, int quantidade, Pedido pedido, Produto produto) {
         this.id = id;
-        this.valor_atual = valor_atual;
+        this.valor = valor_atual;
         this.quantidade = quantidade;
         this.pedido = pedido;
         this.produto = produto;
@@ -34,12 +34,12 @@ public class Item {
         this.id = id;
     }
 
-    public Double getValor_atual() {
-        return this.valor_atual;
+    public Double getValor() {
+        return this.valor;
     }
 
-    public void setValor_atual(Double valor_atual) {
-        this.valor_atual = valor_atual;
+    public void setValor(Double valor_atual) {
+        this.valor = valor_atual;
     }
 
     public int getQuantidade() {
@@ -72,7 +72,7 @@ public class Item {
     }
 
     public Item valor_atual(Double valor_atual) {
-        setValor_atual(valor_atual);
+        setValor(valor_atual);
         return this;
     }
 
@@ -106,7 +106,5 @@ public class Item {
     public int hashCode() {
         return Objects.hash(id);
     }
-   
-    
 
 }

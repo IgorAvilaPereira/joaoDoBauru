@@ -1,7 +1,7 @@
 ## Clientes
 
-# @host = http://localhost:8080
-@host = https://5c9c-200-132-11-251.ngrok-free.app
+@host = http://localhost:8080
+# @host = https://5c9c-200-132-11-251.ngrok-free.app
 
 ### Ler Clientes
 GET {{host}}/clientes
@@ -25,7 +25,7 @@ Content-Type: application/json
 
 
 ### Ler Clientes por Id
-GET {{host}}/clientes/5
+GET {{host}}/clientes/3
 
 
 ### Atualizar
@@ -33,9 +33,9 @@ PUT {{host}}/clientes
 Content-Type: application/json
 
 {
-    "id": 7,
-    "nome": "Fernando de Tal",
-    "cpf": "92961800072",
+    "id": 2,
+    "nome": "SÉRGIO HENRIQUES PEREIRA",
+    "cpf": "71090546084",
     "telefone": "987654321",
     "ativo": true,
     "endereco": {

@@ -2,9 +2,33 @@
 
 @host = http://localhost:8080
 
-GET {{host}}/itens/pedido/5
+### Ler os itens de um pedido
+GET {{host}}/pedidos/1/itens
 
-GET {{host}}/itens/3 HTTP/1.1
+### Ler um item de um pedido
+GET {{host}}/pedidos/1/itens/1
 
+### Inserir um item em um pedido
+POST {{host}}/pedidos/1/itens
+Content-Type: application/json
 
-DELETE {{host}}/itens/3 HTTP/1.1
+{
+    "quantidade": 2,
+    "produto": {
+        "id": 2
+    }
+}
+
+### Atualizar um item
+PUT {{host}}/pedidos/1/itens/1
+Content-Type: application/json
+
+{
+    "quantidade": 10,
+    "produto": {
+        "id": 1
+    }
+}
+
+### Deletar um item de um pedido
+DELETE {{host}}/pedidos/1/itens/3

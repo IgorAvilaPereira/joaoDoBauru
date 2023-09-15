@@ -264,7 +264,7 @@ BEGIN
     SELECT valor FROM produto WHERE id = produto_id INTO valor_produto;
     IF (qtde <= qtde_estoque) THEN
         -- BEGIN;
-            INSERT INTO item (produto_id, pedido_id, quantidade, valor_atual) VALUES (produto_id, pedido_id, qtde, valor_produto);
+            INSERT INTO item (produto_id, pedido_id, quantidade, valor_atual) VALUES (produto_id, pedido_id, qtde, valor_produto * qtde);
             UPDATE produto SET estoque = estoque - qtde WHERE id = produto_id;
         -- COMMIT;
         RETURN TRUE;
@@ -273,22 +273,17 @@ BEGIN
 END;
 $$ LANGUAGE 'plpgsql';
 
-CREATE OR REPLACE FUNCTION removeItem(produto_id integer, qtde integer, pedido_id integer) RETURNS BOOLEAN AS
+CREATE OR REPLACE FUNCTION removeItem(prod_id integer, qtde integer, ped_id integer) RETURNS BOOLEAN AS
 $$
 DECLARE
     qtde_item integer := 0;
 BEGIN
-    SELECT quantidade FROM item WHERE id = produto_id INTO qtde_item;
+    SELECT quantidade FROM item WHERE id = prod_id INTO qtde_item;
     IF (qtde = qtde_item) THEN
-            DELETE from item i WHERE i.produto_id = produto_id and i.pedido_id = pedido_id;
-            UPDATE produto SET estoque = estoque - qtde WHERE id = produto_id;
+            DELETE from item WHERE item.produto_id = prod_id and item.pedido_id = ped_id;
+            UPDATE produto SET estoque = estoque + qtde WHERE id = prod_id;
         RETURN TRUE;
 	END IF;
-	IF (qtde < qtde_item) THEN
-            UPDATE item i SET quantidade = (qtde_item - qtde) WHERE i.produto_id = produto_id and i.pedido_id = pedido_id;
-            UPDATE produto SET estoque = estoque + qtde WHERE id = produto_id;
-        RETURN TRUE;
-    END IF;
     RETURN FALSE;
 END;
 $$ LANGUAGE 'plpgsql';

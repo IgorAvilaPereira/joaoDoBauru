@@ -1,7 +1,7 @@
 ## Produtos
 
-# @host = http://localhost:8080
-@host = https://5c9c-200-132-11-251.ngrok-free.app
+@host = http://localhost:8080
+# @host = https://5c9c-200-132-11-251.ngrok-free.app
 
 
 ### Ler todos produtos

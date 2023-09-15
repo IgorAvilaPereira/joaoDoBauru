@@ -11,7 +11,6 @@ import com.example.demo.entities.Item;
 import com.example.demo.entities.Pedido;
 import com.example.demo.entities.Produto;
 import com.example.demo.repositories.mappers.ItemRowMapper;
-
 import lombok.RequiredArgsConstructor;
 
 @Repository
@@ -23,10 +22,10 @@ public class ItemRepositoryImpl implements ItemRepository {
 
     public List<Item> listarPorPedidoId(int pedido_id) {
         String sql = """
-                    SELECT *, 
+                    SELECT *,
                     cast(valor_atual as numeric(8,2)) as valor_atual_numerico,
-                    cast(valor as numeric(8,2)) as valor_numerico                    
-                    
+                    cast(valor as numeric(8,2)) as valor_numerico
+
                     from item inner join produto on (produto.id = item.produto_id) where pedido_id = ?
 
                 """;
@@ -35,11 +34,11 @@ public class ItemRepositoryImpl implements ItemRepository {
     }
 
     public Item listarUm(int id) {
-      String sql = """
-                    SELECT *, 
+        String sql = """
+                    SELECT *,
                     cast(valor_atual as numeric(8,2)) as valor_atual_numerico,
-                    cast(valor as numeric(8,2)) as valor_numerico                    
-                    
+                    cast(valor as numeric(8,2)) as valor_numerico
+
                     from item inner join produto on (produto.id = item.produto_id) where item.id = ?
 
                 """;
@@ -50,31 +49,45 @@ public class ItemRepositoryImpl implements ItemRepository {
     }
 
     public void deletar(int id) {
-        jdbcTemplate.update("""            
-            DELETE FROM item WHERE id = ?;            
-              """, id);
-      }
 
+        Item i = listarUm(id);
 
-        public boolean inserir(Item c) {
-    try {
-      String sql = """
-          INSERT INTO item (pedido_id, produto_id, quantidade, valor_atual)
-          VALUES (?, ?, ?, ?) RETURNING id;
-          """;
-      Integer id = jdbcTemplate.queryForObject(sql, Integer.class,
-          new Object[] { c.getPedido().getId(), c.getProduto().getId(), c.getQuantidade(), c.getValor_atual().doubleValue()});
-      if (id != null)
-        c.setId(id.intValue());
-      return true;
-    } catch (Exception ex) {
-      System.out.println(ex.getMessage());
-      System.out.println("Provavelmente cpf incorreto ou duplicado");
-      // return false;
+        String sql = "SELECT removeItem(?,?,?);";
+
+        if (i != null) {
+            jdbcTemplate.queryForObject(
+                    sql,
+                    Boolean.class,
+                    new Object[] {
+                            i.getProduto().getId(),
+                            i.getQuantidade(),
+                            i.getPedido().getId() });
+        } else {
+            throw new IllegalArgumentException(sql);
+        }
     }
 
-    return false;
-  }
+    public boolean inserir(Item i, int pedidoId) {
+        try {
+            String sql = "SELECT adicionaItem(?,?,?);";
+
+            return jdbcTemplate.queryForObject(
+                    sql,
+                    Boolean.class,
+                    new Object[] {
+                            i.getProduto().getId(), 
+                            i.getQuantidade(), 
+                            pedidoId
+                    });
+
+        } catch (Exception ex) {
+            System.out.println(ex.getMessage());
+            System.out.println("Provavelmente cpf incorreto ou duplicado");
+            // return false;
+        }
+
+        return false;
+    }
 
     public List<Item> listarPorIds(String ids) {
         String sql = """
@@ -101,7 +114,7 @@ public class ItemRepositoryImpl implements ItemRepository {
                 if (col.equals("id"))
                     item.setId((Integer) val);
                 if (col.equals("valor_atual"))
-                    item.setValor_atual((Double) val);
+                    item.setValor((Double) val);
                 if (col.equals("quantidade"))
                     item.setQuantidade((Integer) val);
                 if (col.equals("pedido_id")) {
