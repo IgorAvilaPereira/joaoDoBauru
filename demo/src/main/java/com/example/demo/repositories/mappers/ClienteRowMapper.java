@@ -24,7 +24,7 @@ public class ClienteRowMapper implements RowMapper<Cliente> {
         c.setNome(rs.getString("c_nome"));
         c.setEndereco(enderecoRowMapper.mapRow(rs, rowNum));
         c.setTelefone(rs.getString("c_telefone"));
-        c.setAtivo(rs.getBoolean("ativo"));
+        c.setAtivo(rs.getBoolean("c_ativo"));
         return c;
     }
 }

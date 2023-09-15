@@ -40,7 +40,7 @@ public class PedidoRepositoryImpl implements PedidoRepository {
                     String sqlItem = "select * from item inner join produto on produto.id = item.produto_id where item.id = ?;";
                     Item item = jdbcTemplate.queryForObject(sqlItem, itemRowMapper, i.getId());
 
-                    String sqlProduto = "select * from produto where id = ?";
+                    String sqlProduto = "select *, ativo as p_ativo from produto where id = ?";
                     if (item != null) {
                         Produto produto = jdbcTemplate.queryForObject(sqlProduto, produtoRowMapper,
                                 item.getProduto().getId());

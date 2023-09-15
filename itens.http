@@ -31,4 +31,4 @@ Content-Type: application/json
 }
 
 ### Deletar um item de um pedido
-DELETE {{host}}/pedidos/1/itens/4
+DELETE {{host}}/pedidos/1/itens/6

@@ -180,6 +180,7 @@ CREATE OR REPLACE FUNCTION historicoPedidos() RETURNS TABLE(
 		f_cpf character(11),
 		f_endereco  text,
 		f_telefone  character varying(11),
+        f_ativo boolean,
 		c_id integer,
 		c_nome  character varying(100),
 		c_cpf character(11),
@@ -189,6 +190,7 @@ CREATE OR REPLACE FUNCTION historicoPedidos() RETURNS TABLE(
 		c_numero text,
 		c_complemento text,
 		c_cep character(11), 
+        c_ativo boolean,
         items text,
         total money) AS
 $$
@@ -202,6 +204,7 @@ BEGIN
 		f.cpf as f_cpf,
 		f.endereco as f_endereco,
 		f.telefone as f_telefone,
+        f.ativo as f_ativo,
 		c.id as c_id,
 		c.nome as c_nome,
 		c.cpf as c_cpf,
@@ -211,6 +214,7 @@ BEGIN
 		c.numero as c_numero,
 		c.complemento as c_complemento,
 		c.cep as c_cep,
+        c.ativo as c_ativo,
         STRING_AGG( CAST(item.id as varchar),';') items,
         sum(item.quantidade*item.valor_atual) as total
         FROM 

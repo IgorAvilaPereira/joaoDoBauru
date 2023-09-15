@@ -21,37 +21,20 @@ public class ItemRepositoryImpl implements ItemRepository {
     private final ItemRowMapper itemRowMapper;
 
     public List<Item> listarPorPedidoId(int pedido_id) {
-        String sql = """
-                    SELECT *,
-                    cast(valor_atual as numeric(8,2)) as valor_atual_numerico,
-                    cast(valor as numeric(8,2)) as valor_numerico
-
-                    from item inner join produto on (produto.id = item.produto_id) where pedido_id = ?
-
-                """;
+        String sql = "SELECT * from item inner join produto on (produto.id = item.produto_id) where pedido_id = ?";
         final List<Item> items = jdbcTemplate.query(sql, itemRowMapper, pedido_id);
         return items;
     }
 
     public Item listarUm(int id) {
-        String sql = """
-                    SELECT *,
-                    cast(valor_atual as numeric(8,2)) as valor_atual_numerico,
-                    cast(valor as numeric(8,2)) as valor_numerico
-
-                    from item inner join produto on (produto.id = item.produto_id) where item.id = ?
-
-                """;
-
+        String sql = "SELECT * from item inner join produto on (produto.id = item.produto_id) where item.id = ?";
         Item item = jdbcTemplate.queryForObject(sql, itemRowMapper, id);
-
         return item;
     }
 
     public void deletar(int id) {
 
         Item i = listarUm(id);
-
         String sql = "SELECT removeItem(?);";
 
         if (i != null) {
