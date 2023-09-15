@@ -23,6 +23,7 @@ public class ClienteRowMapper implements RowMapper<Cliente> {
         c.setId(rs.getInt("c_id"));
         c.setNome(rs.getString("c_nome"));
         c.setEndereco(enderecoRowMapper.mapRow(rs, rowNum));
+        c.setCpf(rs.getString("c_cpf"));
         c.setTelefone(rs.getString("c_telefone"));
         c.setAtivo(rs.getBoolean("c_ativo"));
         return c;

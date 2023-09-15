@@ -23,7 +23,7 @@ public class ClienteRepositoryImpl implements ClienteRepository{
   public List<Cliente> listar() {
     String sql = """
             SELECT
-              ativo, c.id as c_id, c.nome as c_nome, c.cpf as c_cpf, c.telefone as c_telefone, c.rua as c_rua, c.bairro as c_bairro, c.numero as c_numero, c.complemento as c_complemento, c.cep as c_cep
+              c.ativo as c_ativo, c.id as c_id, c.nome as c_nome, c.cpf as c_cpf, c.telefone as c_telefone, c.rua as c_rua, c.bairro as c_bairro, c.numero as c_numero, c.complemento as c_complemento, c.cep as c_cep
             FROM
               cliente c where ativo is true;
         """;
@@ -35,7 +35,7 @@ public class ClienteRepositoryImpl implements ClienteRepository{
     try {
       String sql = """
           SELECT
-            ativo, c.id as c_id, c.nome as c_nome, c.cpf as c_cpf, c.telefone as c_telefone, c.rua as c_rua, c.bairro as c_bairro, c.numero as c_numero, c.complemento as c_complemento, c.cep as c_cep
+            c.ativo as c_ativo, c.id as c_id, c.nome as c_nome, c.cpf as c_cpf, c.telefone as c_telefone, c.rua as c_rua, c.bairro as c_bairro, c.numero as c_numero, c.complemento as c_complemento, c.cep as c_cep
           FROM
             cliente c
           WHERE
@@ -82,6 +82,7 @@ public class ClienteRepositoryImpl implements ClienteRepository{
       if (insertsCount == 1) {
         if (key != null)
           c.setId((Integer) key);
+          c.setAtivo(true);
       }
       return c;
     } catch (Exception e) {

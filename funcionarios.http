@@ -17,7 +17,7 @@ PUT {{host}}/funcionarios
 Content-Type: application/json
 
 {
-    "id": 1, 
+    "id": 2, 
     "nome": "Fulano de Tal",
     "cpf": "52835209000",
     "telefone": "987654321",

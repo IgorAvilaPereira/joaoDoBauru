@@ -12,14 +12,15 @@ POST {{host}}/clientes
 Content-Type: application/json
 
 {
-    "nome": "Fulano de Tal",
-    "cpf": "92961800072",
+    "nome": "Igor Avila",
+    "cpf": "57935807000",
     "telefone": "987654321",
     "endereco": {
         "rua": "Rua Tal",
         "bairro": "O Bairro Aqui",
         "cep": "98733334",
-        "numero": "101"
+        "numero": "101",
+        "complemento": "Apto 101"
     }
 }
 
@@ -33,16 +34,17 @@ PUT {{host}}/clientes
 Content-Type: application/json
 
 {
-    "id": 2,
-    "nome": "SÉRGIO HENRIQUES PEREIRA",
-    "cpf": "71090546084",
+    "id": 5,
+    "nome": "Igor Avila",
+    "cpf": "57935807000",
     "telefone": "987654321",
     "ativo": true,
     "endereco": {
         "rua": "Rua Tal",
         "bairro": "O Bairro Aqui",
         "cep": "98733334",
-        "numero": "101"
+        "numero": "101",
+        "complemento": "Apto 101"
     }
 }
 ### Deletar

@@ -18,23 +18,25 @@ Content-Type: application/json
 {
   "cliente": {
     "id": 3,
-    "nome": "fernando barbosa",
-    "cpf": null,
+    "nome": "Fernando Barbosa",
+    "cpf": "92961800072",
     "telefone": "987654321",
+    "ativo": true,
     "endereco": {
       "rua": "Rua Tal",
       "bairro": "O Bairro Aqui",
-      "complemento": "Casa",
-      "numero": "123",
+      "complemento": null,
+      "numero": "101",
       "cep": "98733334"
     }
   },
   "funcionario": {
     "id": 2,
-    "nome": "JOÃO",
-    "cpf": "98339518054",
-    "endereco": "RUA QUE DÁ BUG",
-    "telefone": "53999999999"
+    "nome": "Robsom Hamburguer",
+    "cpf": "17658586072",
+    "endereco": "sem endereco",
+    "telefone": "5317658586",
+    "ativo": true
   },
   "total": 40.00,
   "items": [
@@ -105,7 +107,7 @@ Content-Type: application/json
 }
 
 ### Deletar por ID
-DELETE {{host}}/pedidos/20
+DELETE {{host}}/pedidos/5
 
 
 

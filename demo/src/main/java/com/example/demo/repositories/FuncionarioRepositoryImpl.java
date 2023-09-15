@@ -21,7 +21,7 @@ public class FuncionarioRepositoryImpl implements FuncionarioRepository {
   public List<Funcionario> listar() {
     String sql = """
             SELECT
-            ativo,
+            f.ativo as f_ativo,
             f.id as f_id,
             f.nome as f_nome,
             f.cpf as f_cpf,
@@ -37,7 +37,7 @@ public class FuncionarioRepositoryImpl implements FuncionarioRepository {
   public Funcionario listarUm(int id) {
     String sql = """
             SELECT
-            ativo, 
+            f.ativo as f_ativo, 
             f.id as f_id,
             f.nome as f_nome,
             f.cpf as f_cpf,
@@ -64,16 +64,17 @@ public class FuncionarioRepositoryImpl implements FuncionarioRepository {
           """, id, id);
   }
 
-  public boolean inserir(Funcionario c) {
+  public boolean inserir(Funcionario f) {
     try {
       String sql = """
           INSERT INTO funcionario (nome, cpf,telefone,endereco)
           VALUES (?, ?, ?, ?) RETURNING id;
           """;
       Integer id = jdbcTemplate.queryForObject(sql, Integer.class,
-          new Object[] { c.getNome(), c.getCpf(), c.getTelefone(), c.getEndereco() });
+          new Object[] { f.getNome(), f.getCpf(), f.getTelefone(), f.getEndereco() });
       if (id != null)
-        c.setId(id.intValue());
+        f.setId(id.intValue());
+        f.setAtivo(true);
       return true;
     } catch (Exception ex) {
       System.out.println(ex.getMessage());

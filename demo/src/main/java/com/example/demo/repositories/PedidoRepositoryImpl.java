@@ -69,7 +69,7 @@ public class PedidoRepositoryImpl implements PedidoRepository {
                 String sqlItem = "select * from item inner join produto on produto.id = item.produto_id where item.id = ?;";
                 Item item = jdbcTemplate.queryForObject(sqlItem, itemRowMapper, i.getId());
 
-                String sqlProduto = "select * from produto where id = ?";
+                String sqlProduto = "select *, produto.ativo as p_ativo from produto where id = ?";
                 if (item != null) {
                     Produto produto = jdbcTemplate.queryForObject(sqlProduto, produtoRowMapper,
                             item.getProduto().getId());
@@ -87,14 +87,21 @@ public class PedidoRepositoryImpl implements PedidoRepository {
 
     public void deletar(int id) {
 
-        // TODO: FALTA DEVOLVER ESTOQUE PARA O PRODUTO: retornar os items de um pedido
+        Pedido p = listarUm(id);
+        List<Item> itens = p.getItems();
+
+        if (itens.size() > 0) {
+            itens.forEach(item -> {
+                jdbcTemplate.queryForObject("SELECT removeItem(?)",Boolean.class, item.getId());
+            });
+        }
+        
         String DELETE_SQL = """
                 BEGIN;
-                DELETE FROM item WHERE pedido_id = ?;
                 DELETE FROM pedido WHERE id = ?;
                 COMMIT;
                 """;
-        jdbcTemplate.update(DELETE_SQL, id, id);
+        jdbcTemplate.update(DELETE_SQL, id);
     }
 
     public Pedido inserir(Pedido p) throws IllegalArgumentException {
@@ -136,6 +143,7 @@ public class PedidoRepositoryImpl implements PedidoRepository {
                 String sqlItem = "SELECT adicionaItem(?,?,?)";
 
                 items.forEach(item -> {
+                    item.setValor(item.getProduto().getValor().doubleValue() * (double) (item.getQuantidade()));
 
                     jdbcTemplate.queryForObject(
                             sqlItem,
@@ -149,7 +157,7 @@ public class PedidoRepositoryImpl implements PedidoRepository {
                 return p;
             }
         } catch (Exception e) {
-            throw new IllegalArgumentException("Cliente ou Funcionário invalido");
+            throw new IllegalArgumentException("Cliente ou Funcionário invalido ou inexistente ");
         }
         return null;
     }
@@ -165,18 +173,11 @@ public class PedidoRepositoryImpl implements PedidoRepository {
                     id=?;
                 """, p.getCliente().getId(), p.getFuncionario().getId(), p.getId());
 
-        List<Item> oldItems = jdbcTemplate.query("select * from item", itemRowMapper);
+        List<Item> oldItems = jdbcTemplate.query("select * from item where pedido_id = ?", itemRowMapper, p.getId());
 
         if (oldItems.size() > 0) {
             oldItems.forEach(item -> {
-                jdbcTemplate.update("""
-                        DELETE FROM
-                            item
-                        WHERE
-                            id=?;
-                        """,
-                        item.getId());
-
+                jdbcTemplate.update("SELECT removeItem(?)", item.getId());
             });
         }
 
