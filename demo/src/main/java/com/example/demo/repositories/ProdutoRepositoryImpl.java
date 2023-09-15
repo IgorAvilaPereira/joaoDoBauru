@@ -18,19 +18,14 @@ public class ProdutoRepositoryImpl implements ProdutoRepository {
     private final ProdutoRowMapper produtoRowMapper;
 
     public List<Produto> listar() {
-        String sql = "SELECT *, cast(valor as numeric(8,2)) as valor_numerico FROM produto where ativo is true;";
+        String sql = "SELECT *, ativo as p_ativo from produto where ativo is true;";
         final List<Produto> Produtos = jdbcTemplate.query(sql, produtoRowMapper);
         return Produtos;
     }
 
     public Produto listarUm(int id) {
-        String sql = """
-                    SELECT *,  cast(valor as numeric(8,2)) as valor_numerico
-                    FROM
-                      produto
-                WHERE
-                  id = ? and ativo is true;
-                  """;
+        String sql = "SELECT *, ativo as p_ativo FROM produto WHERE id = ? and ativo is true;";
+
         Produto produto = jdbcTemplate.queryForObject(sql, produtoRowMapper, id);
         if (produto == null) {
             return new Produto();

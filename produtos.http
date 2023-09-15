@@ -21,7 +21,7 @@ Content-Type: application/json
 
 {
     "id": 1, 
-    "descricao": "produsdfdsfto",
+    "descricao": "teste",
     "valor": 2,
     "estoque": 100,
     "ativo": true

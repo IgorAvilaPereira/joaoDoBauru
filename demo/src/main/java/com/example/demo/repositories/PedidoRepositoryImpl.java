@@ -173,11 +173,11 @@ public class PedidoRepositoryImpl implements PedidoRepository {
                     id=?;
                 """, p.getCliente().getId(), p.getFuncionario().getId(), p.getId());
 
-        List<Item> oldItems = jdbcTemplate.query("select * from item where pedido_id = ?", itemRowMapper, p.getId());
+        List<Item> oldItems = jdbcTemplate.query("select *, ativo as p_ativo from item inner join produto on item.produto_id = produto.id where item.pedido_id = ? ", itemRowMapper, p.getId());
 
         if (oldItems.size() > 0) {
             oldItems.forEach(item -> {
-                jdbcTemplate.update("SELECT removeItem(?)", item.getId());
+                jdbcTemplate.queryForObject("SELECT removeItem(?)",Boolean.class, item.getId());
             });
         }
 

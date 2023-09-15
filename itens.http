@@ -3,10 +3,10 @@
 @host = http://localhost:8080
 
 ### Ler os itens de um pedido
-GET {{host}}/pedidos/1/itens
+GET {{host}}/pedidos/8/itens
 
 ### Ler um item de um pedido
-GET {{host}}/pedidos/1/itens/5
+GET {{host}}/pedidos/8/itens/11
 
 ### Inserir um item em um pedido
 POST {{host}}/pedidos/1/itens
@@ -20,15 +20,16 @@ Content-Type: application/json
 }
 
 ### Atualizar um item
-PUT {{host}}/pedidos/1/itens/1
+//TODO: Criar stored procedure para atualizar o pedido.
+PUT {{host}}/pedidos/8/itens/11
 Content-Type: application/json
 
 {
     "quantidade": 10,
     "produto": {
-        "id": 1
+        "id": 2
     }
 }
 
 ### Deletar um item de um pedido
-DELETE {{host}}/pedidos/1/itens/6
+DELETE {{host}}/pedidos/8/itens/10

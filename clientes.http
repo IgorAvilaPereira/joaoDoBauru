@@ -12,8 +12,8 @@ POST {{host}}/clientes
 Content-Type: application/json
 
 {
-    "nome": "Igor Avila",
-    "cpf": "57935807000",
+    "nome": "Ana Castela",
+    "cpf": "64030844022",
     "telefone": "987654321",
     "endereco": {
         "rua": "Rua Tal",
@@ -26,7 +26,7 @@ Content-Type: application/json
 
 
 ### Ler Clientes por Id
-GET {{host}}/clientes/3
+GET {{host}}/clientes/8
 
 
 ### Atualizar
@@ -48,4 +48,4 @@ Content-Type: application/json
     }
 }
 ### Deletar
-DELETE {{host}}/clientes/6
+DELETE {{host}}/clientes/8
