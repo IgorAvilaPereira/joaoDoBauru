@@ -170,7 +170,7 @@ $$ LANGUAGE 'plpgsql';
 -- recebe cliente_id
 --  https://www.postgresqltutorial.com/postgresql-aggregate-functions/postgresql-string_agg-function/
 -- select * from historicoPedidos(1);
-DROP FUNCTION historicoPedidos;
+-- DROP FUNCTION historicoPedidos;
 
 CREATE OR REPLACE FUNCTION historicoPedidos() RETURNS TABLE(
         id integer,
@@ -252,7 +252,7 @@ END;
 $$ LANGUAGE 'plpgsql';
 
 -- joaodobauru=# SELECT * FROM relatorioDeVendas(cast('2023-08-01' as date), cast('2023-08-25' as date));
-DROP FUNCTION relatorioDeVendas;
+-- DROP FUNCTION relatorioDeVendas;
 
 CREATE OR REPLACE FUNCTION relatorioDeVendas(date, date) RETURNS TABLE(id integer, data_hora timestamp, cliente_id integer, funcionario_id integer, total numeric(8,2)) AS
 $$

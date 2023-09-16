@@ -1,6 +1,5 @@
 package com.example.demo.repositories.mappers;
 
-import java.math.BigDecimal;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
@@ -22,9 +21,7 @@ public class ItemRowMapper implements RowMapper<Item> {
         this.produto = produto;
         this.pedido = pedido;
     }
-
-    // TODO: Seria legal se colocassemos no item todo o objeto de pedido e todo o
-    // objeto de produto
+    
     @Override
     @Nullable
     public Item mapRow(ResultSet rs, int rowNum) throws SQLException {
