@@ -265,26 +265,51 @@ $$ LANGUAGE 'plpgsql';
 
 
 --DROP FUNCTION adicionaItem;
-CREATE OR REPLACE FUNCTION adicionaItem(produto_id integer, qtde integer, pedido_id integer) RETURNS BOOLEAN AS
+--CREATE OR REPLACE FUNCTION adicionaItem(produto_id integer, qtde integer, pedido_id integer) RETURNS BOOLEAN AS
+--$$
+--DECLARE
+--    qtde_estoque integer := 0;
+--    valor_produto numeric(8,2) := 0;
+--BEGIN
+--    SELECT estoque FROM produto WHERE id = produto_id INTO qtde_estoque;
+--    SELECT valor FROM produto WHERE id = produto_id INTO valor_produto;
+--    IF (qtde <= qtde_estoque) THEN
+--        -- BEGIN;
+--            INSERT INTO item (produto_id, pedido_id, quantidade, valor_atual) VALUES (produto_id, pedido_id, qtde, valor_produto * qtde);
+--            UPDATE produto SET estoque = estoque - qtde WHERE id = produto_id;
+--        -- COMMIT;
+--        RETURN TRUE;
+--    END IF;
+--    RETURN FALSE;
+--END;
+--$$ LANGUAGE 'plpgsql';
+
+-- 20/10 => adicionaItem agora virou uma Trigger
+CREATE OR REPLACE FUNCTION adicionaItemTrigger() RETURNS TRIGGER AS
 $$
 DECLARE
     qtde_estoque integer := 0;
     valor_produto numeric(8,2) := 0;
 BEGIN
-    SELECT estoque FROM produto WHERE id = produto_id INTO qtde_estoque;
-    SELECT valor FROM produto WHERE id = produto_id INTO valor_produto;
-    IF (qtde <= qtde_estoque) THEN
+    SELECT estoque FROM produto WHERE id = NEW.produto_id INTO qtde_estoque;
+--    SELECT valor FROM produto WHERE id = NEW.produto_id INTO valor_produto;
+    IF (NEW.quantidade <= qtde_estoque) THEN
         -- BEGIN;
-            INSERT INTO item (produto_id, pedido_id, quantidade, valor_atual) VALUES (produto_id, pedido_id, qtde, valor_produto * qtde);
-            UPDATE produto SET estoque = estoque - qtde WHERE id = produto_id;
+--            INSERT INTO item (produto_id, pedido_id, quantidade, valor_atual) VALUES (NEW.produto_id, NEW.pedido_id, NEW.quantidade, valor_produto * NEW.quantidade);
+            UPDATE produto SET estoque = estoque - NEW.quantidade WHERE id = NEW.produto_id;
         -- COMMIT;
-        RETURN TRUE;
+        RETURN NEW;
     END IF;
-    RETURN FALSE;
+    RETURN null;
 END;
 $$ LANGUAGE 'plpgsql';
 
---DROP FUNCTION atualizaItem;
+CREATE TRIGGER trigger_adicionaItemTrigger BEFORE INSERT ON item FOR EACH ROW EXECUTE PROCEDURE adicionaItemTrigger();
+
+--  INSERT INTO item (produto_id, pedido_id, quantidade, valor_atual) VALUES (NEW.produto_id, NEW.pedido_id, NEW.quantidade, valor_produto * NEW.quantidade);
+
+
+
 CREATE OR REPLACE FUNCTION atualizaItem(item_id integer, qtde_nova  integer) RETURNS BOOLEAN AS
 $$
 DECLARE
@@ -309,29 +334,50 @@ END;
 $$ LANGUAGE 'plpgsql';
 
 
---DROP FUNCTION removeItem;
-CREATE OR REPLACE FUNCTION removeItem(item_id integer) RETURNS BOOLEAN AS
+-- 20/10 => removeItem agora virou uma Trigger
+--CREATE OR REPLACE FUNCTION removeItem(item_id integer) RETURNS BOOLEAN AS
+--$$
+--DECLARE
+--    qtde_item integer := 0;
+--    prod_id integer := 0;
+--    estoque_atual integer := 0;
+--BEGIN
+--    SELECT item.quantidade, item.produto_id, produto.estoque FROM item INNER JOIN produto ON item.produto_id = produto.id where item.id = item_id INTO qtde_item, prod_id, estoque_atual;
+--
+--    IF (qtde_item > 0 /*AND qtde_item < estoque_atual*/) THEN
+--            DELETE from item WHERE id = item_id;
+--            UPDATE produto SET estoque = estoque_atual + qtde_item WHERE id = prod_id;
+--        RETURN TRUE;
+--	END IF;
+--    RETURN FALSE;
+--END;
+--$$ LANGUAGE 'plpgsql';
+
+CREATE OR REPLACE FUNCTION removeItemTrigger() RETURNS trigger AS
 $$
 DECLARE
     qtde_item integer := 0;
     prod_id integer := 0;
     estoque_atual integer := 0;
 BEGIN
-    SELECT item.quantidade, item.produto_id, produto.estoque FROM item INNER JOIN produto ON item.produto_id = produto.id where item.id = item_id INTO qtde_item, prod_id, estoque_atual;
+    SELECT item.quantidade, item.produto_id, produto.estoque FROM item INNER JOIN produto ON item.produto_id = produto.id where item.id = OLD.id INTO qtde_item, prod_id, estoque_atual;
 
     IF (qtde_item > 0 /*AND qtde_item < estoque_atual*/) THEN
-            DELETE from item WHERE id = item_id;
+--            DELETE from item WHERE id = item_id;
             UPDATE produto SET estoque = estoque_atual + qtde_item WHERE id = prod_id;
-        RETURN TRUE;
+        RETURN OLD;
 	END IF;
-    RETURN FALSE;
+    RETURN NULL;
 END;
 $$ LANGUAGE 'plpgsql';
 
 
+CREATE TRIGGER trigger_removeItemTrigger BEFORE DELETE ON item FOR EACH ROW EXECUTE PROCEDURE removeItemTrigger();
+
+
 -- prod_id, qtde, pedido_id
-SELECT adicionaItem(1, 2, 1);
-SELECT adicionaItem(2, 1, 1);
+--SELECT adicionaItem(1, 2, 1);
+--SELECT adicionaItem(2, 1, 1);
 
 --INSERT INTO item (pedido_id, produto_id, quantidade, valor_atual) VALUES
 --(1, 1, 2, 10.00);

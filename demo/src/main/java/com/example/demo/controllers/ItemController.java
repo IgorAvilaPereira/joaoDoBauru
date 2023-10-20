@@ -56,9 +56,9 @@ public class ItemController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> deletar(@PathVariable int id) {
+    public ResponseEntity<Item> deletar(@PathVariable int id) {
         itemRepository.deletar(id);
-        return ResponseEntity.ok().build();
+        return ResponseEntity.ok().body(new Item());
     }
 
     @PostMapping

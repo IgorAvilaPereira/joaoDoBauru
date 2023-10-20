@@ -13,7 +13,7 @@ POST {{host}}/pedidos/1/itens
 Content-Type: application/json
 
 {
-    "quantidade": 1,
+    "quantidade": 8,
     "produto": {
         "id": 2
     }
@@ -25,11 +25,11 @@ Content-Type: application/json
 
 {   
     "id": 1,
-    "quantidade": 11,
+    "quantidade": 8,
     "produto": {
         "id": 1
     }
 }
 
 ### Deletar um item de um pedido
-DELETE {{host}}/pedidos/8/itens/10
+DELETE {{host}}/pedidos/1/itens/10

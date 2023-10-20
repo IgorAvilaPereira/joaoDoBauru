@@ -33,37 +33,40 @@ public class ItemRepositoryImpl implements ItemRepository {
     }
 
     public void deletar(int id) {
+        // Item i = listarUm(id);
 
-        Item i = listarUm(id);
-        String sql = "SELECT removeItem(?);";
+       
+            // String sql = "SELECT removeItem(?);";
+            // Antes do DELETE ser efetivado, dispara-se um trigger
+            String sql = "DELETE FROM item WHERE id = ?;";
 
-        if (i != null) {
-            jdbcTemplate.queryForObject(sql,Boolean.class,id);
-        } else {
-            throw new IllegalArgumentException(sql);
-        }
+            Object[] args = new Object[] {id};
+        
+            jdbcTemplate.update(sql, args);
+           
     }
 
     public boolean inserir(Item i, int pedidoId) {
         try {
-            String sql = "SELECT adicionaItem(?,?,?);";
+            // String sql = "SELECT adicionaItem(?,?,?);";
+            String sql = "INSERT INTO item (produto_id, quantidade, pedido_id, valor_atual) VALUES (?, ?, ?, (SELECT valor FROM produto WHERE id = ?))";
 
-            return jdbcTemplate.queryForObject(
-                    sql,
-                    Boolean.class,
-                    new Object[] {
+           Object[] args = new Object[] {
                             i.getProduto().getId(),
                             i.getQuantidade(),
-                            pedidoId
-                    });
+                            pedidoId,
+                            i.getProduto().getId()
+                    };
+
+                     jdbcTemplate.update(sql, args);
+
+            return true;
 
         } catch (Exception ex) {
-            System.out.println(ex.getMessage());
-            System.out.println("Provavelmente cpf incorreto ou duplicado");
-            // return false;
+            // System.out.println(ex.getMessage());
+            // System.out.println("Provavelmente sem estoque ou item já pertencente ao pedido");
+            return false;
         }
-
-        return false;
     }
 
     public List<Item> listarPorIds(String ids) {
@@ -116,16 +119,17 @@ public class ItemRepositoryImpl implements ItemRepository {
 
     @Override
     public Item atualizar(Item c) throws Exception {
-        if (c.getQuantidade() == 0){
+        if (c.getQuantidade() == 0) {
             this.deletar(c.getId());
             return null;
         } else {
 
-           boolean resultado = jdbcTemplate.queryForObject("SELECT atualizaItem(?,?)", Boolean.class, new Object[] {c.getId(), c.getQuantidade()});
-           if (!resultado) {
+            boolean resultado = jdbcTemplate.queryForObject("SELECT atualizaItem(?,?)", Boolean.class,
+                    new Object[] { c.getId(), c.getQuantidade() });
+            if (!resultado) {
                 // System.out.println(e.get);
                 throw new Exception("Não foi possível atualizar");
-           }
+            }
         }
         return this.listarUm(c.getId());
     }
