@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script type="text/javascript">
+        // https://reqbin.com/code/javascript/rftjizcl/javascript-get-request-example
+        function teste() {
+            let xhr = new XMLHttpRequest();
+            xhr.open("GET", "/clientes");
+            xhr.onreadystatechange = function () {
+            if (xhr.readyState === 4) {
+                // alert(JSON.parse(xhr.responseText)[0].nome);
+                console.log(xhr.responseText);
+            }};
+            xhr.send();
+        }
+    </script>
+</head>
+<body>
+    <button onclick="teste()">Teste</button>
+</body>
+
+</html>
