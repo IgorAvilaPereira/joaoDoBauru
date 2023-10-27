@@ -9,9 +9,13 @@
             let xhr = new XMLHttpRequest();
             xhr.open("GET", "/clientes");
             xhr.onreadystatechange = function () {
-            if (xhr.readyState === 4) {
+            if (xhr.readyState === 4) {                
                 // alert(JSON.parse(xhr.responseText)[0].nome);
-                console.log(xhr.responseText);
+                // console.log(xhr.responseText);
+                let vetCliente = JSON.parse(xhr.responseText);
+                vetCliente.forEach(cliente => {
+                    document.querySelector("#div_clientes").innerHTML+= cliente.nome+"<br>";
+                });
             }};
             xhr.send();
         }
@@ -24,6 +28,7 @@
 </head>
 <body>
     <button onclick="teste()">Teste</button>
+    <div id="div_clientes"> </div>
 </body>
 
 </html>
