@@ -12,7 +12,11 @@ public class Endereco {
     private String cep;
 
     public Endereco (){
-        
+        this.setBairro(null);
+        this.setCep(null);
+        this.setComplemento(null);
+        this.setNumero(null);
+        this.setRua(null);        
     }
 
     public Endereco(String rua, String bairro, String complemento, String numero, String cep) {

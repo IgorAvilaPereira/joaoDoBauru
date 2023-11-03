@@ -33,7 +33,6 @@ public class ClienteController {
 
     private final ClienteRepositoryImpl clienteRepository;
 
-    @CrossOrigin(origins = "https://9842-200-132-11-251.ngrok-free.app")
     @GetMapping
     public ResponseEntity<List<Cliente>> listar() {
         return ResponseEntity.ok().body(clienteRepository.listar());
@@ -61,16 +60,18 @@ public class ClienteController {
 
     @PutMapping
     public ResponseEntity<Cliente> atualizar(@RequestBody Cliente cli) {
-
         clienteRepository.atualizar(cli);
-
         return ResponseEntity.ok().body(cli);
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deletar(@PathVariable int id) {
-        this.clienteRepository.deletar(id);
-        return ResponseEntity.ok().build();
+        try {
+            this.clienteRepository.deletar(id);
+            return ResponseEntity.ok().build();
+        } catch(Exception e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
     }
 
 }

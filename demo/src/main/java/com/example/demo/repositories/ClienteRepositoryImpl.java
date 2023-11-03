@@ -91,6 +91,20 @@ public class ClienteRepositoryImpl implements ClienteRepository{
   }
 
   public void atualizar(Cliente c) {
+
+    //   String sql = """
+    //     UPDATE
+    //       cliente
+    //     SET
+    //       nome=?
+    //     WHERE
+    //       id=?;
+    //     """;
+    // jdbcTemplate.update(sql, c.getNome(), 
+    //     c.getId());
+
+    // soh p testar o front..
+
     String sql = """
         UPDATE
           cliente
@@ -103,6 +117,5 @@ public class ClienteRepositoryImpl implements ClienteRepository{
         c.getEndereco().getBairro(), c.getEndereco().getNumero(),
         c.getEndereco().getComplemento(), c.getEndereco().getCep(), c.isAtivo(), 
         c.getId());
-
   }
 }

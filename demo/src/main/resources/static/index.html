@@ -1,34 +1,101 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+
+    </style>
     <title>Document</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
     <script type="text/javascript">
-        function teste() {
-            let xhr = new XMLHttpRequest();
-            xhr.open("GET", "/clientes");
-            xhr.onreadystatechange = function () {
-            if (xhr.readyState === 4) {                
-                // alert(JSON.parse(xhr.responseText)[0].nome);
-                // console.log(xhr.responseText);
-                let vetCliente = JSON.parse(xhr.responseText);
-                vetCliente.forEach(cliente => {
-                    document.querySelector("#div_clientes").innerHTML+= cliente.nome+"<br>";
-                });
-            }};
-            xhr.send();
+        // function teste() {
+        //     let xhr = new XMLHttpRequest();
+        //     xhr.open("GET", "/clientes");
+        //     xhr.onreadystatechange = function () {
+        //         if (xhr.readyState === 4) {
+        //             // alert(JSON.parse(xhr.responseText)[0].nome);
+        //             // console.log(xhr.responseText);
+
+        //             let vetCliente = JSON.parse(xhr.responseText);
+        //             document.querySelector("#div_clientes").innerHTML = "";
+        //             vetCliente.forEach(cliente => {
+        //                 document.querySelector("#div_clientes").innerHTML += cliente.nome + "<br>";
+        //             });
+        //         }
+        //     };
+        //     xhr.send();
+        // }
+
+
+        // {
+        //     "id": 5,
+        //     "nome": "Igor Avila",
+        //     "cpf": "57935807000",
+        //     "telefone": "987654321",
+        //     "ativo": true,
+        //     "endereco": {
+        //         "rua": "Rua Tal",
+        //         "bairro": "O Bairro Aqui",
+        //         "cep": "98733334",
+        //         "numero": "101",
+        //         "complemento": "Apto 101"
+        //     }
+        // }
+
+        async function editar(id) {
+            var novo_nome = prompt("Novo Nome:")
+            const response = await fetch("/clientes", {
+                method: 'PUT',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                body:
+                    JSON.stringify(
+                        {
+                            "id": id,
+                            "nome": novo_nome
+                        }
+                    )
+            })
+            // const json = await response.json()
+            // console.log(json)
+            listar();
+        }
+
+        async function deletar(id) {
+            const response = await fetch("/clientes/" + id, {
+                method: 'DELETE'
+            })
+            listar();
+        }
+        async function listar() {
+            const response = await fetch("/clientes")
+            const json = await response.json()
+            document.querySelector("#div_clientes").innerHTML = ""
+            json.forEach(({ id, nome }) => {
+                document.querySelector("#div_clientes").innerHTML += `<button class="btn btn-danger" onclick='editar(${id})'>Editar</button> <button class="btn btn-danger" onclick='deletar(${id})'>Deletar  </button> ${nome} <br>`;
+            });
         }
 
         // Outras opcoes:
-        // https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API/Using_Fetch        
+        // https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API/Using_Fetch
         // https://reqbin.com/code/javascript/rftjizcl/javascript-get-request-example
-        
+
     </script>
 </head>
-<body>
-    <button onclick="teste()">Teste</button>
+
+<body onload="listar()">
+    <!-- <button onclick="teste()">Teste</button> -->
+    <!-- <button onclick="listar()">Listar Clientes</button> <br> -->
+
     <div id="div_clientes"> </div>
+
+
 </body>
 
 </html>

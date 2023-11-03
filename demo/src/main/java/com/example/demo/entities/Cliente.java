@@ -26,6 +26,8 @@ public class Cliente {
     private Endereco endereco;
 
     public Cliente(){
+        this.endereco = new Endereco();
+       
 
     }
 
